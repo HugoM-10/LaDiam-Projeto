@@ -16,9 +16,7 @@ function Footer() {
             Apoio ao Cliente
           </a>
         </div>
-        <div className="footer-copyright">
-          &copy; {new Date().getFullYear()} Todos os direitos reservados
-        </div>
+        
       </div>
     </footer>
   );
