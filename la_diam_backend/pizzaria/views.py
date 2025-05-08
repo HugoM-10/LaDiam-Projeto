@@ -15,7 +15,7 @@ def login_view(request):
         return Response({'message': 'Logged in successfully'})
     return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-@api_view(['GET'])
+@api_view(['POST'])
 def logout_view(request):
     logout(request)
     return Response({'message': 'Logged out successfully'})
@@ -33,7 +33,7 @@ def signup_view(request):
         return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
     User.objects.create_user(username=username, password=password, email=email)
-    return Response({'message': 'User ' + user.username + ' created successfully'}, status=status.HTTP_201_CREATED)
+    return Response({'message': 'User ' + username + ' created successfully'}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
