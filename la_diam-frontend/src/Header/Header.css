@@ -1,0 +1,47 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #9b2727;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+  .header-logo {
+    flex: 1;
+  }
+  
+  .logo-image {
+    height: 100px; /* Adjust based on your logo */
+    width: auto;
+  }
+  
+  .header-title {
+    flex: 2;
+    text-align: center;
+    margin: 0;
+    color: white;
+    font-size: 2rem;
+    font-family: "Times New Roman", Times, serif;
+  }
+  
+  .header-actions {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .login-button {
+    padding: 0.5rem 1.5rem;
+    background-color: #af894c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .login-button:hover {
+    background-color: #7e602f;
+  }
