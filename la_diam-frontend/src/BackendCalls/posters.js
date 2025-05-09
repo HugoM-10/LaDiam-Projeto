@@ -18,10 +18,16 @@ function getCookie(name) {
 // Login user
 const loginUser = async (username, password) => {
   try {
+    const csrftoken = getCookie("csrftoken");
     const response = await axios.post(
       "http://localhost:8000/api/auth/login/",
       { username, password },
-      { withCredentials: true }
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      }
     );
     return response.data; // Return login success message
   } catch (error) {

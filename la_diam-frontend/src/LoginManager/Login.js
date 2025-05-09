@@ -1,20 +1,21 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../BackendCalls/posters';  
+import { UserContext } from '../UserContext';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(UserContext); // Access the login function from context
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await loginUser(username, password);
+    const result = await login(username, password); // Use the login function from context
+    if (result.success) {
       alert('Login successful!');
-      navigate('/');
-    } catch (error) {
-      alert('Login failed: ' , error);
+      navigate('/'); // Redirect after successful login
+    } else {
+      alert('Login failed: ' + result.message);
     }
   };
 

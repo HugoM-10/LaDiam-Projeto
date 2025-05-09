@@ -5,3 +5,6 @@ SUPERUSER-
 Outros-
     user:"Dinis"
     password:"pass"
+
+    user:"coco"
+    pass:"pass"
