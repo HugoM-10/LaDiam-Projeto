@@ -1,0 +1,99 @@
+/* Home.css */
+
+/* Estilo para a seção principal da home */
+.home-section {
+  padding: 100px 0;
+  background-color: #f8f9fa; /* Fundo claro */
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Estilo para o título principal */
+.main-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #831616; /* Vermelho escuro */
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Descrição principal */
+.main-description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* Botão de chamada para ação */
+.btn-main {
+  background-color: #831616;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 30px;
+  padding: 12px 30px;
+  text-transform: uppercase;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-main:hover {
+  background-color: #4a0402; /* Cor mais escura ao passar o mouse */
+}
+
+/* Estilo para a imagem principal da pizza */
+.pizza-image {
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para o título da seção abaixo */
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #343a40; /* Cor escura para contrastar com o fundo claro */
+  margin-bottom: 20px;
+}
+
+/* Descrição da seção */
+.section-description {
+  font-size: 1.125rem;
+  color: #6c757d; /* Cor mais suave para a descrição */
+  margin-bottom: 40px;
+}
+
+/* Estilo da galeria de imagens */
+.image-gallery {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.gallery-image {
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-image:hover {
+  transform: scale(1.05); /* Efeito de zoom nas imagens */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 768px) {
+  .main-title {
+    font-size: 2.5rem;
+  }
+
+  .main-description {
+    font-size: 1rem;
+  }
+
+  .image-gallery {
+    flex-direction: column;
+  }
+
+  .gallery-image {
+    margin-bottom: 20px;
+  }
+}

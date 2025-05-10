@@ -1,47 +1,49 @@
+/* Header.css */
 .app-header {
+  background: linear-gradient(to bottom, #831616 60%, #fff 40%);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #9b2727;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0 20px;
+  height: 200px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
 }
-  
-  .header-logo {
-    flex: 1;
-  }
-  
-  .logo-image {
-    height: 100px; /* Adjust based on your logo */
-    width: auto;
-  }
-  
-  .header-title {
-    flex: 2;
-    text-align: center;
-    margin: 0;
-    color: white;
-    font-size: 2rem;
-    font-family: "Times New Roman", Times, serif;
-  }
-  
-  .header-actions {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .login-button {
-    padding: 0.5rem 1.5rem;
-    background-color: #af894c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-  }
-  
-  .login-button:hover {
-    background-color: #7e602f;
-  }
+
+.header-logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.logo-image {
+  height: 200px;
+  width: auto;
+}
+
+.header-actions {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  margin: 0;
+  z-index: 2;
+}
+
+.login-button {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 10px 25px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #fff;
+  color: #831616;
+}

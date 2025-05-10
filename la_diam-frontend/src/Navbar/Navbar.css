@@ -1,0 +1,37 @@
+.top-bar {
+  height: 5px;
+  background-color: #831616;
+}
+
+.navbar-custom {
+  background-color: white;
+  padding: 15px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.navbar-custom .nav {
+  width: 100%;
+  justify-content: center; /* Centraliza os itens */
+}
+
+.navbar-btn {
+  color: #333;
+  font-weight: 500;
+  margin: 0 15px; /* Espaçamento entre botões */
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.navbar-btn:hover {
+  color: #ff0000;
+  background-color: rgba(255, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+/* Estilo para links ativos */
+.navbar-custom .nav-link.active {
+  color: #ff0000;
+  font-weight: bold;
+}
