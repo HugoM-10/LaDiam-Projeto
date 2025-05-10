@@ -1,9 +1,34 @@
-import axios from 'axios';
+import axios from "axios";
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (const element of cookies) {
+      const cookie = element.trim();
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
 
 // Login user
 const loginUser = async (username, password) => {
   try {
-    const response = await axios.post('http://localhost:8000/api/auth/login/', { username, password }, { withCredentials: true });
+    const csrftoken = getCookie("csrftoken");
+    const response = await axios.post(
+      "http://localhost:8000/api/auth/login/",
+      { username, password },
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      }
+    );
     return response.data; // Return login success message
   } catch (error) {
     console.error("Error logging in user:", error);
@@ -14,8 +39,19 @@ const loginUser = async (username, password) => {
 // Logout user
 const logoutUser = async () => {
   try {
-    const response = await axios.post('http://localhost:8000/api/auth/logout/', { withCredentials: true });
-    return response.data; // Return logout success message
+    const csrftoken = getCookie("csrftoken");
+
+    const response = await axios.post(
+      "http://localhost:8000/api/auth/logout/",
+      {},
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      }
+    );
+    return response.data;
   } catch (error) {
     console.error("Error logging out user:", error);
     throw error;
@@ -25,7 +61,10 @@ const logoutUser = async () => {
 // Signup user
 const signupUser = async (username, password, email) => {
   try {
-    const response = await axios.post('http://localhost:8000/api/auth/signup/', { username, password, email });
+    const response = await axios.post(
+      "http://localhost:8000/api/auth/signup/",
+      { username, password, email }
+    );
     return response.data; // Return signup success message
   } catch (error) {
     console.error("Error signing up user:", error);
@@ -34,8 +73,4 @@ const signupUser = async (username, password, email) => {
 };
 
 // Export all posters
-export {
-  loginUser,
-  logoutUser,
-  signupUser,
-};
+export { loginUser, logoutUser, signupUser };

@@ -125,21 +125,17 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",  # Add your frontend's origin
-]
+CORS_ORIGIN_ALLOW_ALL = True
+
 # Permite envio de cookies nas requisições
 CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',  # Adicione o domínio do seu frontend aqui
+]
 
-SESSION_COOKIE_SAMESITE = 'None'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',  # Usa cookies de sessão
-        'rest_framework.authentication.BasicAuthentication',
     ],
 }
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'

@@ -1,3 +1,10 @@
 SUPERUSER-
     user:"user"
     password:"1234"
+
+Outros-
+    user:"Dinis"
+    password:"pass"
+
+    user:"coco"
+    pass:"pass"

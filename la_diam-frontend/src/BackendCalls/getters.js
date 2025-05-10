@@ -7,7 +7,7 @@ const fetchUser = async () => {
     return response.data; // Return user data
   } catch (error) {
     console.error("Error fetching user:", error);
-    throw error;
+    //throw error;
   }
 };
 // Export all getters
