@@ -4,6 +4,7 @@ import { fetchProfile } from "../BackendCalls/getters";
 import { updateProfile } from "../BackendCalls/posters";
 import { UserContext } from "../UserContext";
 import { FormGroup } from "reactstrap";
+import "./ProfileForm.css";
 
 const ProfileForm = () => {
   const navigate = useNavigate();
@@ -12,8 +13,11 @@ const ProfileForm = () => {
     username: "",
     email: "",
     password: "",
+    confirm_password: "",
     old_password: "",
   });
+  const [originalAccountDetails, setOriginalAccountDetails] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
   const { user, editUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -21,19 +25,23 @@ const ProfileForm = () => {
       navigate("/");
     }
   }, [user]);
-  
-  // Load profile and account details once user is available
+
   useEffect(() => {
     if (user) {
       fetchProfile().then((data) => {
         setProfile(data);
       });
-  
-      setAccountDetails((prev) => ({
-        ...prev,
+
+      const details = {
         username: user.username || "",
         email: user.email || "",
-      }));
+        password: "",
+        confirm_password: "",
+        old_password: "",
+      };
+
+      setAccountDetails(details);
+      setOriginalAccountDetails(details);
     }
   }, [user]);
 
@@ -67,10 +75,21 @@ const ProfileForm = () => {
 
   const handleAccountSubmit = async (e) => {
     e.preventDefault();
+    // If the password field is filled, make sure confirm password is provided
+    if (
+      accountDetails.password &&
+      accountDetails.password !== accountDetails.confirm_password
+    ) {
+      alert("New passwords do not match.");
+      return;
+    }
+
     try {
       const { success } = await editUser(accountDetails);
       if (success) {
         alert("Account updated");
+        setOriginalAccountDetails(accountDetails); // Save updated values
+        setIsEditing(false);
       } else {
         alert("Account update failed");
       }
@@ -80,18 +99,26 @@ const ProfileForm = () => {
     }
   };
 
+  const handleCancelEdit = () => {
+    setAccountDetails(originalAccountDetails);
+    setIsEditing(false);
+  };
+
   return (
-    <div>
+    <div className="profile-form-container">
       <form onSubmit={handleAccountSubmit}>
         <h4>Account Information</h4>
+
         <FormGroup>
           <label>Username:</label>
           <input
             name="username"
             value={accountDetails.username}
             onChange={handleAccountChange}
+            disabled={!isEditing}
           />
         </FormGroup>
+
         <FormGroup>
           <label>Email:</label>
           <input
@@ -99,34 +126,67 @@ const ProfileForm = () => {
             name="email"
             value={accountDetails.email}
             onChange={handleAccountChange}
+            disabled={!isEditing}
           />
         </FormGroup>
+
+        {isEditing && (
+          <>
+            <FormGroup>
+              <label>New Password:</label>
+              <input
+                type="password"
+                name="password"
+                value={accountDetails.password}
+                onChange={handleAccountChange}
+              />
+            </FormGroup>
+
+            {accountDetails.password && (
+              <FormGroup>
+                <label>Confirm New Password:</label>
+                <input
+                  type="password"
+                  name="confirm_password"
+                  value={accountDetails.confirm_password}
+                  onChange={handleAccountChange}
+                  required
+                />
+              </FormGroup>
+            )}
+
+            <FormGroup>
+              <label>Old Password:</label>
+              <input
+                type="password"
+                name="old_password"
+                value={accountDetails.old_password}
+                onChange={handleAccountChange}
+                required
+              />
+            </FormGroup>
+          </>
+        )}
+
         <FormGroup>
-          <label>New Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={accountDetails.password}
-            onChange={handleAccountChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <label>Old Password:</label>
-          <input
-            type="password"
-            name="old_password"
-            value={accountDetails.old_password}
-            onChange={handleAccountChange}
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <button type="submit">Update Account Info</button>
+          {isEditing ? (
+            <>
+              <button type="submit">Save</button>
+              <button type="button" onClick={handleCancelEdit}>
+                Cancel
+              </button>
+            </>
+          ) : (
+            <button type="button" onClick={() => setIsEditing(true)}>
+              Edit Account Info
+            </button>
+          )}
         </FormGroup>
       </form>
 
       <form onSubmit={handleProfileSubmit}>
         <h4>Profile Information</h4>
+
         <FormGroup>
           <label>Full Name:</label>
           <input
@@ -135,6 +195,7 @@ const ProfileForm = () => {
             onChange={handleProfileChange}
           />
         </FormGroup>
+
         <FormGroup>
           <label>Phone Number:</label>
           <input
@@ -143,6 +204,7 @@ const ProfileForm = () => {
             onChange={handleProfileChange}
           />
         </FormGroup>
+
         <FormGroup>
           <label>Address:</label>
           <textarea
@@ -151,6 +213,7 @@ const ProfileForm = () => {
             onChange={handleProfileChange}
           />
         </FormGroup>
+
         <FormGroup>
           <label>Gender:</label>
           <select
@@ -164,6 +227,7 @@ const ProfileForm = () => {
             <option value="Other">Other</option>
           </select>
         </FormGroup>
+
         <FormGroup>
           <label>Date of Birth:</label>
           <input
@@ -173,15 +237,23 @@ const ProfileForm = () => {
             onChange={handleProfileChange}
           />
         </FormGroup>
-        <FormGroup>
-          <label>Subscribed to Newsletter:</label>
-          <input
-            type="checkbox"
-            name="subscribed_to_newsletter"
-            checked={profile.subscribed_to_newsletter || false}
-            onChange={handleProfileChange}
-          />
+
+        <FormGroup className="switch-group">
+          <label htmlFor="subscribed_to_newsletter">
+            Subscribed to Newsletter:
+          </label>
+          <label className="switch">
+            <input
+              type="checkbox"
+              id="subscribed_to_newsletter"
+              name="subscribed_to_newsletter"
+              checked={profile.subscribed_to_newsletter || false}
+              onChange={handleProfileChange}
+            />
+            <span className="slider round"></span>
+          </label>
         </FormGroup>
+
         <FormGroup>
           <button type="submit">Update Profile Info</button>
         </FormGroup>
