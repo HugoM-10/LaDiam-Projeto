@@ -1,21 +1,26 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { signupUser } from '../BackendCalls/posters';
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signupUser } from "../BackendCalls/posters";
+import { UserContext } from "../UserContext";
 
 function Signup() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       signupUser(username, password, email);
-      alert('Signup successful!');
-      navigate('/login');
+      alert("Signup successful!");
+      login(username, password);
+      navigate("/login");
     } catch (error) {
-      alert('Signup failed: ' + (error.response?.data?.error || 'Unknown error'));
+      alert(
+        "Signup failed: " + (error.response?.data?.error || "Unknown error")
+      );
     }
   };
 

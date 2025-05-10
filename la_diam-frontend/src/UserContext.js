@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import { fetchUser } from "./BackendCalls/getters";
-import { logoutUser, loginUser } from "./BackendCalls/posters";
+import { logoutUser, loginUser,updateUser } from "./BackendCalls/posters";
 
 export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined);
 
   const handleFetchUser = async () => {
     try {
@@ -20,9 +20,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const init = async () => {
       const fetchedUser = await handleFetchUser();
-      if (fetchedUser) {
-        setUser(fetchedUser);
-      }
+      setUser(fetchedUser || null);
     };
 
     init();
@@ -40,6 +38,17 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const editUser = async (user) => {
+    try {
+      const updatedUser = await updateUser(user);
+      setUser(updatedUser);
+      return { success: true };
+    } catch (error) {
+      console.error("Error in editUser:", error);
+      return { success: false };
+    }
+  };
+
   const logout = async () => {
     try {
       await logoutUser();
@@ -51,7 +60,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, editUser }}>
       {children}
     </UserContext.Provider>
   );

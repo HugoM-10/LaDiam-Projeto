@@ -1,5 +1,10 @@
 import axios from "axios";
 
+const api = axios.create({
+  baseURL: "http://localhost:8000/api/",
+  withCredentials: true,
+});
+
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
@@ -19,11 +24,10 @@ function getCookie(name) {
 const loginUser = async (username, password) => {
   try {
     const csrftoken = getCookie("csrftoken");
-    const response = await axios.post(
-      "http://localhost:8000/api/auth/login/",
+    const response = await api.post(
+      "auth/login/",
       { username, password },
       {
-        withCredentials: true,
         headers: {
           "X-CSRFToken": csrftoken,
         },
@@ -41,11 +45,10 @@ const logoutUser = async () => {
   try {
     const csrftoken = getCookie("csrftoken");
 
-    const response = await axios.post(
-      "http://localhost:8000/api/auth/logout/",
+    const response = await api.post(
+      "auth/logout/",
       {},
       {
-        withCredentials: true,
         headers: {
           "X-CSRFToken": csrftoken,
         },
@@ -61,10 +64,11 @@ const logoutUser = async () => {
 // Signup user
 const signupUser = async (username, password, email) => {
   try {
-    const response = await axios.post(
-      "http://localhost:8000/api/auth/signup/",
-      { username, password, email }
-    );
+    const response = await api.post("auth/signup/", {
+      username,
+      password,
+      email,
+    });
     return response.data; // Return signup success message
   } catch (error) {
     console.error("Error signing up user:", error);
@@ -72,5 +76,33 @@ const signupUser = async (username, password, email) => {
   }
 };
 
+const updateProfile = async (profileData) => {
+  const csrftoken = getCookie("csrftoken");
+  const response = await api.put(
+    'profile/',
+    profileData,
+    {
+      headers: {
+        'X-CSRFToken': csrftoken,
+      }
+    }
+  );
+  return response.data;
+};
+
+const updateUser = async (userData) => {
+  const csrftoken = getCookie("csrftoken");
+  const response = await api.post(
+    'auth/edit_user/',
+    userData,
+    {
+      headers: {
+        'X-CSRFToken': csrftoken,
+      }
+    }
+  );
+  return response.data;
+};
+
 // Export all posters
-export { loginUser, logoutUser, signupUser };
+export { loginUser, logoutUser, signupUser, updateProfile, updateUser };

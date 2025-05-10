@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginManager from "./LoginManager/LoginManager";
 import Signup from "./LoginManager/Signup";
 import UserProvider from "./UserContext";
+import ProfileForm from "./Profile/Profile";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Promotions />} />
           <Route path="/login" element={<LoginManager />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<ProfileForm />} />
         </Routes>
         </UserProvider>
       <Footer />
