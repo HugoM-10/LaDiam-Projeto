@@ -17,3 +17,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Product(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    promotion = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    image_link = models.URLField(max_length=200, blank=True, null=True)
+    is_available = models.BooleanField(default=True, null=False)
+
+    def __str__(self):
+        return self.name
