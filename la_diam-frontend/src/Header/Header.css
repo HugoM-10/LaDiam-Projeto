@@ -1,18 +1,9 @@
 /* Header.css */
 .app-header {
   background-color: #831616;
-  /* background: linear-gradient(to bottom, #831616 60%, #fff 40%); */
-  /* display: flex; */
-  /* justify-content: space-between; */
-  /* align-items: center; */
-  /* padding: 0 20px; */
-  /* height: 200px; */
-  /*  */
-  /* position: relative; */
   overflow: hidden;
   height: 10vh;
 }
-
 
 .header-content {
   display: flex;
@@ -34,29 +25,4 @@
   align-items: center;
   justify-content: space-between;
   gap: 30px;
-}
-
-.header-actions {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  margin: 0;
-  z-index: 2;
-}
-
-.login-button {
-  background-color: transparent;
-  color: #fff;
-  border: 2px solid #fff;
-  padding: 10px 25px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.login-button:hover {
-  background-color: #fff;
-  color: #831616;
 }

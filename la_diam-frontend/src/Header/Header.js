@@ -1,8 +1,7 @@
 import React from "react";
 import "./Header.css";
 import { useNavigate, Link } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { useContext } from "react";
+import { Button } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -18,11 +17,11 @@ function Header({isLoggedIn}) {
           <img src="Logo-LaDiam.png" alt="Logo" className="logo-image" />
         </Link>
 
-        <Button>Encomendar Agora!</Button>
+        <Button variant="danger">Encomendar Agora!</Button>
 
-        <Button>Promoções</Button>
+        <Button variant="danger">Promoções</Button>
 
-        <Button>Sobre nós!</Button>
+        <Button variant="danger">Sobre nós!</Button>
 
         {isLoggedIn ? (
           <div className="header-icons">
@@ -34,7 +33,7 @@ function Header({isLoggedIn}) {
         ) : (
           <div>
             <Link to="/login">
-              <Button color="danger">Área de Cliente</Button>
+              <Button color="warning">Área de Cliente</Button>
             </Link>
           </div>
         )}
