@@ -6,6 +6,8 @@ import LoginManager from "./Pages/LoginManager/LoginManager";
 import Signup from "./Pages/LoginManager/Signup";
 import Profile from "./Pages/Profile/Profile";
 
+import "./App.css";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomePage from "./Pages/HomePage/HomePage";
 import { UserProvider, UserContext } from "./UserContext";
@@ -26,7 +28,7 @@ function AppContent() {
   return (
     <div className="App">
       <Header isLoggedIn={isLoggedIn} />
-      <Routes>
+      <Routes className="container">
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginManager />} />
         <Route path="/signup" element={<Signup />} />
