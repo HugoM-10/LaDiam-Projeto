@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container } from "reactstrap";
 import "./Menu.css";
 import { fetchProducts } from "../../BackendCalls/getters";
+import Product from "../../Components/Product/Product";
 
 const Menu = () => {
   const [products, setProducts] = useState([]);
@@ -21,7 +22,7 @@ console.log("Products:",products);
       <h1>Menu</h1>
       <ul>
         {products.map((product) => (
-          <li key={product.id}>{product.name}</li>
+          <Product key={product.id} product={product} />
         ))}
       </ul>
     </Container>
