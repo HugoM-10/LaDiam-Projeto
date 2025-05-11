@@ -1,28 +1,64 @@
-/* Header.css */
 .app-header {
-  background-color: #831616;
-  overflow: hidden;
-  height: 10vh;
+  background-color: #831616; /* Cor de fundo */
+  padding: 10px 20px;
 }
 
-.header-content {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
+.navbar {
+  background-color: #831616; /* Cor de fundo do Navbar */
+  padding: 10px;
 }
 
 .logo-image {
   height: 10vh;
 }
 
+.nav-items {
+  display: flex;
+  justify-content: space-between; /* Distribui os itens uniformemente */
+  flex-grow: 1; /* Faz com que o contêiner ocupe o espaço restante */
+  align-items: center; /* Alinha os itens verticalmente no centro */
+}
+
+.nav-item {
+  flex: 1; /* Faz com que cada item ocupe o mesmo espaço */
+  text-align: center; /* Centraliza o texto dentro de cada item */
+}
+
+.nav-button {
+  width: 200px;
+  background-color: #f44336; /* Cor do botão */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: #d32f2f; /* Cor ao passar o mouse */
+}
+
 .header-icons {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  gap: 30px;
+  gap: 15px;
+}
+
+.icon {
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.login-button {
+  background-color: #ffc107; /* Cor do botão de login */
+  border: none;
+  color: black;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #e0a800; /* Cor ao passar o mouse */
 }

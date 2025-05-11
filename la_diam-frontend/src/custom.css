@@ -1,7 +1,7 @@
 /* src/custom.css */
 
 :root {
-    --primary: #4a90e2;
+    --primary: #831616;
     --secondary: #ff9800;
     --success: #4caf50;
     --danger: #f44336;
@@ -13,7 +13,7 @@
   
   /* Também podes redefinir diretamente as classes bootstrap */
   .btn-primary {
-    background-color: var(--primary);
+    background-color: var(--danger);
     border-color: var(--primary);
   }
   

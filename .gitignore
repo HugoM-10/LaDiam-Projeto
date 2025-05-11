@@ -17,3 +17,16 @@ yarn-error.log*
 # Backend (Python/Django)
 *.pyc
 __pycache__/
+
+
+
+
+# Editor-specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+
+# Miscellaneous
+/settings.json
