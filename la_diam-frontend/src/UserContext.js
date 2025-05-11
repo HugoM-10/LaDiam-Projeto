@@ -1,66 +1,67 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import { fetchUser } from "./BackendCalls/getters";
-import { logoutUser, loginUser,updateUser } from "./BackendCalls/posters";
+import { logoutUser, loginUser, updateUser } from "./BackendCalls/posters";
 
 export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(undefined);
 
-  const handleFetchUser = async () => {
+  const fetchAndSetUser = useCallback(async () => {
     try {
-      const user = await fetchUser();
-      return user;
+      const fetched = await fetchUser();
+      setUser(fetched || null);
     } catch (error) {
-      console.error("Error in handleFetchUser:", error);
-      return null;
+      console.error("Failed to fetch user:", error);
+      setUser(null);
     }
-  };
-
-  useEffect(() => {
-    const init = async () => {
-      const fetchedUser = await handleFetchUser();
-      setUser(fetchedUser || null);
-    };
-
-    init();
   }, []);
 
-  const login = async (user, password) => {
+  useEffect(() => {
+    fetchAndSetUser();
+  }, [fetchAndSetUser]);
+
+  const login = async (username, password) => {
     try {
-      await loginUser(user, password);
-      const fetchedUser = await handleFetchUser();
-      setUser(fetchedUser);
+      await loginUser(username, password);
+      await fetchAndSetUser();
       return { success: true };
     } catch (error) {
       console.error("Login failed:", error);
-      return { success: false };
+      return { success: false, error };
     }
   };
 
-  const editUser = async (user) => {
+  const editUser = async (userData) => {
     try {
-      const updatedUser = await updateUser(user);
-      setUser(updatedUser);
+      const updated = await updateUser(userData);
+      setUser(updated);
       return { success: true };
     } catch (error) {
-      console.error("Error in editUser:", error);
-      return { success: false };
+      console.error("User update failed:", error);
+      return { success: false, error };
     }
   };
 
   const logout = async () => {
     try {
       await logoutUser();
-      localStorage.removeItem("token");
-      setUser(null);
     } catch (error) {
-      console.error("Error in handleLogout:", error);
+      console.error("Logout failed:", error);
+    } finally {
+      setUser(null);
     }
   };
 
+  const contextValue = React.useMemo(() => ({
+    user,
+    login,
+    logout,
+    editUser,
+  }), [user, login, logout, editUser]);
+
   return (
-    <UserContext.Provider value={{ user, login, logout, editUser }}>
+    <UserContext.Provider value={contextValue}>
       {children}
     </UserContext.Provider>
   );

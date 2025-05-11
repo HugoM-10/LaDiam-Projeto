@@ -4,7 +4,8 @@ import { fetchProfile } from "../BackendCalls/getters";
 import { updateProfile } from "../BackendCalls/posters";
 import { UserContext } from "../UserContext";
 import { FormGroup } from "reactstrap";
-import "./ProfileForm.css";
+//import "./ProfileForm.css";
+import Exemplo from "./Exemplo";
 
 const ProfileForm = () => {
   const navigate = useNavigate();
@@ -23,10 +24,7 @@ const ProfileForm = () => {
   useEffect(() => {
     if (user === null) {
       navigate("/");
-    }
-  }, [user]);
-
-  useEffect(() => {
+    } 
     if (user) {
       fetchProfile().then((data) => {
         setProfile(data);
@@ -44,6 +42,7 @@ const ProfileForm = () => {
       setOriginalAccountDetails(details);
     }
   }, [user]);
+
 
   const handleProfileChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -108,27 +107,18 @@ const ProfileForm = () => {
     <div className="profile-form-container">
       <form onSubmit={handleAccountSubmit}>
         <h4>Account Information</h4>
-
-        <FormGroup>
-          <label>Username:</label>
-          <input
-            name="username"
-            value={accountDetails.username}
-            onChange={handleAccountChange}
-            disabled={!isEditing}
-          />
-        </FormGroup>
-
-        <FormGroup>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={accountDetails.email}
-            onChange={handleAccountChange}
-            disabled={!isEditing}
-          />
-        </FormGroup>
+        <Exemplo
+          label="username"
+          value={accountDetails.username}
+          onChange={handleAccountChange}
+          isDisabled={!isEditing}
+        />
+        <Exemplo
+          label="email"
+          value={accountDetails.email}
+          onChange={handleAccountChange}
+          isDisabled={!isEditing}
+        />
 
         {isEditing && (
           <>
