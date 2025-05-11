@@ -1,0 +1,27 @@
+/* src/custom.css */
+
+:root {
+    --primary: #4a90e2;
+    --secondary: #ff9800;
+    --success: #4caf50;
+    --danger: #f44336;
+    --warning: #ffeb3b;
+    --info: #00bcd4;
+    --light: #f8f9fa;
+    --dark: #343a40;
+  }
+  
+  /* Também podes redefinir diretamente as classes bootstrap */
+  .btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+  
+  .bg-primary {
+    background-color: var(--primary) !important;
+  }
+  
+  .text-primary {
+    color: var(--primary) !important;
+  }
+  

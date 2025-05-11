@@ -4,3 +4,16 @@
 /la_diam_backend/la_diam_backend/__pycache__
 /la_diam_backend/la_diam_backend/__pycache__
 la_diam_backend/pizzaria/__pycache__/views.cpython-313.pyc
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Backend (Python/Django)
+*.pyc
+__pycache__/

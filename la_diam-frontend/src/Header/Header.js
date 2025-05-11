@@ -1,25 +1,42 @@
 import React from "react";
-import "./Header.css"; // We'll create this CSS file next
+import "./Header.css";
 import { useNavigate, Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { FaShoppingCart } from "react-icons/fa";
+import { MdOutlineEmail } from "react-icons/md";
+import { FaRegUserCircle } from "react-icons/fa";
+import { IoLogOutOutline } from "react-icons/io5";
 
-function Header() {
+function Header({isLoggedIn}) {
   const navigate = useNavigate();
 
-  const handleLoginClick = () => {
-    navigate("/login");
-  };
   return (
     <header className="app-header">
-      <div className="header-logo">
+      <div className="header-content">
         <Link to="/">
           <img src="Logo-LaDiam.png" alt="Logo" className="logo-image" />
         </Link>
-      </div>
 
-      <div className="header-actions">
-        <button className="login-button" onClick={handleLoginClick}>
-          Entrar
-        </button>
+        <Button variant="danger">Encomendar Agora!</Button>
+
+        <Button variant="danger">Promoções</Button>
+
+        <Button variant="danger">Sobre nós!</Button>
+
+        {isLoggedIn ? (
+          <div className="header-icons">
+            <FaShoppingCart size={30} color="white" />
+            <MdOutlineEmail size={30} color="white" />
+            <FaRegUserCircle size={30} color="white" />
+            <IoLogOutOutline size={30} color="white" />
+          </div>
+        ) : (
+          <div>
+            <Link to="/login">
+              <Button color="warning">Área de Cliente</Button>
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );
