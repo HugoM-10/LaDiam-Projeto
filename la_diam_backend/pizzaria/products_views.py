@@ -34,27 +34,34 @@ def add_product_view(request):
     )
     return Response({'id': new_product.id, 'name': new_product.name}, status=status.HTTP_201_CREATED)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def edit_product_view(request):
+    product_id = request.data.get('id')
+    product = Product.objects.get(id=product_id)
 
+    if not product:
+        return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-# @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# def user_view(request):
-#     print(f"User authenticated: {request.user.is_authenticated}")
-#     print(f"User: {request.user.username}")
-#     return Response({'username': request.user.username, 'email': request.user.email})
+    name = request.data.get('name')
+    description = request.data.get('description')
+    price = request.data.get('price')
+    image = request.data.get('image')
+    promotion = request.data.get('promotion')
+    is_available = request.data.get('is_available') 
 
-# @api_view(['GET', 'PUT'])
-# @permission_classes([IsAuthenticated])
-# def user_profile_view(request):
-#     profile = request.user.profile
-    
-#     if request.method == 'GET':
-#         serializer = ProfileSerializer(profile)
-#         return Response(serializer.data)
+    if name:
+        product.name = name
+    if description:
+        product.description = description
+    if price:
+        product.price = price
+    if image:
+        product.image_link = image
+    if promotion:
+        product.promotion = promotion
+    if is_available is not None:
+        product.is_available = is_available
 
-#     elif request.method == 'PUT':
-#         serializer = ProfileSerializer(profile, data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    product.save()
+    return Response({'id': product.id, 'name': product.name}, status=status.HTTP_200_OK)
