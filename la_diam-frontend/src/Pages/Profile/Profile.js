@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchProfile } from "../BackendCalls/getters";
-import { updateProfile } from "../BackendCalls/posters";
-import { UserContext } from "../UserContext";
+import { fetchProfile } from "../../BackendCalls/getters";
+import { updateProfile } from "../../BackendCalls/posters";
+import { UserContext } from "../../UserContext";
 import { FormGroup } from "reactstrap";
 //import "./ProfileForm.css";
 import Exemplo from "./Exemplo";
@@ -24,6 +24,7 @@ const ProfileForm = () => {
   useEffect(() => {
     if (user === null) {
       navigate("/");
+      alert("You need to be logged in to access the profile page.");
     } 
     if (user) {
       fetchProfile().then((data) => {

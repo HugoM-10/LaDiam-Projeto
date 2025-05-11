@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signupUser } from "../BackendCalls/posters";
-import { UserContext } from "../UserContext";
+import { signupUser } from "../../BackendCalls/posters";
+import { UserContext } from "../../UserContext";
 
 function Signup() {
   const [username, setUsername] = useState("");
