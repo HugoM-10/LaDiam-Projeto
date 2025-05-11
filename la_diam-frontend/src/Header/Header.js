@@ -67,7 +67,7 @@ function Header() {
                 </NavItem>
 
                 <NavItem>
-                  <NavLink>
+                  <NavLink href="#footer">
                     <MdOutlineEmail className="icon" />
                   </NavLink>
                 </NavItem>
