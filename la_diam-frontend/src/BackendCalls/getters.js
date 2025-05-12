@@ -28,7 +28,7 @@ const fetchProfile = async () => {
 const fetchProducts = async () => {
   try {
     const response = await api.get('products/');
-    console.log("Products:", response.data); // Log the products data
+    // console.log("Products:", response.data); // Log the products data
     return response.data; // Return product data
   } catch (error) {
     console.error("Error fetching products:", error);

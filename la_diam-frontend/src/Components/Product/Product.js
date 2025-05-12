@@ -17,20 +17,15 @@ const Product = ({ product }) => {
   const price = parseFloat(product.default_price);
   const promotion = parseFloat(product.promotion) || 0;
   const promotionalPrice = parseFloat(product.discount_price);
-  console.log("Price:", price);
-  console.log("Promotion:", promotion);
-  console.log("Promotional Price:", promotionalPrice);
 
   const isOnPromotion = promotion > 0;
 
-  const { addToCart } = useContext(CartContext)
+  const { addToCart } = useContext(CartContext);
 
   return (
     <Card className="product-container">
       <CardBody>
-        <CardTitle tag="h3">
-          <h1>{product.name}</h1>
-        </CardTitle>
+        <CardTitle tag="h3">{product.name}</CardTitle>
       </CardBody>
       <img src={product.image_link} alt={product.name} className="image" />
       <CardBody>
@@ -59,7 +54,9 @@ const Product = ({ product }) => {
           )}
         </Row>
         <div className="d-flex justify-content-center">
-          <Button color="danger" onClick={()=>addToCart(product)}>Adicionar ao carrinho</Button>
+          <Button color="danger" onClick={() => addToCart(product)}>
+            Adicionar ao carrinho
+          </Button>
         </div>
       </CardBody>
     </Card>
@@ -71,7 +68,8 @@ Product.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
+    discount_price: PropTypes.string.isRequired,
+    default_price: PropTypes.number.isRequired,
     image_link: PropTypes.string.isRequired,
     promotion: PropTypes.string,
   }).isRequired,
