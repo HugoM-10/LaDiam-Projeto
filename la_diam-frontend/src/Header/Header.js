@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart,FaRegUserCircle  } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
-import { FaRegUserCircle } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 import {
   Collapse,

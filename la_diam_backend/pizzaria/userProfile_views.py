@@ -43,7 +43,7 @@ def signup_view(request):
     if User.objects.filter(username=username).exists():
         return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = User.objects.create_user(username=username, password=password, email=email)
+    user = User.objects.create_user(username=username, email=email, password=password)
     Profile.objects.create(user=user)
     user = authenticate(username=username, password=password)
     if user:

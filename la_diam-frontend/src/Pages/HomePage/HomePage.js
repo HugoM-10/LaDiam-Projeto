@@ -1,6 +1,6 @@
 import React from "react";
 import Home from "./Home/Home";
-import Faq from "./Faq/Faq";
+import Faq from "./FAQ/Faq";
 import AboutUs from "./AboutUs/AboutUs";
 
 const HomePage = () => {

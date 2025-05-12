@@ -1,12 +1,12 @@
 import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { signupUser, updateProfile } from "../../../BackendCalls/posters";
+import { updateProfile } from "../../../BackendCalls/posters";
 import { FormGroup } from "reactstrap";
 import ProfileFieldsForm from "../../Profile/ProfileForm";
 import { UserContext } from "../../../UserContext";
 
 const SignupForm = () => {
-  const {user}= useContext(UserContext);
+  const {user, signup}= useContext(UserContext);
   const navigate = useNavigate();
   const [accountDetails, setAccountDetails] = useState({
     username: "",
@@ -60,10 +60,11 @@ const SignupForm = () => {
     }
 
     try {
-      const result = await signupUser(
+      const result = await signup(
         accountDetails.username,
         accountDetails.email,
-        accountDetails.password
+        accountDetails.password,
+        
       );
 
       if (result.success) {

@@ -14,7 +14,7 @@ function Login() {
     if (user) {
       navigate('/');
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
