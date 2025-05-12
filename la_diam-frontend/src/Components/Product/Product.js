@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   CardBody,
@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import "./Product.css";
+import { CartContext } from "../../CartContext";
 
 const Product = ({ product }) => {
   const price = parseFloat(product.price);
@@ -21,6 +22,8 @@ const Product = ({ product }) => {
   console.log("Promotional Price:", promotionalPrice);
 
   const isOnPromotion = promotion > 0;
+
+  const { addToCart } = useContext(CartContext)
 
   return (
     <Card className="product-container">
@@ -56,7 +59,7 @@ const Product = ({ product }) => {
           )}
         </Row>
         <div className="d-flex justify-content-center">
-          <Button color="danger" onClick={()=>alert("Falta implementar")}>Adicionar ao carrinho</Button>
+          <Button color="danger" onClick={()=>addToCart(product)}>Adicionar ao carrinho</Button>
         </div>
       </CardBody>
     </Card>
