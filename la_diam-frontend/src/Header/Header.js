@@ -38,7 +38,7 @@ function Header() {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="nav-items" navbar>
             <NavItem className="nav-item">
-              <NavLink href="">
+              <NavLink href="/menu">
                 <Button color="danger" className="nav-button">
                   Encomendar agora!
                 </Button>
@@ -78,9 +78,25 @@ function Header() {
                       <FaRegUserCircle className="icon" />
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>Perfil</DropdownItem>
-                      <DropdownItem>Histórico</DropdownItem>
-                      <DropdownItem>Carteira</DropdownItem>
+                      <NavItem>
+                        <NavLink href="/profile">
+                          <DropdownItem>Perfil</DropdownItem>
+                        </NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink href="/history">
+                          <DropdownItem>
+                            <DropdownItem>Histórico</DropdownItem>
+                          </DropdownItem>
+                        </NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink href="/wallet">
+                          <DropdownItem>
+                            <DropdownItem>Carteira</DropdownItem>
+                          </DropdownItem>
+                        </NavLink>
+                      </NavItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 </NavItem>
