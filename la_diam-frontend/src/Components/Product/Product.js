@@ -55,7 +55,9 @@ const Product = ({ product }) => {
             </Col>
           )}
         </Row>
-        <Button color="danger">Adicionar ao carrinho</Button>
+        <div className="d-flex justify-content-center">
+          <Button color="danger" onClick={()=>alert("Falta implementar")}>Adicionar ao carrinho</Button>
+        </div>
       </CardBody>
     </Card>
   );
@@ -68,7 +70,7 @@ Product.propTypes = {
     description: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
     image_link: PropTypes.string.isRequired,
-    promotion: PropTypes.string, // ou number se for garantido
+    promotion: PropTypes.string,
   }).isRequired,
 };
 
