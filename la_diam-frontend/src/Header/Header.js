@@ -52,7 +52,7 @@ function Header() {
               </NavLink>
             </NavItem>
             <NavItem className="nav-item">
-              <NavLink href="">
+              <NavLink href="#footer">
                 <Button color="danger" className="nav-button">
                   Sobre nós!
                 </Button>
@@ -67,7 +67,7 @@ function Header() {
                 </NavItem>
 
                 <NavItem>
-                  <NavLink>
+                  <NavLink href="">
                     <MdOutlineEmail className="icon" />
                   </NavLink>
                 </NavItem>
