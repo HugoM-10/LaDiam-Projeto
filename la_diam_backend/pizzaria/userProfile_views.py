@@ -65,7 +65,7 @@ def edit_user_view(request):
     if not user.check_password(old_password):
         return Response({'error': 'Old password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
     if username:
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(username=username).exists() and username != user.username:
             return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
         user.username = username
     if email:

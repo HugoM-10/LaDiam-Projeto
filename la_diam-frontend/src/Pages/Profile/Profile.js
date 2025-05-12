@@ -64,30 +64,30 @@ const ProfileForm = () => {
     }
   };
 
-  const handleAccountSubmit = async (e) => {
-    e.preventDefault();
-    if (
-      accountDetails.password &&
-      accountDetails.password !== accountDetails.confirm_password
-    ) {
-      alert("New passwords do not match.");
-      return;
-    }
+  const handleAccountSubmit = async (formData) => {
+  if (
+    formData.password &&
+    formData.password !== formData.confirm_password
+  ) {
+    alert("New passwords do not match.");
+    return;
+  }
 
-    try {
-      const { success } = await editUser(accountDetails);
-      if (success) {
-        alert("Account updated");
-        setOriginalAccountDetails(accountDetails);
-        setIsEditing(false);
-      } else {
-        alert("Account update failed");
-      }
-    } catch (err) {
-      console.error(err);
+  try {
+    const { success } = await editUser(formData);
+    if (success) {
+      alert("Account updated");
+      setOriginalAccountDetails(formData);
+      setIsEditing(false);
+    } else {
       alert("Account update failed");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Account update failed");
+  }
+};
+
 
   const handleCancelEdit = () => {
     setAccountDetails(originalAccountDetails);
