@@ -12,14 +12,16 @@ from .serializers import OrderSerializer, OrderItemSerializer
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def create_order_view(request):
-    serializer = OrderSerializer(
-        data=request.data, context={"request": request}
-    )  # Passa o contexto
+    serializer = OrderSerializer(data=request.data, context={"request": request})
+    
     if serializer.is_valid():
-        order = (
-            serializer.save()
-        )  # User is automatically set in the serializer's create method
+        # Cria o pedido e os itens associados
+        order = serializer.save()
+
+        # Retorna os dados do pedido criado
         return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
+    
+    # Retorna erros de validação, se houver
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

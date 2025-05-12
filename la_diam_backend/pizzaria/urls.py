@@ -27,6 +27,7 @@ urlpatterns = [
     
     # User profile views
     path("profile/", user_profile_view),
+    
     # Products views
     path("products/", get_products_view),
     path("products/add/", create_product_view),

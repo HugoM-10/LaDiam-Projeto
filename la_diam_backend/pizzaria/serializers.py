@@ -44,6 +44,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = ["product", "quantity", "price"]
+        read_only_fields = ["price"]
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -51,25 +52,21 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'user', 'order_date', 'status', 'items', 'price']
-        read_only_fields = ['user', 'order_date', 'status', 'price']
-
+        fields = ["id", "user", "order_date", "status", "items", "price"]
+        read_only_fields = ["user", "order_date", "status", "price"]
+    
     def create(self, validated_data):
-        # Remove items from validated_data
+        # Remove os dados de 'items' do validated_data
         items_data = validated_data.pop('items')
 
-        # Initialize total price
-        total_price = 0
-
-        # Create order instance
+        # Cria o pedido associado ao usuário autenticado
         order = Order.objects.create(user=self.context['request'].user, **validated_data)
 
-        # Create order items and calculate total price
+        # Cria os itens do pedido e calcula o preço total
         for item_data in items_data:
-            item = OrderItem.objects.create(order=order, **item_data)
-            total_price += item.price * item.quantity
+            OrderItem.objects.create(order=order, **item_data)
 
-        # Update total price of the order
-        order.price = total_price
-        order.save()
+        # Atualiza o preço total do pedido
+        order.update_price()
+
         return order
