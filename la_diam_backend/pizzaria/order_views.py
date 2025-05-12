@@ -42,24 +42,23 @@ def get_my_orders_view(request):
     return Response(serializer.data)
 
 
-@api_view(["POST"])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def get_order_view(request):
-    order_id = request.data.get("id")
-    order = Order.objects.get(id=order_id)
+def get_order_view(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
 
-    if not order:
+        # Check if the order belongs to the user and if the user is not an admin
+        if order.user != request.user and not request.user.is_staff:
+            return Response(
+                {"error": "You do not have permission to view this order"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
+    
+    except Order.DoesNotExist:
         return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    # Check if the order belongs to the user
-    if order.user != request.user:
-        return Response(
-            {"error": "You do not have permission to view this order"},
-            status=status.HTTP_403_FORBIDDEN,
-        )
-
-    serializer = OrderSerializer(order)
-    return Response(serializer.data)
 
 
 @api_view(["POST"])
