@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile,Product
+from .models import Profile,Product, Order, OrderItem
 
 class FlexibleDateField(serializers.DateField):
     def to_internal_value(self, value):
@@ -7,10 +7,6 @@ class FlexibleDateField(serializers.DateField):
             return None
         return super().to_internal_value(value)
 
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = '__all__'
 class ProfileSerializer(serializers.ModelSerializer):
     dateOfBirth = FlexibleDateField(required=False, allow_null=True)
 
@@ -26,3 +22,19 @@ class ProfileSerializer(serializers.ModelSerializer):
             'address',
             'subscribed_to_newsletter',
         ]
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'description', 'price', 'promotion', 'image_link', 'is_available']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['id', 'user', 'product', 'quantity', 'order_date', 'price', 'status']
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'order', 'product', 'quantity', 'price']
