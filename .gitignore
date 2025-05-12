@@ -30,3 +30,4 @@ __pycache__/
 
 # Miscellaneous
 /settings.json
+la_diam_backend/db.sqlite3
