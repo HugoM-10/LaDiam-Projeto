@@ -20,11 +20,13 @@ console.log("Products:",products);
   return (
     <Container className="menu-container">
       <h1>Menu</h1>
-      <ul>
+      
+      <ul className="products-grid">
         {products.map((product) => (
           <Product key={product.id} product={product} />
         ))}
       </ul>
+     
     </Container>
   );
 };
