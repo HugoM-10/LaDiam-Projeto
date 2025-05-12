@@ -3,7 +3,7 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import { Cart } from "../Components/Product/Cart";
 
-import { FaShoppingCart,FaRegUserCircle  } from "react-icons/fa";
+import { FaShoppingCart, FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
 import {
@@ -37,21 +37,21 @@ function Header() {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="nav-items" navbar>
-            <NavItem className="nav-item">
+            <NavItem>
               <NavLink href="/menu">
                 <Button color="danger" className="nav-button">
                   Encomendar agora!
                 </Button>
               </NavLink>
             </NavItem>
-            <NavItem className="nav-item">
+            <NavItem>
               <NavLink href="">
                 <Button color="danger" className="nav-button">
                   Promoções
                 </Button>
               </NavLink>
             </NavItem>
-            <NavItem className="nav-item">
+            <NavItem>
               <NavLink href="/#footer">
                 <Button color="danger" className="nav-button">
                   Sobre nós!
@@ -72,34 +72,23 @@ function Header() {
                   </NavLink>
                 </NavItem>
 
-                <NavItem>
-                  <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>
-                      <FaRegUserCircle className="icon" />
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <NavItem>
-                        <NavLink href="/profile">
-                          <DropdownItem>Perfil</DropdownItem>
-                        </NavLink>
-                      </NavItem>
-                      <NavItem>
-                        <NavLink href="/history">
-                          <DropdownItem>
-                            <DropdownItem>Histórico</DropdownItem>
-                          </DropdownItem>
-                        </NavLink>
-                      </NavItem>
-                      <NavItem>
-                        <NavLink href="/wallet">
-                          <DropdownItem>
-                            <DropdownItem>Carteira</DropdownItem>
-                          </DropdownItem>
-                        </NavLink>
-                      </NavItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </NavItem>
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    <FaRegUserCircle className="icon" />
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem tag="a" href="/profile">
+                      Perfil
+                    </DropdownItem>
+                    <DropdownItem tag="a" href="/history">
+                      Histórico
+                    </DropdownItem>
+                    <DropdownItem tag="a" href="/wallet">
+                      Carteira
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+
                 <NavItem>
                   <IoLogOutOutline className="icon" onClick={logout} />
                 </NavItem>

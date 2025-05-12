@@ -19,10 +19,7 @@
   align-items: center; /* Alinha os itens verticalmente no centro */
 }
 
-.nav-item {
-  flex: 1; /* Faz com que cada item ocupe o mesmo espaço */
-  text-align: center; /* Centraliza o texto dentro de cada item */
-}
+
 
 .nav-button {
   width: 200px;
