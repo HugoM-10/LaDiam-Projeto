@@ -19,6 +19,7 @@ const Product = ({ product }) => {
   console.log("Price:", price);
   console.log("Promotion:", promotion);
   console.log("Promotional Price:", promotionalPrice);
+  console.log(product.image_link);
 
   const isOnPromotion = promotion > 0;
 
