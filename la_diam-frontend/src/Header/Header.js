@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart,FaRegUserCircle  } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
-import { FaRegUserCircle } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 import {
   Collapse,
@@ -38,7 +37,7 @@ function Header() {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="nav-items" navbar>
             <NavItem className="nav-item">
-              <NavLink href="">
+              <NavLink href="/menu">
                 <Button color="danger" className="nav-button">
                   Encomendar agora!
                 </Button>
@@ -52,7 +51,7 @@ function Header() {
               </NavLink>
             </NavItem>
             <NavItem className="nav-item">
-              <NavLink href="">
+              <NavLink href="/#footer">
                 <Button color="danger" className="nav-button">
                   Sobre nós!
                 </Button>
@@ -67,7 +66,7 @@ function Header() {
                 </NavItem>
 
                 <NavItem>
-                  <NavLink>
+                  <NavLink href="">
                     <MdOutlineEmail className="icon" />
                   </NavLink>
                 </NavItem>
@@ -78,9 +77,25 @@ function Header() {
                       <FaRegUserCircle className="icon" />
                     </DropdownToggle>
                     <DropdownMenu right>
-                      <DropdownItem>Perfil</DropdownItem>
-                      <DropdownItem>Histórico</DropdownItem>
-                      <DropdownItem>Carteira</DropdownItem>
+                      <NavItem>
+                        <NavLink href="/profile">
+                          <DropdownItem>Perfil</DropdownItem>
+                        </NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink href="/history">
+                          <DropdownItem>
+                            <DropdownItem>Histórico</DropdownItem>
+                          </DropdownItem>
+                        </NavLink>
+                      </NavItem>
+                      <NavItem>
+                        <NavLink href="/wallet">
+                          <DropdownItem>
+                            <DropdownItem>Carteira</DropdownItem>
+                          </DropdownItem>
+                        </NavLink>
+                      </NavItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 </NavItem>

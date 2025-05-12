@@ -2,15 +2,16 @@ import { useContext } from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import { Routes, Route } from "react-router-dom";
-import LoginManager from "./Pages/LoginManager/LoginManager";
-import Signup from "./Pages/LoginManager/Signup";
+import Signup from "./Pages/LoginManager/Signup/Signup";
 import Profile from "./Pages/Profile/Profile";
+import Menu from "./Pages/Menu/Menu";
 
 import "./App.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomePage from "./Pages/HomePage/HomePage";
 import { UserProvider, UserContext } from "./UserContext";
+import Login from "./Pages/LoginManager/Login/Login";
 
 function App() {
   return (
@@ -30,9 +31,10 @@ function AppContent() {
       <Header isLoggedIn={isLoggedIn} />
       <Routes className="container">
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginManager />} />
+        <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/menu" element={<Menu />} />
       </Routes>
       <Footer />
     </div>

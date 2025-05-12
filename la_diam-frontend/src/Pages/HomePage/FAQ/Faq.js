@@ -16,7 +16,7 @@ const faqs = [
   { id: '5', pergunta: 'Têm opções vegetarianas?', resposta: 'Sim, temos pizzas como Marguerita, 4 Queijos e Vegetariana Especial.' }
 ];
 
-export default function FAQ() {
+export default function Faq() {
   const [open, setOpen] = useState('');
 
   const toggle = (id) => {
