@@ -51,7 +51,7 @@ function Header() {
               </NavLink>
             </NavItem>
             <NavItem className="nav-item">
-              <NavLink href="#footer">
+              <NavLink href="/#footer">
                 <Button color="danger" className="nav-button">
                   Sobre nós!
                 </Button>
