@@ -19,16 +19,16 @@ def get_products_view(request):
 def create_product_view(request):
     name = request.data.get('name')
     description = request.data.get('description')
-    price = request.data.get('price')
-    image = request.data.get('image')
+    default_price = request.data.get('default_price')
     promotion = request.data.get('promotion')
+    image_link = request.data.get('image_link')
     is_available = request.data.get('is_available') 
 
     new_product = Product.objects.create(
         name=name,
         description=description,
-        price=price,
-        image_link=image,
+        default_price = default_price,
+        image_link=image_link,
         promotion=promotion,
         is_available=is_available
     )
@@ -45,8 +45,8 @@ def edit_product_view(request):
 
     name = request.data.get('name')
     description = request.data.get('description')
-    price = request.data.get('price')
-    image = request.data.get('image')
+    default_price = request.data.get('default_price')
+    image_link = request.data.get('image_link')
     promotion = request.data.get('promotion')
     is_available = request.data.get('is_available') 
 
@@ -54,10 +54,10 @@ def edit_product_view(request):
         product.name = name
     if description:
         product.description = description
-    if price:
-        product.price = price
-    if image:
-        product.image_link = image
+    if default_price:
+        product.default_price = default_price
+    if image_link:
+        product.image_link = image_link
     if promotion:
         product.promotion = promotion
     if is_available is not None:
