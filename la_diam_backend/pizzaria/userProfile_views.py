@@ -9,6 +9,7 @@ from .serializers import ProfileSerializer
 
 @api_view(['POST'])
 def login_view(request):
+    print(request.data)
     username = request.data.get('username')
     password = request.data.get('password')
     user = authenticate(request, username=username, password=password)
@@ -31,6 +32,7 @@ def logout_view(request):
 
 @api_view(['POST'])
 def signup_view(request):
+    print(request.data)
     username = request.data.get('username')
     password = request.data.get('password')
     email = request.data.get('email')
@@ -43,6 +45,9 @@ def signup_view(request):
 
     user = User.objects.create_user(username=username, password=password, email=email)
     Profile.objects.create(user=user)
+    user = authenticate(username=username, password=password)
+    if user:
+        login(request, user)
     return Response({'message': 'User ' + username + ' created successfully'}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
@@ -60,6 +65,8 @@ def edit_user_view(request):
     if not user.check_password(old_password):
         return Response({'error': 'Old password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
     if username:
+        if User.objects.filter(username=username).exists():
+            return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
         user.username = username
     if email:
         user.email = email

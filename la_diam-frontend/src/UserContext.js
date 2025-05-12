@@ -49,7 +49,7 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       console.error("Logout failed:", error);
     } finally {
-      setUser(null);
+      setUser(undefined);
     }
   };
 
