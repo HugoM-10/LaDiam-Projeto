@@ -84,8 +84,7 @@ def edit_order_view(request, order_id):
 
 @api_view(["DELETE"])
 @permission_classes([IsAuthenticated])
-def delete_order_view(request):
-    order_id = request.data.get("id")
+def delete_order_view(request, order_id):
     # Check if the order exists or return 404
     order = get_object_or_404(Order, id=order_id)
 
