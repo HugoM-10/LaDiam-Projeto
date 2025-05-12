@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -45,30 +46,26 @@ def get_my_orders_view(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_order_view(request, order_id):
-    try:
-        order = Order.objects.get(id=order_id)
+    # Check if the order exists or return 404
+    order = get_object_or_404(Order, id=order_id)
 
-        # Check if the order belongs to the user and if the user is not an admin
-        if order.user != request.user and not request.user.is_staff:
-            return Response(
-                {"error": "You do not have permission to view this order"},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-        serializer = OrderSerializer(order)
-        return Response(serializer.data)
     
-    except Order.DoesNotExist:
-        return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+    if order.user != request.user and not request.user.is_staff:
+        return Response(
+            {"error": "You do not have permission to view this order"},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    serializer = OrderSerializer(order)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def edit_order_view(request):
     order_id = request.data.get("id")
-    order = Order.objects.get(id=order_id)
-
-    if not order:
-        return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+    # Check if the order exists or return 404
+    order = get_object_or_404(Order, id=order_id)
 
     # Check if the order belongs to the user and if the user is not an admin
     if order.user != request.user and not request.user.is_staff:
@@ -77,11 +74,8 @@ def edit_order_view(request):
             status=status.HTTP_403_FORBIDDEN,
         )
 
-    quantity = request.data.get("quantity")
+    # Update the order fields
     status = request.data.get("status")
-
-    if quantity:
-        order.quantity = quantity
     if status:
         order.status = status
 
@@ -93,7 +87,8 @@ def edit_order_view(request):
 @permission_classes([IsAuthenticated])
 def delete_order_view(request):
     order_id = request.data.get("id")
-    order = Order.objects.get(id=order_id)
+    # Check if the order exists or return 404
+    order = get_object_or_404(Order, id=order_id)
 
     # Check if the order belongs to the user and if the user is not an admin
     if order.user != request.user and not request.user.is_staff:
@@ -101,9 +96,6 @@ def delete_order_view(request):
             {"error": "You do not have permission to delete this order"},
             status=status.HTTP_403_FORBIDDEN,
         )
-
-    if not order:
-        return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
 
     order.delete()
     return Response(
