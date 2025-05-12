@@ -1,0 +1,15 @@
+.menu-container {
+    /* background-color: red; */
+}
+
+h1 {
+    text-align: center;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 0;
+    list-style: none;
+}
