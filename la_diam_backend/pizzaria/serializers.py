@@ -42,7 +42,9 @@ class ProductSerializer(serializers.ModelSerializer):
             'promotion',
             'discount_price',
             'is_available',
-            'image_link'
+            'image_link',
+            'type',
+            'nr_of_orders',
         ]
 
 class OrderItemSerializer(serializers.ModelSerializer):
