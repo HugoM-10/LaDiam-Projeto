@@ -69,7 +69,7 @@ const signupUser = async (username, password, email) => {
       password,
       email,
     });
-    return response.data; // Return signup success message
+    return { success: true, data: response.data }
   } catch (error) {
     console.error("Error signing up user:", error);
     throw error;
