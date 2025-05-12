@@ -13,12 +13,13 @@ import PropTypes from "prop-types";
 import "./Product.css";
 
 const Product = ({ product }) => {
-  const price = parseFloat(product.price);
+  const price = parseFloat(product.default_price);
   const promotion = parseFloat(product.promotion) || 0;
-  const promotionalPrice = ((price * (100 - promotion)) / 100).toFixed(2);
+  const promotionalPrice = parseFloat(product.discount_price) || 0;
   console.log("Price:", price);
   console.log("Promotion:", promotion);
   console.log("Promotional Price:", promotionalPrice);
+  console.log(product.image_link);
 
   const isOnPromotion = promotion > 0;
 

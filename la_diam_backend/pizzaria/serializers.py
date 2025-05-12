@@ -23,6 +23,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'promotion',
             'discount_price',
             'is_available',
+            'image_link',
         ]
 class ProfileSerializer(serializers.ModelSerializer):
     dateOfBirth = FlexibleDateField(required=False, allow_null=True)
