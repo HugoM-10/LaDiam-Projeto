@@ -16,7 +16,7 @@ def get_products_view(request):
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
-def add_product_view(request):
+def create_product_view(request):
     name = request.data.get('name')
     description = request.data.get('description')
     price = request.data.get('price')
@@ -34,7 +34,7 @@ def add_product_view(request):
     )
     return Response({'id': new_product.id, 'name': new_product.name}, status=status.HTTP_201_CREATED)
 
-@api_view(['POST'])
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def edit_product_view(request):
     product_id = request.data.get('id')

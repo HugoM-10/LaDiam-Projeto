@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
+import { Cart } from "../Components/Product/Cart";
 
 import { FaShoppingCart,FaRegUserCircle  } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
@@ -61,7 +62,7 @@ function Header() {
               <div className="header-icons">
                 <NavItem>
                   <NavLink>
-                    <FaShoppingCart className="icon" />
+                    <Cart />
                   </NavLink>
                 </NavItem>
 
