@@ -10,28 +10,29 @@ import "./App.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomePage from "./Pages/HomePage/HomePage";
-import { UserProvider, UserContext } from "./UserContext";
+import UserProvider from "./UserContext";
+import CardProvider from "./CartContext";
 import Login from "./Pages/LoginManager/Login/Login";
 
 function App() {
   return (
     <div className="App">
       <UserProvider>
-        <AppContent />
+        <CardProvider>
+          <AppContent />
+        </CardProvider>
       </UserProvider>
     </div>
   );
 }
 
 function AppContent() {
-  const { isLoggedIn } = useContext(UserContext);
-
   return (
     <div className="App">
-      <Header isLoggedIn={isLoggedIn} />
+      <Header />
       <Routes className="container">
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login/>} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/menu" element={<Menu />} />
