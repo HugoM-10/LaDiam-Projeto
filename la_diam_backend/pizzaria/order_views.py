@@ -60,10 +60,9 @@ def get_order_view(request, order_id):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(["POST"])
+@api_view(["PUT"])
 @permission_classes([IsAuthenticated])
-def edit_order_view(request):
-    order_id = request.data.get("id")
+def edit_order_view(request, order_id):
     # Check if the order exists or return 404
     order = get_object_or_404(Order, id=order_id)
 
@@ -75,9 +74,9 @@ def edit_order_view(request):
         )
 
     # Update the order fields
-    status = request.data.get("status")
-    if status:
-        order.status = status
+    statusOrder = request.data.get("status")
+    if statusOrder:
+        order.status = statusOrder
 
     order.save()
     return Response({"id": order.id, "status": order.status}, status=status.HTTP_200_OK)
