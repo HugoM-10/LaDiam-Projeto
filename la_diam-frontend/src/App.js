@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginManager from "./Pages/LoginManager/LoginManager";
 import Signup from "./Pages/LoginManager/Signup";
 import Profile from "./Pages/Profile/Profile";
+import Menu from "./Pages/Menu/Menu";
 
 import "./App.css";
 
@@ -33,6 +34,7 @@ function AppContent() {
         <Route path="/login" element={<LoginManager />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/menu" element={<Menu />} />
       </Routes>
       <Footer />
     </div>
