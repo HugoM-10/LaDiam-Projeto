@@ -69,7 +69,7 @@ const signupUser = async (username, password, email) => {
       password,
       email,
     });
-    return { success: true, data: response.data }
+    return { success: true, data: response.data };
   } catch (error) {
     console.error("Error signing up user:", error);
     throw error;
@@ -78,31 +78,49 @@ const signupUser = async (username, password, email) => {
 
 const updateProfile = async (profileData) => {
   const csrftoken = getCookie("csrftoken");
-  const response = await api.put(
-    'profile/',
-    profileData,
-    {
-      headers: {
-        'X-CSRFToken': csrftoken,
-      }
-    }
-  );
+  const response = await api.put("profile/", profileData, {
+    headers: {
+      "X-CSRFToken": csrftoken,
+    },
+  });
   return response.data;
 };
 
 const updateUser = async (userData) => {
   const csrftoken = getCookie("csrftoken");
-  const response = await api.post(
-    'auth/edit_user/',
-    userData,
-    {
-      headers: {
-        'X-CSRFToken': csrftoken,
-      }
-    }
-  );
+  const response = await api.post("auth/edit_user/", userData, {
+    headers: {
+      "X-CSRFToken": csrftoken,
+    },
+  });
   return response.data;
 };
 
+const createComment = async (productId, texto) => {
+  try {
+    const csrftoken = getCookie("csrftoken");
+    const response = await api.post(
+      "comments/create/",
+      { product_id: productId, texto },
+      {
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    throw error;
+  }
+};
+
 // Export all posters
-export { loginUser, logoutUser, signupUser, updateProfile, updateUser };
+export {
+  loginUser,
+  logoutUser,
+  signupUser,
+  updateProfile,
+  updateUser,
+  createComment,
+};

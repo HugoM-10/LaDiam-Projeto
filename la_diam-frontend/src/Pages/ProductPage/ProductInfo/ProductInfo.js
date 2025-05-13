@@ -1,53 +1,55 @@
-import React, { useContext } from "react";
+// src/components/ProductInfo.js
+
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   CardBody,
   CardTitle,
   CardText,
+  Button,
   Row,
   Col,
-  Badge,
-  Button,
-} from "reactstrap";
-import PropTypes from "prop-types";
-import "./Product.css";
-import { CartContext } from "../../CartContext";
-import { useNavigate } from "react-router-dom";
+  Badge
+} from 'reactstrap';
 
-const Product = ({ product }) => {
-  const price = parseFloat(product.default_price);
-  const promotion = parseFloat(product.promotion) || 0;
-  const promotionalPrice = parseFloat(product.discount_price);
-  console.log("Price:", price);
-  console.log("Promotion:", promotion);
-  console.log("Promotional Price:", promotionalPrice);
+const ProductInfo = ({ product, addToCart }) => {
+  if (!product) {
+    return <p>Carregando produto...</p>;
+  }
 
+  const price = parseFloat(product.price);
+  const promotion = parseFloat(product.promotion || 0);
   const isOnPromotion = promotion > 0;
-
-  const { addToCart } = useContext(CartContext)
-  const navigate = useNavigate();
+  const promotionalPrice = isOnPromotion
+    ? (price * (1 - promotion / 100)).toFixed(2)
+    : null;
 
   const handleImageClick = () => {
-    navigate(`/ProductPage/${product.id}`);
+    // Coloca aqui lógica para zoom ou modal
+    console.log('Imagem clicada');
   };
 
   return (
-    <Card className="product-container">
+    <Card className="h-100">
       <CardBody>
         <CardTitle tag="h3">
           <h1>{product.name}</h1>
         </CardTitle>
       </CardBody>
-      <img 
-        src={product.image_link} 
-        alt={product.name} 
-        className="image" 
+
+      <img
+        src={product.image_link}
+        alt={product.name}
+        className="img-fluid"
         onClick={handleImageClick}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', maxHeight: '400px', objectFit: 'cover' }}
       />
+
       <CardBody>
-        <CardText>{product.description}</CardText>
-        <Row className="align-items-center mb-2">
+        <CardText className="mb-3">{product.description}</CardText>
+
+        <Row className="align-items-center mb-3">
           <Col>
             {isOnPromotion ? (
               <>
@@ -70,23 +72,27 @@ const Product = ({ product }) => {
             </Col>
           )}
         </Row>
+
         <div className="d-flex justify-content-center">
-          <Button color="danger" onClick={()=>addToCart(product)}>Adicionar ao carrinho</Button>
+          <Button color="danger" onClick={() => addToCart(product)}>
+            Adicionar ao carrinho
+          </Button>
         </div>
       </CardBody>
     </Card>
   );
 };
 
-Product.propTypes = {
+ProductInfo.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
     image_link: PropTypes.string.isRequired,
-    promotion: PropTypes.string,
-  }).isRequired,
+    promotion: PropTypes.string
+  }),
+  addToCart: PropTypes.func.isRequired
 };
 
-export default Product;
+export default ProductInfo;
