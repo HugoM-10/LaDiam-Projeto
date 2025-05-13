@@ -19,13 +19,17 @@ import {
   DropdownMenu,
   DropdownToggle,
 } from "reactstrap";
+import { CartContext } from "../CartContext";
 import { UserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const { isLoggedIn, logout } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(true);
+  const { clearCart } = useContext(CartContext);
 
   const toggle = () => setIsOpen(!isOpen);
+  const navigate = useNavigate();
 
   return (
     <header className="app-header">
@@ -60,7 +64,7 @@ function Header() {
             {isLoggedIn ? (
               <div className="header-icons">
                 <NavItem>
-                    <Cart />
+                  <Cart />
                 </NavItem>
 
                 <UncontrolledDropdown nav inNavbar>
@@ -81,7 +85,14 @@ function Header() {
                 </UncontrolledDropdown>
 
                 <NavItem>
-                  <IoLogOutOutline className="icon" onClick={logout} />
+                  <IoLogOutOutline
+                    className="icon"
+                    onClick={() => {
+                      clearCart();
+                      logout();
+                      navigate("/");
+                    }}
+                  />
                 </NavItem>
               </div>
             ) : (
