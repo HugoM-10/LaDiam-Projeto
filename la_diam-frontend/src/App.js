@@ -13,6 +13,7 @@ import HomePage from "./Pages/HomePage/HomePage";
 import UserProvider from "./UserContext";
 import CardProvider from "./CartContext";
 import Login from "./Pages/LoginManager/Login/Login";
+import NotFound from "./Pages/NotFound/NotFound";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function AppContent() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </div>
