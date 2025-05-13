@@ -1,6 +1,6 @@
 // src/components/ProductInfo.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -10,24 +10,27 @@ import {
   Button,
   Row,
   Col,
-  Badge
+  Badge,
+  Modal,
+  ModalBody
 } from 'reactstrap';
 
 const ProductInfo = ({ product, addToCart }) => {
-  if (!product) {
-    return <p>Carregando produto...</p>;
-  }
+  const [zoomOpen, setZoomOpen] = useState(false);
 
-  const price = parseFloat(product.price);
+  const default_price = parseFloat(product.default_price);
   const promotion = parseFloat(product.promotion || 0);
   const isOnPromotion = promotion > 0;
   const promotionalPrice = isOnPromotion
-    ? (price * (1 - promotion / 100)).toFixed(2)
+    ? (default_price * (1 - promotion / 100)).toFixed(2)
     : null;
 
   const handleImageClick = () => {
-    // Coloca aqui lógica para zoom ou modal
-    console.log('Imagem clicada');
+    setZoomOpen(true);
+  };
+
+  const handleZoomClose = () => {
+    setZoomOpen(false);
   };
 
   return (
@@ -46,6 +49,17 @@ const ProductInfo = ({ product, addToCart }) => {
         style={{ cursor: 'pointer', maxHeight: '400px', objectFit: 'cover' }}
       />
 
+      {/* Modal de zoom */}
+      <Modal isOpen={zoomOpen} toggle={handleZoomClose} centered size="lg">
+        <ModalBody className="text-center">
+          <img
+            src={product.image_link}
+            alt={product.name}
+            style={{ maxWidth: '100%', maxHeight: '80vh' }}
+          />
+        </ModalBody>
+      </Modal>
+
       <CardBody>
         <CardText className="mb-3">{product.description}</CardText>
 
@@ -54,14 +68,14 @@ const ProductInfo = ({ product, addToCart }) => {
             {isOnPromotion ? (
               <>
                 <span className="text-muted text-decoration-line-through">
-                  {price.toFixed(2)} €
+                  {default_price.toFixed(2)} €
                 </span>
                 <span className="text-danger ms-2 fs-5 fw-bold">
                   {promotionalPrice} €
                 </span>
               </>
             ) : (
-              <span className="fs-5 fw-bold">{price.toFixed(2)} €</span>
+              <span className="fs-5 fw-bold">{default_price.toFixed(2)} €</span>
             )}
           </Col>
           {isOnPromotion && (
@@ -88,7 +102,7 @@ ProductInfo.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
+    default_price: PropTypes.string.isRequired,
     image_link: PropTypes.string.isRequired,
     promotion: PropTypes.string
   }),

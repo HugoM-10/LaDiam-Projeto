@@ -25,7 +25,7 @@ const Product = ({ product }) => {
 
   const isOnPromotion = promotion > 0;
 
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, cart } = useContext(CartContext);
 
   const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ const Product = ({ product }) => {
   };
 
   const handleImageClick = () => {
-    navigate(`/ProductPage/${product.id}`);
+    navigate(`/ProductPage/${product.id}`, { state: { product: product, cart: cart } });
   };
 
   return (
@@ -48,12 +48,12 @@ const Product = ({ product }) => {
       <CardBody>
         <CardTitle tag="h3">{product.name}</CardTitle>
       </CardBody>
-      <img 
-        src={product.image_link} 
-        alt={product.name} 
-        className="image" 
+      <img
+        src={product.image_link}
+        alt={product.name}
+        className="image"
         onClick={handleImageClick}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
       />
       <CardBody>
         <CardText>{product.description}</CardText>

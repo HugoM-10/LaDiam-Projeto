@@ -1,36 +1,25 @@
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
 import { Row, Col } from "reactstrap";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ProductInfo from "./ProductInfo/ProductInfo";
 import CommentsSection from "./CommentsSection/CommentsSection";
-import { fetchProducts, fetchProductComments } from "../../BackendCalls/getters";
-import { CartContext } from "../../CartContext";
 
 const ProductPage = () => {
-  const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [comments, setComments] = useState([]);
-  const { addToCart } = useContext(CartContext);
+  const location = useLocation();
+  const { product, cart } = location.state || {};
 
-  useEffect(() => {
-    // Buscar produto
-    fetchProducts().then(products => {
-      const found = products.find(p => String(p.id) === String(id));
-      setProduct(found);
-    });
-    // Buscar comentários
-    fetchProductComments(id).then(setComments);
-  }, [id]);
+  if (!product) {
+    return <div>Produto não encontrado.</div>;
+  }
 
   return (
-    <div>
-      <p>Isto é a página do produto</p>
+    <div style={{ padding: "32px" }}>
       <Row>
         <Col md={8}>
-          <ProductInfo product={product} addToCart={addToCart} />
+          <ProductInfo product={product} cart={cart} />
         </Col>
         <Col md={4}>
-          <CommentsSection initialComments={comments} />
+          <CommentsSection productId={product.id} />
         </Col>
       </Row>
     </div>
