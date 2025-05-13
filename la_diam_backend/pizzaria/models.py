@@ -26,6 +26,19 @@ class Product(models.Model):
     promotion = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     image_link = models.URLField(max_length=200, blank=True, null=True)
     is_available = models.BooleanField(default=True, null=False)
+    type = models.CharField(
+        choices=[
+            ('Pizza', 'Pizza'),
+            ('Drink', 'Drink'),
+            ('Dessert', 'Dessert'),
+            ('Appetizer', 'Appetizer'),
+            ('Other', 'Other')
+        ],
+        max_length=10,
+        default='Other'
+    )
+    nr_of_orders = models.IntegerField(default=0, null=False)
+
 
     def __str__(self):
         return self.name
@@ -73,3 +86,12 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} of {self.product.name} in Order {self.order.id} - {self.price}"
+    
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
+    texto = models.TextField()
+    data_publicacao = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s comment on the product {self.product.name}"

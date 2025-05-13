@@ -16,6 +16,10 @@ from .order_views import (
     edit_order_view,
     delete_order_view,
 )
+from .comments_views import (
+    get_comments_view,
+    create_comment_view,
+)
 
 urlpatterns = [
     # User authentication views
@@ -40,4 +44,9 @@ urlpatterns = [
     path("orders/my/", get_my_orders_view),
     path("orders/edit/<int:order_id>/", edit_order_view),
     path("orders/delete/<int:order_id>/", delete_order_view),
+
+    # Comments views
+    path("comments/", get_comments_view),
+    path("comments/product/<int:product_id>/", get_comments_view),
+    path("comments/create/", create_comment_view),
 ]

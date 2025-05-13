@@ -1,5 +1,6 @@
+
 from rest_framework import serializers
-from .models import Profile, Product, Order, OrderItem
+from .models import Profile, Product, Order, OrderItem, Comment
 
 
 class FlexibleDateField(serializers.DateField):
@@ -42,7 +43,9 @@ class ProductSerializer(serializers.ModelSerializer):
             'promotion',
             'discount_price',
             'is_available',
-            'image_link'
+            'image_link',
+            'type',
+            'nr_of_orders',
         ]
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -75,3 +78,12 @@ class OrderSerializer(serializers.ModelSerializer):
         order.update_price()
 
         return order
+    
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = '__all__'
+        read_only_fields = ['user', 'data_publicacao']

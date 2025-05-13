@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./Product.css";
 import { CartContext } from "../../CartContext";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 
 const Product = ({ product }) => {
@@ -39,12 +40,22 @@ const Product = ({ product }) => {
     }
   };
 
+  const handleImageClick = () => {
+    navigate(`/ProductPage/${product.id}`);
+  };
+
   return (
     <Card className="product-container">
       <CardBody>
         <CardTitle tag="h3">{product.name}</CardTitle>
       </CardBody>
-      <img src={product.image_link} alt={product.name} className="image" />
+      <img 
+        src={product.image_link} 
+        alt={product.name} 
+        className="image" 
+        onClick={handleImageClick}
+        style={{ cursor: 'pointer' }}
+      />
       <CardBody>
         <CardText>{product.description}</CardText>
         <Row className="align-items-center mb-2">
