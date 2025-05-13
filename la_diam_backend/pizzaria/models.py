@@ -84,6 +84,13 @@ class OrderItem(models.Model):
         # Update the order's total price whenever an item is saved.
         self.order.update_price()
 
+    @property
+    def order_product_image_link(self):
+        return self.product.image_link if self.product else None
+    @property
+    def order_product_name(self):
+        return self.product.name if self.product else None
+
     def __str__(self):
         return f"{self.quantity} of {self.product.name} in Order {self.order.id} - {self.price}"
     

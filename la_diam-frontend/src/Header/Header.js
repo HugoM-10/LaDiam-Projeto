@@ -24,13 +24,13 @@ import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
-  const { isLoggedIn, logout } = useContext(UserContext);
+  const { isLoggedIn, logout, userGroup } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(true);
   const { clearCart } = useContext(CartContext);
 
   const toggle = () => setIsOpen(!isOpen);
   const navigate = useNavigate();
-
+  console.log("User Group:", userGroup);
   return (
     <header className="app-header">
       <Navbar className="navbar" expand="md">
@@ -61,6 +61,25 @@ function Header() {
                 </Button>
               </NavLink>
             </NavItem>
+            {userGroup === "Vendedor" || userGroup === "Gestor" ? (
+              <NavItem>
+                <NavLink href="/pedidos">
+                  <Button color="success" className="nav-button">
+                    Pedidos recebidos
+                  </Button>
+                </NavLink>
+              </NavItem>
+            ) : null}
+            {userGroup === "Gestor" ? (
+              <NavItem>
+                <NavLink href="/estatisticas">
+                  <Button color="success" className="nav-button">
+                    Estatísticas
+                  </Button>
+                </NavLink>
+              </NavItem>
+            ) : null}
+
             {isLoggedIn ? (
               <div className="header-icons">
                 <NavItem>

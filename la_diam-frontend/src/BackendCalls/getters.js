@@ -47,6 +47,16 @@ const fetchProductComments = async (productId) => {
   }
 };
 
+const fetchOrders = async () => {
+  try {
+    const response = await api.get('orders/');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    throw error;
+  }
+};
+
 
 // Export all getters
 export {
@@ -54,4 +64,5 @@ export {
   fetchProfile,
   fetchProducts,
   fetchProductComments,
+  fetchOrders,
 };

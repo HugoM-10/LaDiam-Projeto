@@ -15,6 +15,8 @@ import CardProvider from "./CartContext";
 import Login from "./Pages/LoginManager/Login/Login";
 import ProductPage from "./Pages/ProductPage/ProductPage";
 import NotFound from "./Pages/NotFound/NotFound";
+import Estatisticas from "./Pages/Estatisticas/Estatisticas";
+import Pedidos from "./Pages/Pedidos/Pedidos";
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function AppContent() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/ProductPage/:id" element={<ProductPage />} />
+        <Route path="/estatisticas" element={<Estatisticas />} />
+        <Route path="/pedidos" element={<Pedidos />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
