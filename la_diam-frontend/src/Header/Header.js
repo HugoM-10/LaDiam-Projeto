@@ -61,9 +61,7 @@ function Header() {
             {isLoggedIn ? (
               <div className="header-icons">
                 <NavItem>
-                  <NavLink>
                     <Cart />
-                  </NavLink>
                 </NavItem>
 
                 <NavItem>

@@ -2,13 +2,15 @@
 .cart-container {
   position: relative;
   display: inline-block;
+  background-color: transparent;
 }
 
-/* Ícone do carrinho */
-.cart-icon {
-  font-size: 24px;
+button{
+  background-color: transparent;
+  border: none;
   cursor: pointer;
 }
+
 
 /* Menu do carrinho */
 .cart-menu {

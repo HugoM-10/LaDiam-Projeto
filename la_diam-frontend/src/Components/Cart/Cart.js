@@ -47,9 +47,10 @@ export const Cart = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Ícone do carrinho */}
-      <div className="icon" role="button" aria-label="Abrir carrinho">
-        <FaShoppingCart />
-      </div>
+      <button  aria-label="Carrinho">
+        <FaShoppingCart className="icon" />
+      </button>
+      
 
       {/* Conteúdo do carrinho visível apenas no hover */}
       {isHovered && (
