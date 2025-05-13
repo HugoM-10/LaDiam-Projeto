@@ -64,12 +64,6 @@ function Header() {
                     <Cart />
                 </NavItem>
 
-                <NavItem>
-                  <NavLink href="">
-                    <MdOutlineEmail className="icon" />
-                  </NavLink>
-                </NavItem>
-
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     <FaRegUserCircle className="icon" />
