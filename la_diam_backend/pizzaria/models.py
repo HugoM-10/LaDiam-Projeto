@@ -26,6 +26,19 @@ class Product(models.Model):
     promotion = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     image_link = models.URLField(max_length=200, blank=True, null=True)
     is_available = models.BooleanField(default=True, null=False)
+    type = models.CharField(
+        choices=[
+            ('Pizza', 'Pizza'),
+            ('Drink', 'Drink'),
+            ('Dessert', 'Dessert'),
+            ('Appetizer', 'Appetizer'),
+            ('Other', 'Other')
+        ],
+        max_length=10,
+        default='Other'
+    )
+    nr_of_orders = models.IntegerField(default=0, null=False)
+
 
     def __str__(self):
         return self.name

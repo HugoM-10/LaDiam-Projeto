@@ -16,6 +16,7 @@ products = [
         "image_link": "https://uk.ooni.com/cdn/shop/articles/20220211142645-margherita-9920_e41233d5-dcec-461c-b07e-03245f031dfe.jpg?v=1737105431&width=1080",
         "promotion": 2.00,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza Pepperoni",
@@ -24,6 +25,7 @@ products = [
         "image_link": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Pepperoni_pizza.jpg",
         "promotion": 3.00,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza Quatro Queijos",
@@ -32,6 +34,7 @@ products = [
         "image_link": "https://www.receitasnestle.com.br/sites/default/files/srh_recipes/d036cd01122da62bf581784f52d99b3a.jpg",
         "promotion": 4.00,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza Havaiana",
@@ -40,6 +43,7 @@ products = [
         "image_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf6CqNEU3rr0yFP9Yu3Fs3VO2kItBJa00oMA&s",
         "promotion": 1.50,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza Vegetariana",
@@ -48,6 +52,7 @@ products = [
         "image_link": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg",
         "promotion": 2.50,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza Calabresa",
@@ -56,6 +61,7 @@ products = [
         "image_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROgKfg2NKJMDZYcAxgJOOv8QSmR1Y4aH8nFQ&s",
         "promotion": 1.50,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza Portuguesa",
@@ -64,6 +70,7 @@ products = [
         "image_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSqOoJyynGf6xP_IXCgMKBfDaJeCqmLhUpkg&s",
         "promotion": 2.00,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza de Frango com Catupiry",
@@ -72,6 +79,7 @@ products = [
         "image_link": "https://www.minhareceita.com.br/app/uploads/2020/09/Pizza-de-Frango-com-Catupiry-Caseira-desktop.jpg",
         "promotion": 3.00,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza de Bacon",
@@ -80,6 +88,7 @@ products = [
         "image_link": "https://www.minhareceita.com.br/app/uploads/2022/10/pizza-de-bacon-portal-minha-receita.jpg",
         "promotion": 2.50,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza de Atum",
@@ -88,6 +97,7 @@ products = [
         "image_link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2IxSlJKR_7Svbm7fHRVCpkiFCTOauV6Xe1g&s",
         "promotion": 1.00,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza de Quatro Estações",
@@ -96,6 +106,7 @@ products = [
         "image": "https://www.silviocicchi.com/pizzachef/wp-content/uploads/2015/01/quattro1.jpg",
         "promotion": 3.50,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza de Chocolate",
@@ -104,6 +115,7 @@ products = [
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXr7GvvpBVuaE0vDN53rTAWucNT387GiCr1Q&s",
         "promotion": 1.50,
         "is_available": True,
+        "type": "Pizza",
     },
     {
         "name": "Pizza de Rúcula com Tomate Seco",
@@ -112,6 +124,7 @@ products = [
         "image": "https://i.ytimg.com/vi/H3YHp60XyLE/maxresdefault.jpg",
         "promotion": 2.50,
         "is_available": True,
+        "type": "Pizza",
     },
 ]
 
