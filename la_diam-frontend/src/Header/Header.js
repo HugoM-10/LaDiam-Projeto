@@ -3,8 +3,7 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import { Cart } from "../Components/Cart/Cart";
 
-import { FaShoppingCart, FaRegUserCircle } from "react-icons/fa";
-import { MdOutlineEmail } from "react-icons/md";
+import { FaRegUserCircle } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 import {
   Collapse,
