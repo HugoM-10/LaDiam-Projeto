@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import Product
 from .serializers import ProductSerializer
 
-from .permissions import vendedor_or_gestor_required, gestor_required
+from .permissions import gestor_required
 
 @api_view(['GET'])
 def get_products_view(request):
