@@ -94,7 +94,9 @@ def edit_user_view(request):
 def user_view(request):
     print(f"User authenticated: {request.user.is_authenticated}")
     print(f"User: {request.user.username}")
-    return Response({'username': request.user.username, 'email': request.user.email})
+
+    # Group returns his group
+    return Response({'username': request.user.username, 'email': request.user.email, 'group': request.user.groups.all().values_list()[0][1]})
 
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
