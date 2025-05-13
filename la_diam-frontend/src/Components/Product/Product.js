@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./Product.css";
 import { CartContext } from "../../CartContext";
-import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 
 const Product = ({ product }) => {
