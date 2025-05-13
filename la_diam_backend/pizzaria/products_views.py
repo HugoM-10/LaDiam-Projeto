@@ -8,6 +8,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import Product
 from .serializers import ProductSerializer
 
+from .permissions import vendedor_or_gestor_required, gestor_required
+
 @api_view(['GET'])
 def get_products_view(request):
     products = Product.objects.all()
@@ -15,7 +17,7 @@ def get_products_view(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-@permission_classes([IsAdminUser])
+@gestor_required
 def create_product_view(request):
     name = request.data.get('name')
     description = request.data.get('description')
@@ -34,8 +36,9 @@ def create_product_view(request):
     )
     return Response({'id': new_product.id, 'name': new_product.name}, status=status.HTTP_201_CREATED)
 
+
 @api_view(['PUT'])
-@permission_classes([IsAuthenticated])
+@gestor_required
 def edit_product_view(request):
     product_id = request.data.get('id')
     product = Product.objects.get(id=product_id)
