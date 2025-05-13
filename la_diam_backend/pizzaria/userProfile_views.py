@@ -1,11 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Profile
 from .serializers import ProfileSerializer
+from .permissions import gestor_required
 
 @api_view(['POST'])
 def login_view(request):
@@ -43,7 +44,18 @@ def signup_view(request):
     if User.objects.filter(username=username).exists():
         return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
+    #Get the group object
+    try:
+        group = Group.objects.get(name="Cliente")
+    except Group.DoesNotExist:
+        return Response({'error': 'Group does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+
     user = User.objects.create_user(username=username, email=email, password=password)
+    # Add the user to the group
+    user.groups.add(group)
+
+    user.save()
     Profile.objects.create(user=user)
     user = authenticate(username=username, password=password)
     if user:
@@ -99,3 +111,34 @@ def user_profile_view(request):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@gestor_required
+def create_gestor_vendedor_view(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    email = request.data.get('email')
+    group_name = request.data.get('group_name')
+
+    if username is None or password is None:
+        return Response({'error': 'invalid username/password'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if User.objects.filter(username=username).exists():
+        return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+    #Get the group object
+    try:
+        group = Group.objects.get(name=group_name)
+    except Group.DoesNotExist:
+        return Response({'error': 'Group does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    user = User.objects.create_user(username=username, email=email, password=password)
+    Profile.objects.create(user=user)
+    
+    # Add the user to the group
+    user.groups.add(group)
+
+    user.save()
+    return Response({'message': 'User ' + username + ' created successfully'}, status=status.HTTP_201_CREATED)
