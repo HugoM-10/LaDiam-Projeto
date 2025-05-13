@@ -95,3 +95,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s comment on the product {self.product.name}"
+    
+
+
+

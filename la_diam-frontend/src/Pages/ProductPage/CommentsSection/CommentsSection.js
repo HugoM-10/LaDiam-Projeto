@@ -1,28 +1,28 @@
 // src/components/CommentsSection.js
 
 import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import {
   Card, CardBody, CardTitle,
   ListGroup, ListGroupItem,
   Form, FormGroup, Input, Button
 } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { fetchProductComments } from '../../../BackendCalls/getters';
 import { createComment } from '../../../BackendCalls/posters';
-import { useParams } from 'react-router-dom';
 
-const CommentsSection = ({ initialComments = [] }) => {
-  const { id: productId } = useParams();
+const CommentsSection = () => {
+  const location = useLocation();
+  const { product } = location.state || {};
+  const productId = product?.id;
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Carregar comentários do backend
   useEffect(() => {
+    if (!productId) return;
     setLoading(true);
     fetchProductComments(productId)
       .then(rawComments => {
-        // Mapear para o formato esperado pelo componente
         const mapped = rawComments.map(c => ({
           id: c.id,
           author: c.user,
@@ -33,13 +33,11 @@ const CommentsSection = ({ initialComments = [] }) => {
       .finally(() => setLoading(false));
   }, [productId]);
 
-  // Adicionar comentário via backend
   const handleAddComment = async () => {
-    if (newComment.trim() !== "") {
+    if (newComment.trim() !== "" && productId) {
       try {
         setLoading(true);
         const response = await createComment(productId, newComment);
-        // Adiciona o novo comentário à lista
         setComments(prev => [
           ...prev,
           {
@@ -50,7 +48,7 @@ const CommentsSection = ({ initialComments = [] }) => {
         ]);
         setNewComment("");
       } catch (error) {
-        alert("Erro ao adicionar comentário. Tem sessão iniciada?");
+        alert("Inicie sessão para comentar.");
       } finally {
         setLoading(false);
       }
@@ -58,14 +56,12 @@ const CommentsSection = ({ initialComments = [] }) => {
   };
 
   return (
-   
-
     <Card className="h-100">
       <CardBody>
         <CardTitle tag="h4">Comentários</CardTitle>
         <ListGroup className="mb-3">
           {comments.length === 0 && !loading && (
-            <ListGroupItem>Nenhum comentário ainda.</ListGroupItem>
+            <ListGroupItem>Ainda não houve comentários.</ListGroupItem>
           )}
           {comments.map(comment => (
             <ListGroupItem key={comment.id}>
@@ -90,14 +86,6 @@ const CommentsSection = ({ initialComments = [] }) => {
       </CardBody>
     </Card>
   );
-};
-
-CommentsSection.propTypes = {
-  initialComments: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    author: PropTypes.string,
-    text: PropTypes.string
-  }))
 };
 
 export default CommentsSection;
