@@ -67,6 +67,17 @@ const fetchUserComments = async () => {
   }
 };
 
+// Fetch all ratings for a specific product
+const fetchProductRatings = async (productId) => {
+  try {
+    const response = await api.get(`ratings/${productId}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching ratings:", error);
+    throw error;
+  }
+};
+
 
 // Export all getters
 export {
