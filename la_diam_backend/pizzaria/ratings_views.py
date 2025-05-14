@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 @api_view(['GET'])
-def get_product_ratings(request, product_id):
+def get_product_ratings_view(request, product_id):
     ratings = Rating.objects.filter(product__id=product_id)
     serializer = RatingSerializer(ratings, many=True)
     return Response(serializer.data)
@@ -26,7 +26,7 @@ def create_rating_view(request):
     except Product.DoesNotExist:
         return Response({'error': 'Produto não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
 
-    # Atualiza ou cria a avaliação do usuário para o produto
+    # Atualiza ou cria a avaliação do user para o produto
     rating_obj, created = Rating.objects.update_or_create(
         user=request.user,
         product=product,

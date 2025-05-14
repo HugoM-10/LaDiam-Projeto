@@ -20,6 +20,7 @@ from .comments_views import (
     get_comments_view,
     create_comment_view,
 )
+from .ratings_views import get_product_ratings_view, create_rating_view
 
 urlpatterns = [
     # User authentication views
@@ -49,4 +50,8 @@ urlpatterns = [
     path("comments/", get_comments_view),
     path("comments/product/<int:product_id>/", get_comments_view),
     path("comments/create/", create_comment_view),
+
+    # Ratings views
+    path("ratings/<int:product_id>/", get_product_ratings_view, name="get_product_ratings"),
+    path("ratings/", create_rating_view, name="create_rating"),
 ]

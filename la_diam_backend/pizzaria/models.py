@@ -108,3 +108,10 @@ class Rating(models.Model):
     def __str__(self):
         return f"Avaliação de {self.user.username} para {self.product.name}: {self.rating}★"
 
+    def get_average_rating(self):
+        ratings = self.product.ratings.all()
+        if ratings.exists():
+            total_rating = sum(rating.rating for rating in ratings)
+            average_rating = total_rating / ratings.count()
+            return round(average_rating, 2)  # Retorna a média arredondada para 2 casas decimais
+        return 0.0  # Se não houver avaliações, retorna 0

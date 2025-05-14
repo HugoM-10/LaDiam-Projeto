@@ -47,10 +47,10 @@ const Ratings = () => {
                 size={28}
                 className="me-1"
                 color={starValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-                style={{ cursor: 'pointer' }}
-                onClick={() => setRating(starValue)}
-                onMouseEnter={() => setHover(starValue)}
-                onMouseLeave={() => setHover(null)}
+                style={{ cursor: hasRated ? 'not-allowed' : 'pointer' }}
+                onClick={() => !hasRated && setRating(starValue)}
+                onMouseEnter={() => !hasRated && setHover(starValue)}
+                onMouseLeave={() => !hasRated && setHover(null)}
               />
             );
           })}
