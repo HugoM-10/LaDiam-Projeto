@@ -48,8 +48,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    product_name = serializers.SerializerMethodField(read_only=True)
-
     class Meta:
         model = OrderItem
         fields = [
@@ -61,10 +59,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "order_product_name",
         ]
         read_only_fields = ["price"]
-
-    def get_product_name(self, obj):
-        return obj.product.name
-
 
 
 
