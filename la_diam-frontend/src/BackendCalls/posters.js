@@ -86,22 +86,14 @@ const updateProfile = async (profileData) => {
   return response.data;
 };
 
-const updateUser = async (userData) => {
-  const csrftoken = getCookie("csrftoken");
-  const response = await api.post("auth/edit_user/", userData, {
-    headers: {
-      "X-CSRFToken": csrftoken,
-    },
-  });
-  return response.data;
-};
+
 
 const createComment = async (productId, texto) => {
   try {
     const csrftoken = getCookie("csrftoken");
     const response = await api.post(
-      "comments/create/",
-      { product_id: productId, texto },
+      `comments/product/${productId}/`,
+      { texto },
       {
         headers: {
           "X-CSRFToken": csrftoken,
@@ -155,7 +147,6 @@ export {
   logoutUser,
   signupUser,
   updateProfile,
-  updateUser,
   createComment,
   submitProductRating,
   addNewProduct

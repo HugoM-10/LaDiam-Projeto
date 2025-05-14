@@ -10,6 +10,7 @@ const api = axios.create({
 const fetchUser = async () => {
   try {
     const response = await api.get('auth/user/');
+    console.log("User:", response.data); // Log the user data
     return response.data; // Return user data
   } catch (error) {
     console.error("Error fetching user:", error);
@@ -18,8 +19,14 @@ const fetchUser = async () => {
 };
 
 const fetchProfile = async () => {
-  const response = await api.get('profile/');
-  return response.data;
+  try {
+    const response = await api.get('profile/');
+    console.log("Profile:", response.data); // Log the profile data
+    return response.data; // Return profile data
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    //throw error;
+  }
 };
 
 
@@ -28,7 +35,7 @@ const fetchProfile = async () => {
 const fetchProducts = async () => {
   try {
     const response = await api.get('products/');
-    // console.log("Products:", response.data); // Log the products data
+    console.log("Products:", response.data); // Log the products data
     return response.data; // Return product data
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -40,6 +47,7 @@ const fetchProducts = async () => {
 const fetchProductComments = async (productId) => {
   try {
     const response = await api.get(`comments/product/${productId}/`);
+    console.log("Product Comments:", response.data); // Log the product comments data
     return response.data;
   } catch (error) {
     console.error("Error fetching product comments:", error);

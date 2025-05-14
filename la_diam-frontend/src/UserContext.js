@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import { fetchUser } from "./BackendCalls/getters";
-import { logoutUser, loginUser, updateUser, signupUser } from "./BackendCalls/posters";
-
+import { logoutUser, loginUser, signupUser } from "./BackendCalls/posters";
+import { updateUser } from "./BackendCalls/putters";
 export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
