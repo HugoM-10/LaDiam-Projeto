@@ -14,6 +14,7 @@ import UserProvider from "./UserContext";
 import CardProvider from "./CartContext";
 import Login from "./Pages/LoginManager/Login/Login";
 import ProductPage from "./Pages/ProductPage/ProductPage";
+import HistoryPage from "./Pages/HistoryPage/HistoryPage";
 import NotFound from "./Pages/NotFound/NotFound";
 
 function App() {
@@ -38,6 +39,7 @@ function AppContent() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/history" element={<HistoryPage />} />
         <Route path="/ProductPage/:id" element={<ProductPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
