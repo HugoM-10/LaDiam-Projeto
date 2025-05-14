@@ -17,24 +17,15 @@ def get_products_view(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-@gestor_required
+#@gestor_required
 def create_product_view(request):
-    name = request.data.get('name')
-    description = request.data.get('description')
-    default_price = request.data.get('default_price')
-    promotion = request.data.get('promotion')
-    image_link = request.data.get('image_link')
-    is_available = request.data.get('is_available') 
+    serializer = ProductSerializer(data=request.data)
 
-    new_product = Product.objects.create(
-        name=name,
-        description=description,
-        default_price = default_price,
-        image_link=image_link,
-        promotion=promotion,
-        is_available=is_available
-    )
-    return Response({'id': new_product.id, 'name': new_product.name}, status=status.HTTP_201_CREATED)
+    if serializer.is_valid():
+        product = serializer.save()
+        return Response({'id': product.id, 'name': product.name}, status=status.HTTP_201_CREATED)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
