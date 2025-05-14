@@ -19,6 +19,7 @@ from .order_views import (
 from .comments_views import (
     get_comments_view,
     create_comment_view,
+    get_my_comments_view,
 )
 
 urlpatterns = [
@@ -47,6 +48,7 @@ urlpatterns = [
 
     # Comments views
     path("comments/", get_comments_view),
+    path("comments/my/", get_my_comments_view),
     path("comments/product/<int:product_id>/", get_comments_view),
     path("comments/create/", create_comment_view),
 ]

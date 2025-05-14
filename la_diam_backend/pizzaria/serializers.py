@@ -49,10 +49,17 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product_name = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = OrderItem
-        fields = ["product", "quantity", "price"]
+        fields = ["product", "product_name", "quantity", "price"]
         read_only_fields = ["price"]
+
+    def get_product_name(self, obj):
+        return obj.product.name
+
+
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -82,8 +89,19 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    product_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = [
+            "id",
+            "user",
+            "product",
+            "product_name",
+            "texto",
+            "data_publicacao",
+        ]
         read_only_fields = ['user', 'data_publicacao']
+
+    def get_product_name(self, obj):
+        return obj.product.name

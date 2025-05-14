@@ -1,13 +1,11 @@
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
-from .models import Order, OrderItem
-from .serializers import OrderSerializer, OrderItemSerializer
+from .models import Order
+from .serializers import OrderSerializer
 
 
 @api_view(["POST"])
@@ -38,7 +36,7 @@ def get_all_orders_view(request):
 @permission_classes([IsAuthenticated])
 def get_my_orders_view(request):
     user = request.user
-    orders = Order.objects.filter(user=user)
+    orders = Order.objects.filter(user=user).order_by("-order_date")
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
