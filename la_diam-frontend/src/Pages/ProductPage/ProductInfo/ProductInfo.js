@@ -1,7 +1,8 @@
 // src/components/ProductInfo.js
+import StarRating from "../../../Components/StarRating/StarRating";
 
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   Card,
   CardBody,
@@ -12,8 +13,8 @@ import {
   Col,
   Badge,
   Modal,
-  ModalBody
-} from 'reactstrap';
+  ModalBody,
+} from "reactstrap";
 
 const ProductInfo = ({ product, addToCart }) => {
   const [zoomOpen, setZoomOpen] = useState(false);
@@ -46,7 +47,7 @@ const ProductInfo = ({ product, addToCart }) => {
         alt={product.name}
         className="img-fluid"
         onClick={handleImageClick}
-        style={{ cursor: 'pointer', maxHeight: '400px', objectFit: 'cover' }}
+        style={{ cursor: "pointer", maxHeight: "400px", objectFit: "cover" }}
       />
 
       <Modal isOpen={zoomOpen} toggle={handleZoomClose} centered size="lg">
@@ -54,7 +55,7 @@ const ProductInfo = ({ product, addToCart }) => {
           <img
             src={product.image_link}
             alt={product.name}
-            style={{ maxWidth: '100%', maxHeight: '80vh' }}
+            style={{ maxWidth: "100%", maxHeight: "80vh" }}
           />
         </ModalBody>
       </Modal>
@@ -85,6 +86,13 @@ const ProductInfo = ({ product, addToCart }) => {
             </Col>
           )}
         </Row>
+        <div className="mb-2 d-flex align-items-center">
+          <strong className="me-2">Avaliação média:</strong>
+          <StarRating value={Number(product.average_rating ?? 0)} size={28} />
+          <span className="ms-2">
+            {Number(product.average_rating ?? 0).toFixed(2)} / 5
+          </span>
+        </div>
 
         <div className="d-flex justify-content-center">
           <Button color="danger" onClick={() => addToCart(product)}>
@@ -103,9 +111,9 @@ ProductInfo.propTypes = {
     description: PropTypes.string.isRequired,
     default_price: PropTypes.string.isRequired,
     image_link: PropTypes.string.isRequired,
-    promotion: PropTypes.string
+    promotion: PropTypes.string,
   }),
-  addToCart: PropTypes.func.isRequired
+  addToCart: PropTypes.func.isRequired,
 };
 
 export default ProductInfo;

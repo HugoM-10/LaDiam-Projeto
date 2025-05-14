@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from decimal import Decimal, ROUND_HALF_UP
+from django.db.models import Avg
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
@@ -49,6 +50,11 @@ class Product(models.Model):
             discount_factor = Decimal(1) - (self.promotion / Decimal(100))
             return (self.default_price * discount_factor).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
         return self.default_price
+
+    @property
+    def average_rating(self):
+        avg = self.ratings.aggregate(Avg('rating'))['rating__avg']
+        return round(avg or 0, 2)
 
 
 class Order(models.Model):
@@ -129,5 +135,5 @@ class Rating(models.Model):
         if ratings.exists():
             total_rating = sum(rating.rating for rating in ratings)
             average_rating = total_rating / ratings.count()
-            return round(average_rating, 2)  # Retorna a média arredondada para 2 casas decimais
+            return round(average_rating, 2)  # Retorna a média arredondada a 2 casas decimais
         return 0.0  # Se não houver avaliações, retorna 0

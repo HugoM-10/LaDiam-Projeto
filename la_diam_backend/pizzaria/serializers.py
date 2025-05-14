@@ -30,21 +30,11 @@ class ProductSerializer(serializers.ModelSerializer):
     discount_price = serializers.DecimalField(
         read_only=True, max_digits=10, decimal_places=2
     )
+    average_rating = serializers.FloatField(read_only=True)
 
     class Meta:
         model = Product
-        fields = [
-            "id",
-            "name",
-            "description",
-            "default_price",
-            "promotion",
-            "discount_price",
-            "is_available",
-            "image_link",
-            "type",
-            "nr_of_orders",
-        ]
+        fields = '__all__'
 
 
 class OrderItemSerializer(serializers.ModelSerializer):

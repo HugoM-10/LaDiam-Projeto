@@ -10,11 +10,11 @@ import {
   Button,
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-
 import PropTypes from "prop-types";
 import "./Product.css";
 import { CartContext } from "../../CartContext";
 import { UserContext } from "../../UserContext";
+import StarRating from "../StarRating/StarRating"; // <-- Importa o componente
 
 const Product = ({ product }) => {
   const price = parseFloat(product.default_price);
@@ -30,11 +30,9 @@ const Product = ({ product }) => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    console.log(isLoggedIn);
     if (isLoggedIn) {
       addToCart(product);
     } else {
-      console.log("Redirecionando...");
       navigate("/login");
     }
   };
@@ -47,6 +45,13 @@ const Product = ({ product }) => {
     <Card className="product-container">
       <CardBody>
         <CardTitle tag="h3">{product.name}</CardTitle>
+        <div className="mb-2 d-flex align-items-center">
+          <strong className="me-2">Reviews:</strong>
+          <StarRating value={Number(product.average_rating ?? 0)} size={22} />
+          <span className="ms-2">
+            {Number(product.average_rating ?? 0).toFixed(2)} / 5
+          </span>
+        </div>
       </CardBody>
       <img
         src={product.image_link}
@@ -99,6 +104,7 @@ Product.propTypes = {
     default_price: PropTypes.number.isRequired,
     image_link: PropTypes.string.isRequired,
     promotion: PropTypes.string,
+    average_rating: PropTypes.number.isRequired,
   }).isRequired,
 };
 

@@ -1,6 +1,6 @@
 // src/components/RatingSection.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Card, CardBody, CardTitle,
   Button
@@ -8,15 +8,36 @@ import {
 import { FaStar } from 'react-icons/fa';
 import { useLocation } from "react-router-dom";
 import { submitProductRating } from '../../../BackendCalls/posters';
+import { fetchProductRatings } from '../../../BackendCalls/getters';
+import { UserContext } from '../../../UserContext';
 
 const Ratings = () => {
   const location = useLocation();
   const { product } = location.state || {};
   const productId = product?.id;
+  const { user } = useContext(UserContext);
 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
   const [hasRated, setHasRated] = useState(false);
+
+  // Verifica se o user já avaliou ao montar
+  useEffect(() => {
+    const checkUserRating = async () => {
+      if (!productId || !user) return;
+      try {
+        const ratings = await fetchProductRatings(productId);
+        const myRating = ratings.find(r => r.user === user.username);
+        if (myRating) {
+          setRating(myRating.rating);
+          setHasRated(true);
+        }
+      } catch (e) {
+        // ignore
+      }
+    };
+    checkUserRating();
+  }, [productId, user]);
 
   const handleSubmit = async () => {
     if (!productId || rating === 0) return;

@@ -5,6 +5,7 @@ import ProductInfo from "./ProductInfo/ProductInfo";
 import CommentsSection from "./CommentsSection/CommentsSection";
 import Ratings from "./Ratings/Ratings";
 import { CartContext } from "../../CartContext";
+import StarRating from "../../Components/StarRating/StarRating";
 
 const ProductPage = () => {
   const location = useLocation();
@@ -23,6 +24,7 @@ const ProductPage = () => {
         </Col>
         <Col md={4} className="d-flex flex-column h-100">
           <div className="d-flex flex-column h-100">
+
             <CommentsSection />
             <Ratings />
           </div>
