@@ -96,7 +96,9 @@ def user_view(request):
     print(f"User: {request.user.username}")
 
     # Group returns his group
-    return Response({'username': request.user.username, 'email': request.user.email, 'group': request.user.groups.all().values_list()[0][1]})
+    group = request.user.groups.all().values_list()[0][1] if request.user.groups.exists() else None
+    print(f"User group: {group}")
+    return Response({'username': request.user.username, 'email': request.user.email, 'group': group})
 
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
