@@ -2,30 +2,31 @@ import { useContext } from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import { Routes, Route } from "react-router-dom";
-import Signup from "./Pages/LoginManager/Signup/Signup";
-import Profile from "./Pages/Profile/Profile";
-import Menu from "./Pages/Menu/Menu";
+
 
 import "./App.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomePage from "./Pages/HomePage/HomePage";
 import UserProvider from "./UserContext";
-import CardProvider from "./CartContext";
-import Login from "./Pages/LoginManager/Login/Login";
+import CartProvider from "./CartContext";
+import Login from "./Pages/LoginManager/Login";
 import ProductPage from "./Pages/ProductPage/ProductPage";
 import HistoryPage from "./Pages/HistoryPage/HistoryPage";
 import NotFound from "./Pages/NotFound/NotFound";
 import Estatisticas from "./Pages/Estatisticas/Estatisticas";
 import Pedidos from "./Pages/Pedidos/Pedidos";
+import Signup from "./Pages/LoginManager/Signup";
+import Profile from "./Pages/Profile/Profile";
+import Menu from "./Pages/Menu/Menu";
 
 function App() {
   return (
     <div className="App">
       <UserProvider>
-        <CardProvider>
+        <CartProvider>
           <AppContent />
-        </CardProvider>
+        </CartProvider>
       </UserProvider>
     </div>
   );
