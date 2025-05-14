@@ -82,6 +82,11 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0.00)
 
     def save(self, *args, **kwargs):
+
+        # Add quantity do product on column nr_of_orders
+        self.product.nr_of_orders += self.quantity
+        self.product.save()
+
         self.price = self.product.discount_price * self.quantity
         super().save(*args, **kwargs)
 
