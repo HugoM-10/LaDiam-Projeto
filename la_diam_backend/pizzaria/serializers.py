@@ -110,6 +110,8 @@ class CommentSerializer(serializers.ModelSerializer):
             "data_publicacao",
         ]
         read_only_fields = ['user', 'data_publicacao']
+    def get_product_name(self, obj):
+        return obj.product.name
 
 
 class RatingSerializer(serializers.ModelSerializer):
