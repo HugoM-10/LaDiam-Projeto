@@ -40,27 +40,31 @@ function Header() {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="nav-items" navbar>
-            <NavItem>
-              <NavLink href="/menu">
-                <Button color="danger" className="nav-button">
-                  Encomendar agora!
-                </Button>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="">
-                <Button color="danger" className="nav-button">
-                  Promoções
-                </Button>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/#footer">
-                <Button color="danger" className="nav-button">
-                  Sobre nós!
-                </Button>
-              </NavLink>
-            </NavItem>
+            {userGroup !== "Vendedor" && userGroup !== "Gestor" && (
+              <>
+                <NavItem>
+                  <NavLink href="/menu">
+                    <Button color="danger" className="nav-button">
+                      Encomendar agora!
+                    </Button>
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="">
+                    <Button color="danger" className="nav-button">
+                      Promoções
+                    </Button>
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/#footer">
+                    <Button color="danger" className="nav-button">
+                      Sobre nós!
+                    </Button>
+                  </NavLink>
+                </NavItem>
+              </>
+            )}
             {userGroup === "Vendedor" || userGroup === "Gestor" ? (
               <NavItem>
                 <NavLink href="/pedidos">
