@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
 import "./Product.css";
 import { CartContext } from "../../CartContext";
 import { UserContext } from "../../UserContext";
+import { getImageDjango } from "../../Utils/Utils";
 
 const Product = ({ product }) => {
   const price = parseFloat(product.default_price);
@@ -49,7 +50,7 @@ const Product = ({ product }) => {
         <CardTitle tag="h3">{product.name}</CardTitle>
       </CardBody>
       <img
-        src={product.image_link}
+        src={getImageDjango(product.image)}
         alt={product.name}
         className="image"
         onClick={handleImageClick}
@@ -97,7 +98,7 @@ Product.propTypes = {
     description: PropTypes.string.isRequired,
     discount_price: PropTypes.string.isRequired,
     default_price: PropTypes.number.isRequired,
-    image_link: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
     promotion: PropTypes.string,
   }).isRequired,
 };
