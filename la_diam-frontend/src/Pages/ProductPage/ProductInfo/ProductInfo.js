@@ -49,7 +49,6 @@ const ProductInfo = ({ product, addToCart }) => {
         style={{ cursor: 'pointer', maxHeight: '400px', objectFit: 'cover' }}
       />
 
-      {/* Modal de zoom */}
       <Modal isOpen={zoomOpen} toggle={handleZoomClose} centered size="lg">
         <ModalBody className="text-center">
           <img

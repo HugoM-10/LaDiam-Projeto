@@ -115,7 +115,6 @@ const createComment = async (productId, texto) => {
   }
 };
 
-// Criar ou atualizar avaliação de produto
 const submitProductRating = async (productId, rating) => {
   try {
     const csrftoken = getCookie("csrftoken");
