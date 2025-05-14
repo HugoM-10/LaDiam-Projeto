@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 import { FaStar } from 'react-icons/fa';
 import { useLocation } from "react-router-dom";
-
+import { submitProductRating } from '../../../BackendCalls/posters';
 
 const Ratings = () => {
   const location = useLocation();
@@ -24,7 +24,13 @@ const Ratings = () => {
       await submitProductRating(productId, rating);
       setHasRated(true);
     } catch (err) {
-      alert("Inicie sessão para avaliar.");
+      if (err.response && err.response.data && err.response.data.error) {
+        alert(err.response.data.error);
+      } else if (err.response && err.response.status === 403) {
+        alert("Sessão expirada. Faça login novamente.");
+      } else {
+        alert("Erro ao submeter avaliação.");
+      }
     }
   };
 

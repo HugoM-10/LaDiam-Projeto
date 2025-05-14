@@ -1,6 +1,5 @@
-
 from rest_framework import serializers
-from .models import Profile, Product, Order, OrderItem, Comment
+from .models import Profile, Product, Order, OrderItem, Comment, Rating
 
 
 class FlexibleDateField(serializers.DateField):
@@ -87,3 +86,13 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = '__all__'
         read_only_fields = ['user', 'data_publicacao']
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    product = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Rating
+        fields = ['id', 'user', 'product', 'rating']
+        read_only_fields = ['user']

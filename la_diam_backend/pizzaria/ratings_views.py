@@ -1,0 +1,36 @@
+from .models import Rating, Product
+from .serializers import RatingSerializer
+from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+@api_view(['GET'])
+def get_product_ratings(request, product_id):
+    ratings = Rating.objects.filter(product__id=product_id)
+    serializer = RatingSerializer(ratings, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_rating_view(request):
+    product_id = request.data.get('product_id')
+    rating_value = request.data.get('rating')
+
+    if not product_id or not rating_value:
+        return Response({'error': 'product_id e rating são obrigatórios.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        product = Product.objects.get(id=product_id)
+    except Product.DoesNotExist:
+        return Response({'error': 'Produto não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+
+    # Atualiza ou cria a avaliação do usuário para o produto
+    rating_obj, created = Rating.objects.update_or_create(
+        user=request.user,
+        product=product,
+        defaults={'rating': rating_value}
+    )
+    serializer = RatingSerializer(rating_obj)
+    return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)

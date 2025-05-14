@@ -97,5 +97,14 @@ class Comment(models.Model):
         return f"{self.user.username}'s comment on the product {self.product.name}"
     
 
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])  # 1-5 estrelas
 
+    class Meta:
+        unique_together = ['user', 'product']  # Restrição: 1 avaliação por usuário-produto
+
+    def __str__(self):
+        return f"Avaliação de {self.user.username} para {self.product.name}: {self.rating}★"
 
