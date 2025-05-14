@@ -25,7 +25,6 @@ class Product(models.Model):
     description = models.TextField()
     default_price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     promotion = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    image_link = models.URLField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to=product_image_upload_path, blank=True, null=True)
     is_available = models.BooleanField(default=True, null=False)
     type = models.CharField(

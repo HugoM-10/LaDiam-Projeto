@@ -41,7 +41,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "promotion",
             "discount_price",
             "is_available",
-            "image_link",
             "image",
             "type",
             "nr_of_orders",
