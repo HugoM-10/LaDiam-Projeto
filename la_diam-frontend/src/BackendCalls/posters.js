@@ -115,6 +115,25 @@ const createComment = async (productId, texto) => {
   }
 };
 
+const submitProductRating = async (productId, rating) => {
+  try {
+    const csrftoken = getCookie("csrftoken");
+    const response = await api.post(
+      "ratings/",
+      { product_id: productId, rating },
+      {
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error submitting rating:", error);
+    throw error;
+  }
+};
+
 // Export all posters
 export {
   loginUser,
@@ -123,4 +142,5 @@ export {
   updateProfile,
   updateUser,
   createComment,
+  submitProductRating,
 };

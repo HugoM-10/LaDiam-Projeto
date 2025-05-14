@@ -58,6 +58,37 @@ const fetchOrders = async () => {
   }
 };
 
+const fetchUserOrders = async () => {
+  try {
+    const response = await api.get('orders/my/');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    throw error;
+  }
+};
+
+const fetchUserComments = async () => {
+  try {
+    const response = await api.get('comments/my/');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user comments:", error);
+    throw error;
+  }
+};
+
+// Fetch all ratings for a specific product
+const fetchProductRatings = async (productId) => {
+  try {
+    const response = await api.get(`ratings/${productId}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching ratings:", error);
+    throw error;
+  }
+};
+
 
 // Export all getters
 export {
@@ -65,5 +96,4 @@ export {
   fetchProfile,
   fetchProducts,
   fetchProductComments,
-  fetchOrders,
 };

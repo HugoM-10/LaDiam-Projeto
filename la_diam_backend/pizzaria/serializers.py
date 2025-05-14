@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile, Product, Order, OrderItem, Comment
+from .models import Profile, Product, Order, OrderItem, Comment, Rating
 
 
 class FlexibleDateField(serializers.DateField):
@@ -48,6 +48,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product_name = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = OrderItem
         fields = [
@@ -59,6 +61,11 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "order_product_name",
         ]
         read_only_fields = ["price"]
+
+    def get_product_name(self, obj):
+        return obj.product.name
+
+
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -90,8 +97,29 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    product_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = "__all__"
-        read_only_fields = ["user", "data_publicacao"]
+        fields = [
+            "id",
+            "user",
+            "product",
+            "product_name",
+            "texto",
+            "data_publicacao",
+        ]
+        read_only_fields = ['user', 'data_publicacao']
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    product = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Rating
+        fields = '__all__'
+        read_only_fields = ['user']
+
+    def get_product_name(self, obj):
+        return obj.product.name

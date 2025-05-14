@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 
 
 @api_view(['GET'])
@@ -18,6 +18,13 @@ def get_comments_view(request, product_id=None):
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_my_comments_view(request):
+    user = request.user
+    comments = Comment.objects.filter(user=user).order_by('-data_publicacao')
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
