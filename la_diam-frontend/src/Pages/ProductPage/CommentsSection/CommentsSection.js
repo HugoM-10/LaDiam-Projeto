@@ -49,6 +49,7 @@ const CommentsSection = () => {
         setNewComment("");
       } catch (error) {
         alert("Inicie sessão para comentar.");
+        console.error("Error creating comment:", error);
       } finally {
         setLoading(false);
       }

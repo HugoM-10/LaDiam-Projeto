@@ -126,6 +126,21 @@ const submitProductRating = async (productId, rating) => {
   }
 };
 
+const addNewProduct = async (productData) => {
+  const csrftoken = getCookie("csrftoken");
+  try {
+    const response = await api.post("products/add/", productData, {
+      headers: {
+        "X-CSRFToken": csrftoken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding new product:", error);
+    throw error;
+  }
+};
+
 // Export all posters
 export {
   loginUser,
@@ -134,4 +149,5 @@ export {
   updateProfile,
   createComment,
   submitProductRating,
+  addNewProduct
 };

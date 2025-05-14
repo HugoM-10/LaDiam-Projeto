@@ -1,9 +1,9 @@
 import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateProfile } from "../../../BackendCalls/posters";
+import { updateProfile } from "../../BackendCalls/posters";
 import { FormGroup } from "reactstrap";
-import ProfileFieldsForm from "../../Profile/ProfileForm";
-import { UserContext } from "../../../UserContext";
+import ProfileFieldsForm from "../Profile/ProfileForm";
+import { UserContext } from "../../UserContext";
 
 const SignupForm = () => {
   const {user, signup}= useContext(UserContext);
