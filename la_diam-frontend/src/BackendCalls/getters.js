@@ -50,6 +50,7 @@ const fetchProductComments = async (productId) => {
 const fetchOrders = async () => {
   try {
     const response = await api.get('orders/');
+    console.log("Orders:", response.data); // Log the orders data
     return response.data;
   } catch (error) {
     console.error("Error fetching orders:", error);
