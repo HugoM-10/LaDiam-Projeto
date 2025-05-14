@@ -25,7 +25,6 @@ def comments_view(request, product_id=None):
         return Response(serializer.data)
 
     if request.method == "POST":
-        product_id = request.data.get("product_id")
         texto = request.data.get("texto")
 
         if not product_id or not texto:

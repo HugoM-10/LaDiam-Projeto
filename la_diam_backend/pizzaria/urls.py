@@ -7,7 +7,7 @@ from .userProfile_views import (
     user_profile_view,
 )
 from .products_views import products_view
-from .order_views import orders_view, order_detail, update_order_status_view
+from .order_views import my_orders_view, orders_view, order_detail, update_order_status_view
 from .comments_views import (
     comments_view,
     get_my_comments_view,
@@ -28,7 +28,8 @@ urlpatterns = [
     path("products/", products_view),  # GET, POST, PUT
     
     # Orders views
-    path("orders/", orders_view),  # GET, POST
+    path("orders/", orders_view),  # GET,
+    path("orders/my/", my_orders_view),  # GET, POST
     path("orders/<int:order_id>/", order_detail),  # GET, PUT, DELETE
     path("orders/<int:order_id>/status/", update_order_status_view),  # PUT
     
