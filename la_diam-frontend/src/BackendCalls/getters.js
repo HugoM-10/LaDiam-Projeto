@@ -96,4 +96,8 @@ export {
   fetchProfile,
   fetchProducts,
   fetchProductComments,
+  fetchUserComments,
+  fetchProductRatings,
+  fetchUserOrders,
+  fetchOrders
 };
