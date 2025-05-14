@@ -75,6 +75,7 @@ function Header() {
               </NavItem>
             ) : null}
             {userGroup === "Gestor" ? (
+              <>
               <NavItem>
                 <NavLink href="/estatisticas">
                   <Button color="success" className="nav-button">
@@ -82,6 +83,15 @@ function Header() {
                   </Button>
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink href="/gestaoProdutos">
+                  <Button color="success" className="nav-button">
+                    Gestão de produtos
+                  </Button>
+                </NavLink>
+              </NavItem>
+              </>
+              
             ) : null}
 
             {isLoggedIn ? (

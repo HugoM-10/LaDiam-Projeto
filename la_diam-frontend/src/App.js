@@ -19,6 +19,7 @@ import Pedidos from "./Pages/Pedidos/Pedidos";
 import Signup from "./Pages/LoginManager/Signup";
 import Profile from "./Pages/Profile/Profile";
 import Menu from "./Pages/Menu/Menu";
+import ProductManager from "./Pages/ProductManagement/ProductManagement";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function AppContent() {
         <Route path="/ProductPage/:id" element={<ProductPage />} />
         <Route path="/estatisticas" element={<Estatisticas />} />
         <Route path="/pedidos" element={<Pedidos />} />
+        <Route path="/gestaoProdutos" element={<ProductManager />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
