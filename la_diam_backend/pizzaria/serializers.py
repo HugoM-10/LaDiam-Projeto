@@ -28,31 +28,38 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     discount_price = serializers.DecimalField(
-        read_only=True,
-        max_digits=10,
-        decimal_places=2
+        read_only=True, max_digits=10, decimal_places=2
     )
+
     class Meta:
         model = Product
         fields = [
-            'id',
-            'name',
-            'description',
-            'default_price',
-            'promotion',
-            'discount_price',
-            'is_available',
-            'image_link',
-            'type',
-            'nr_of_orders',
+            "id",
+            "name",
+            "description",
+            "default_price",
+            "promotion",
+            "discount_price",
+            "is_available",
+            "image_link",
+            "type",
+            "nr_of_orders",
         ]
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = OrderItem
-        fields = ["product", "product_name", "quantity", "price"]
+        fields = [
+            "id",
+            "product",
+            "quantity",
+            "price",
+            "order_product_image_link",
+            "order_product_name",
+        ]
         read_only_fields = ["price"]
 
     def get_product_name(self, obj):
@@ -66,15 +73,17 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ["id", "user", "order_date", "status", "items", "price"]
-        read_only_fields = ["user", "order_date", "status", "price"]
-    
+        fields = ["id", "user", "user_email", "order_date", "status", "items", "price"]
+        read_only_fields = ["user", "user_email", "order_date", "status", "price"]
+
     def create(self, validated_data):
         # Remove os dados de 'items' do validated_data
-        items_data = validated_data.pop('items')
+        items_data = validated_data.pop("items")
 
         # Cria o pedido associado ao usuário autenticado
-        order = Order.objects.create(user=self.context['request'].user, **validated_data)
+        order = Order.objects.create(
+            user=self.context["request"].user, **validated_data
+        )
 
         # Cria os itens do pedido e calcula o preço total
         for item_data in items_data:
@@ -84,7 +93,7 @@ class OrderSerializer(serializers.ModelSerializer):
         order.update_price()
 
         return order
-    
+
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)

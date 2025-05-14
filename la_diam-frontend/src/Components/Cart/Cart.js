@@ -1,11 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { CartContext } from "../../CartContext";
 import "./Cart.css";
 
 export const Cart = () => {
-  const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
-  const [isHovered, setIsHovered] = useState(false);
+  const { cart, addToCart, removeFromCart, clearCart } =
+    useContext(CartContext);
+  const [isOpen, setIsOpen] = useState(false);
 
   // Renderiza os itens do carrinho
   const renderCartItems = () => {
@@ -40,20 +41,34 @@ export const Cart = () => {
     ));
   };
 
+  useEffect(() => {
+    const handleCartChange = () => {
+      if (cart.length > 0) {
+        setIsOpen(true);
+      } else {
+        setIsOpen(false);
+      }
+    };
+    handleCartChange();
+  }, [cart]);
+
   return (
-    <div
-      className="cart-container"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="cart-container" onClick={() => setIsOpen(!isOpen)}>
       {/* Ícone do carrinho */}
-      <button  aria-label="Carrinho">
+      <button aria-label="Carrinho">
         <FaShoppingCart className="icon" />
+        {cart.length > 0 && (
+          <span
+            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            style={{ fontSize: "0.8rem" }}
+          >
+            {cart.reduce((acc, item) => acc + item.quantity, 0)}
+          </span>
+        )}
       </button>
-      
 
       {/* Conteúdo do carrinho visível apenas no hover */}
-      {isHovered && (
+      {isOpen && (
         <div className="cart-menu">
           {cart.length === 0 ? (
             <p className="empty-cart">Carrinho vazio</p>

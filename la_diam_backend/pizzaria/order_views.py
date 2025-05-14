@@ -4,39 +4,36 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
-from .models import Order
-from .serializers import OrderSerializer
+from .models import Order, OrderItem
+from .serializers import OrderSerializer, OrderItemSerializer
+
+from .permissions import (
+    gestor_required,
+    vendedor_or_gestor_required,
+    is_vendedor_or_gestor,
+)
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def create_order_view(request):
     serializer = OrderSerializer(data=request.data, context={"request": request})
-    
-    if serializer.is_valid():
-        # Cria o pedido e os itens associados
-        order = serializer.save()
 
-        # Retorna os dados do pedido criado
+    if serializer.is_valid():
+        order = serializer.save()
         return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
     
-    # Retorna erros de validação, se houver
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
-@permission_classes([IsAdminUser])
-def get_all_orders_view(request):
-    orders = Order.objects.all()
-    serializer = OrderSerializer(orders, many=True)
-    return Response(serializer.data)
-
-
-@api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def get_my_orders_view(request):
-    user = request.user
-    orders = Order.objects.filter(user=user).order_by("-order_date")
+def get_orders_view(request):
+    if is_vendedor_or_gestor(request.user):
+        orders = Order.objects.all()
+    else:
+        orders = Order.objects.filter(user=request.user)
+
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
@@ -47,7 +44,6 @@ def get_order_view(request, order_id):
     # Check if the order exists or return 404
     order = get_object_or_404(Order, id=order_id)
 
-    
     if order.user != request.user and not request.user.is_staff:
         return Response(
             {"error": "You do not have permission to view this order"},
@@ -72,9 +68,9 @@ def edit_order_view(request, order_id):
         )
 
     # Update the order fields
-    statusOrder = request.data.get("status")
-    if statusOrder:
-        order.status = statusOrder
+    status_order = request.data.get("status")
+    if status_order:
+        order.status = status_order
 
     order.save()
     return Response({"id": order.id, "status": order.status}, status=status.HTTP_200_OK)
@@ -97,3 +93,23 @@ def delete_order_view(request, order_id):
     return Response(
         {"message": "Order deleted successfully"}, status=status.HTTP_204_NO_CONTENT
     )
+
+@api_view(["PUT"])
+@vendedor_or_gestor_required
+def update_order_status_view(request, order_id):
+    # Check if the order exists or return 404
+    order = get_object_or_404(Order, id=order_id)
+    
+    new_status = request.data.get("status")
+
+    valid_statuses = [choice[0] for choice in Order.STATUS_CHOICES]
+
+    if new_status not in valid_statuses:
+        return Response(
+            {"error": "Invalid status","possible_statuses": valid_statuses}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    order.status = new_status
+
+    order.save()
+    return Response({"id": order.id, "status": order.status}, status=status.HTTP_200_OK)

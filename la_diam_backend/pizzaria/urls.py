@@ -11,10 +11,10 @@ from .products_views import get_products_view, create_product_view, edit_product
 from .order_views import (
     create_order_view,
     get_order_view,
-    get_all_orders_view,
-    get_my_orders_view,
+    get_orders_view,
     edit_order_view,
     delete_order_view,
+    update_order_status_view
 )
 from .comments_views import (
     get_comments_view,
@@ -42,10 +42,10 @@ urlpatterns = [
     # Orders views
     path("orders/create/", create_order_view),
     path("orders/<int:order_id>/", get_order_view),
-    path("orders/", get_all_orders_view),
-    path("orders/my/", get_my_orders_view),
+    path("orders/", get_orders_view),
     path("orders/edit/<int:order_id>/", edit_order_view),
     path("orders/delete/<int:order_id>/", delete_order_view),
+    path("orders/<int:order_id>/status/", update_order_status_view),
 
     # Comments views
     path("comments/", get_comments_view),
