@@ -57,6 +57,7 @@ class Order(models.Model):
         ('Accepted', 'Accepted'),
         ('Rejected', 'Rejected'),
         ('Completed', 'Completed'),
+        ('Cancelled', 'Cancelled'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_date = models.DateTimeField(auto_now_add=True)
@@ -71,6 +72,9 @@ class Order(models.Model):
         self.price = total_price
         self.save()
 
+    def user_email(self):
+        return self.user.email if self.user else None
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -78,11 +82,23 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0.00)
 
     def save(self, *args, **kwargs):
+
+        # Add quantity do product on column nr_of_orders
+        self.product.nr_of_orders += self.quantity
+        self.product.save()
+
         self.price = self.product.discount_price * self.quantity
         super().save(*args, **kwargs)
 
         # Update the order's total price whenever an item is saved.
         self.order.update_price()
+
+    @property
+    def order_product_image_link(self):
+        return self.product.image_link if self.product else None
+    @property
+    def order_product_name(self):
+        return self.product.name if self.product else None
 
     def __str__(self):
         return f"{self.quantity} of {self.product.name} in Order {self.order.id} - {self.price}"

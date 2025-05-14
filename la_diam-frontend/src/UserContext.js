@@ -64,6 +64,8 @@ export const UserProvider = ({ children }) => {
   };
 
   const isLoggedIn = user !== undefined && user !== null;
+  
+  const userGroup = user ? user.group : null;
 
   const contextValue = React.useMemo(() => ({
     user,
@@ -72,7 +74,8 @@ export const UserProvider = ({ children }) => {
     editUser,
     isLoggedIn,
     signup,
-  }), [user, login, logout, editUser, isLoggedIn, signup]);
+    userGroup,
+  }), [user, login, logout, editUser, isLoggedIn, signup, userGroup]);
 
   return (
     <UserContext.Provider value={contextValue}>
