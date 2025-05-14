@@ -57,6 +57,7 @@ class Order(models.Model):
         ('Accepted', 'Accepted'),
         ('Rejected', 'Rejected'),
         ('Completed', 'Completed'),
+        ('Cancelled', 'Cancelled'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_date = models.DateTimeField(auto_now_add=True)
@@ -70,6 +71,9 @@ class Order(models.Model):
         total_price = sum(item.price for item in self.items.all())
         self.price = total_price
         self.save()
+
+    def user_email(self):
+        return self.user.email if self.user else None
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
