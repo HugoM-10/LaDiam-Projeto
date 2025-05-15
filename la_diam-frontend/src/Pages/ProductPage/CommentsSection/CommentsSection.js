@@ -5,7 +5,8 @@ import { useLocation } from "react-router-dom";
 import {
   Card, CardBody, CardTitle,
   ListGroup, ListGroupItem,
-  Form, FormGroup, Input, Button
+  Form, FormGroup, Input, Button,
+  Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap';
 import { fetchProductComments } from '../../../BackendCalls/getters';
 import { createComment } from '../../../BackendCalls/posters';
@@ -18,6 +19,10 @@ const CommentsSection = () => {
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Modal state
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
+
   useEffect(() => {
     if (!productId) return;
     setLoading(true);
@@ -27,7 +32,7 @@ const CommentsSection = () => {
           id: c.id,
           author: c.user,
           text: c.texto,
-          date: c.data_publicacao, // <-- Adiciona a data
+          date: c.data_publicacao,
         }));
         setComments(mapped);
       })
@@ -45,29 +50,16 @@ const CommentsSection = () => {
             id: response.id,
             author: response.user,
             text: response.texto,
-            date: response.data_publicacao, // <-- Adiciona a data
+            date: response.data_publicacao,
           }
         ]);
         setNewComment("");
       } catch (error) {
-        alert("Inicie sessão para comentar.");
+        setModal(true); // Mostra o modal se não estiver logado
       } finally {
         setLoading(false);
       }
     }
-  };
-
-  // Função para formatar a data (opcional, para PT-PT)
-  const formatDate = (isoString) => {
-    if (!isoString) return "";
-    const date = new Date(isoString);
-    return date.toLocaleDateString("pt-PT", {
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit"
-    });
   };
 
   return (
@@ -82,7 +74,7 @@ const CommentsSection = () => {
             <ListGroupItem key={comment.id}>
               <strong>{comment.author}:</strong> {comment.text}
               <div className="text-muted" style={{ fontSize: "0.85em" }}>
-                {formatDate(comment.date)}
+                {new Date(comment.date).toLocaleString()}
               </div>
             </ListGroupItem>
           ))}
@@ -101,6 +93,21 @@ const CommentsSection = () => {
             </Button>
           </FormGroup>
         </Form>
+        {/* Modal para não autenticado */}
+        <Modal isOpen={modal} toggle={toggle}>
+          <ModalHeader toggle={toggle}>Inicie sessão</ModalHeader>
+          <ModalBody>
+            Para comentar, por favor inicie sessão na sua conta.
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => { toggle(); window.location.href = "/login"; }}>
+              Ir para login
+            </Button>
+            <Button color="secondary" onClick={toggle}>
+              Cancelar
+            </Button>
+          </ModalFooter>
+        </Modal>
       </CardBody>
     </Card>
   );

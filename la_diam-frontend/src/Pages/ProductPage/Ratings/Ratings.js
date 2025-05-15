@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
   Card, CardBody, CardTitle,
-  Button
+  Button, Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap';
 import { FaStar } from 'react-icons/fa';
 import { useLocation } from "react-router-dom";
@@ -20,6 +20,11 @@ const Ratings = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
   const [hasRated, setHasRated] = useState(false);
+
+  // Modal state
+  const [modal, setModal] = useState(false);
+  const [modalMsg, setModalMsg] = useState("");
+  const toggle = () => setModal(!modal);
 
   // Verifica se o user já avaliou ao montar
   useEffect(() => {
@@ -46,11 +51,14 @@ const Ratings = () => {
       setHasRated(true);
     } catch (err) {
       if (err.response && err.response.data && err.response.data.error) {
-        alert(err.response.data.error);
+        setModalMsg(err.response.data.error);
+        setModal(true);
       } else if (err.response && err.response.status === 403) {
-        alert("Sessão expirada. Faça login novamente.");
+        setModalMsg("Para avaliar, por favor faça login na sua conta.");
+        setModal(true);
       } else {
-        alert("Erro ao submeter avaliação.");
+        setModalMsg("Erro ao submeter avaliação.");
+        setModal(true);
       }
     }
   };
@@ -84,6 +92,23 @@ const Ratings = () => {
           {hasRated ? "Avaliado" : "Submeter Avaliação"}
         </Button>
       </CardBody>
+      {/* Modal para mensagens */}
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Aviso</ModalHeader>
+        <ModalBody>
+          {modalMsg}
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggle}>
+            Fechar
+          </Button>
+          {modalMsg.includes("login") && (
+            <Button color="secondary" onClick={() => { toggle(); window.location.href = "/login"; }}>
+              Ir para login
+            </Button>
+          )}
+        </ModalFooter>
+      </Modal>
     </Card>
   );
 };
