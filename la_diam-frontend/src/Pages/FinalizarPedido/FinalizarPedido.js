@@ -42,7 +42,7 @@ const FinalizarPedido = () => {
     try {
       await createOrder(cart);
       setSuccessMsg(
-        "O seu pedido chegou à nossa loja, por favor aguarde a nossa confirmação. Bom apetite!"
+        "O seu pedido chegou à loja, por favor aguarde a nossa confirmação. Bom apetite!"
       );
       clearCart();
     } catch (err) {

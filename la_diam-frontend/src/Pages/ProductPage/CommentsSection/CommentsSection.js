@@ -26,7 +26,8 @@ const CommentsSection = () => {
         const mapped = rawComments.map(c => ({
           id: c.id,
           author: c.user,
-          text: c.texto
+          text: c.texto,
+          date: c.data_publicacao, // <-- Adiciona a data
         }));
         setComments(mapped);
       })
@@ -43,7 +44,8 @@ const CommentsSection = () => {
           {
             id: response.id,
             author: response.user,
-            text: response.texto
+            text: response.texto,
+            date: response.data_publicacao, // <-- Adiciona a data
           }
         ]);
         setNewComment("");
@@ -53,6 +55,19 @@ const CommentsSection = () => {
         setLoading(false);
       }
     }
+  };
+
+  // Função para formatar a data (opcional, para PT-PT)
+  const formatDate = (isoString) => {
+    if (!isoString) return "";
+    const date = new Date(isoString);
+    return date.toLocaleDateString("pt-PT", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
   };
 
   return (
@@ -66,6 +81,9 @@ const CommentsSection = () => {
           {comments.map(comment => (
             <ListGroupItem key={comment.id}>
               <strong>{comment.author}:</strong> {comment.text}
+              <div className="text-muted" style={{ fontSize: "0.85em" }}>
+                {formatDate(comment.date)}
+              </div>
             </ListGroupItem>
           ))}
         </ListGroup>
