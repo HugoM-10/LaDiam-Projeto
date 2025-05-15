@@ -55,6 +55,9 @@ class Product(models.Model):
     def average_rating(self):
         avg = self.ratings.aggregate(Avg('rating'))['rating__avg']
         return round(avg or 0, 2)
+    @property
+    def number_of_ratings(self):
+        return self.ratings.count()
 
 
 class Order(models.Model):
@@ -105,6 +108,7 @@ class OrderItem(models.Model):
     @property
     def order_product_name(self):
         return self.product.name if self.product else None
+    
 
     def __str__(self):
         return f"{self.quantity} of {self.product.name} in Order {self.order.id} - {self.price}"
@@ -129,11 +133,3 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"Avaliação de {self.user.username} para {self.product.name}: {self.rating}★"
-
-    def get_average_rating(self):
-        ratings = self.product.ratings.all()
-        if ratings.exists():
-            total_rating = sum(rating.rating for rating in ratings)
-            average_rating = total_rating / ratings.count()
-            return round(average_rating, 2)  # Retorna a média arredondada a 2 casas decimais
-        return 0.0  # Se não houver avaliações, retorna 0

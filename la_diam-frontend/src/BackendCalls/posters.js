@@ -134,6 +134,30 @@ const submitProductRating = async (productId, rating) => {
   }
 };
 
+const createOrder = async (cartItems) => {
+  try {
+    const csrftoken = getCookie("csrftoken");
+    const response = await api.post(
+      "orders/create/",
+      {
+        items: cartItems.map(item => ({
+          product: item.product.id,
+          quantity: item.quantity,
+        }))
+      },
+      {
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      }
+    );
+    return response.data
+  } catch (error) {
+    console.error("Error creating order:", error.response?.data || error);
+    throw error;
+  }
+};
+
 // Export all posters
 export {
   loginUser,
@@ -143,4 +167,5 @@ export {
   updateUser,
   createComment,
   submitProductRating,
+  createOrder
 };

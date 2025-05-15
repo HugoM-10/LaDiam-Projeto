@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { CartContext } from "../../CartContext";
 import "./Cart.css";
+import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
+  const navigate = useNavigate();
   const { cart, addToCart, removeFromCart, clearCart } =
     useContext(CartContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -52,6 +54,10 @@ export const Cart = () => {
     handleCartChange();
   }, [cart]);
 
+  const handleFinalizarClick = () => {
+    navigate("/FinalizarPedido", { state: { cart } });
+  };
+
   return (
     <div className="cart-container" onClick={() => setIsOpen(!isOpen)}>
       {/* Ícone do carrinho */}
@@ -78,9 +84,16 @@ export const Cart = () => {
               <button
                 className="checkout-button"
                 onClick={clearCart}
-                aria-label="Finalizar compra"
+                aria-label="Cancelar pedido"
               >
-                Finalizar
+                🗑️ Cancelar Pedido
+              </button>
+              <button
+                className="checkout-button"
+                onClick={handleFinalizarClick}
+                aria-label="Finalizar Pedido"
+              >
+                Finalizar Pedido
               </button>
             </>
           )}

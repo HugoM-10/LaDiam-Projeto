@@ -31,6 +31,7 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only=True, max_digits=10, decimal_places=2
     )
     average_rating = serializers.FloatField(read_only=True)
+    number_of_ratings = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Product
@@ -38,7 +39,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    product_name = serializers.SerializerMethodField(read_only=True)
+    product_name = serializers.SerializerMethodField()
 
     class Meta:
         model = OrderItem
@@ -49,13 +50,12 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "price",
             "order_product_image_link",
             "order_product_name",
+            "product_name",
         ]
         read_only_fields = ["price"]
 
     def get_product_name(self, obj):
-        return obj.product.name
-
-
+        return obj.product.name if obj.product else ""
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -64,7 +64,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ["id", "user", "user_email", "order_date", "status", "items", "price"]
-        read_only_fields = ["user", "user_email", "order_date", "status", "price"]
+        read_only_fields = ["user", "user_email", "order_date", "price"]
 
     def create(self, validated_data):
         # Remove os dados de 'items' do validated_data

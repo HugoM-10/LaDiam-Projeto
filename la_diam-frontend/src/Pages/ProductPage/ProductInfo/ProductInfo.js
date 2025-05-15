@@ -63,6 +63,9 @@ const ProductInfo = ({ product, addToCart }) => {
       <CardBody>
         <CardText className="mb-3">{product.description}</CardText>
 
+        
+      
+
         <Row className="align-items-center mb-3">
           <Col>
             {isOnPromotion ? (
@@ -86,6 +89,9 @@ const ProductInfo = ({ product, addToCart }) => {
             </Col>
           )}
         </Row>
+          <div className="mb-2">
+            Este produto foi avaliado por {Number(product.number_of_ratings)} pessoa{Number(product.number_of_ratings) === 1  ? "" : "s"}
+          </div>
         <div className="mb-2 d-flex align-items-center">
           <strong className="me-2">Avaliação média:</strong>
           <StarRating value={Number(product.average_rating ?? 0)} size={28} />
@@ -112,6 +118,7 @@ ProductInfo.propTypes = {
     default_price: PropTypes.string.isRequired,
     image_link: PropTypes.string.isRequired,
     promotion: PropTypes.string,
+    number_of_ratings: PropTypes.number,
   }),
   addToCart: PropTypes.func.isRequired,
 };

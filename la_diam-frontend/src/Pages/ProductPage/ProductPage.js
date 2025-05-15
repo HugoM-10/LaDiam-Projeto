@@ -5,7 +5,7 @@ import ProductInfo from "./ProductInfo/ProductInfo";
 import CommentsSection from "./CommentsSection/CommentsSection";
 import Ratings from "./Ratings/Ratings";
 import { CartContext } from "../../CartContext";
-import StarRating from "../../Components/StarRating/StarRating";
+
 
 const ProductPage = () => {
   const location = useLocation();

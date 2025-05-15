@@ -18,6 +18,7 @@ import HistoryPage from "./Pages/HistoryPage/HistoryPage";
 import NotFound from "./Pages/NotFound/NotFound";
 import Estatisticas from "./Pages/Estatisticas/Estatisticas";
 import Pedidos from "./Pages/Pedidos/Pedidos";
+import FinalizarPedido from "./Pages/FinalizarPedido/FinalizarPedido";
 
 function App() {
   return (
@@ -44,7 +45,8 @@ function AppContent() {
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/ProductPage/:id" element={<ProductPage />} />
         <Route path="/estatisticas" element={<Estatisticas />} />
-        <Route path="/pedidos" element={<Pedidos />} />
+        <Route path="/pedidos" element={<Pedidos />} />¨
+        <Route path="/FinalizarPedido" element={<FinalizarPedido />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

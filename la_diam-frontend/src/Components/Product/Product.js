@@ -45,13 +45,6 @@ const Product = ({ product }) => {
     <Card className="product-container">
       <CardBody>
         <CardTitle tag="h3">{product.name}</CardTitle>
-        <div className="mb-2 d-flex align-items-center">
-          <strong className="me-2">Reviews:</strong>
-          <StarRating value={Number(product.average_rating ?? 0)} size={22} />
-          <span className="ms-2">
-            {Number(product.average_rating ?? 0).toFixed(2)} / 5
-          </span>
-        </div>
       </CardBody>
       <img
         src={product.image_link}
@@ -85,6 +78,18 @@ const Product = ({ product }) => {
             </Col>
           )}
         </Row>
+        <div className="mb-2 d-flex align-items-center">
+          {Number(product.number_of_ratings) === 0 ? (
+            <span className="text-muted">Sem avaliações</span>
+          ) : (
+            <>
+              <StarRating value={Number(product.average_rating ?? 0)} size={22} />
+              <span className="ms-2">
+                ({Number(product.number_of_ratings)} avaliações)
+              </span>
+            </>
+          )}
+        </div>
         <div className="d-flex justify-content-center">
           <Button color="danger" onClick={handleSubmit}>
             Adicionar ao carrinho
@@ -105,6 +110,7 @@ Product.propTypes = {
     image_link: PropTypes.string.isRequired,
     promotion: PropTypes.string,
     average_rating: PropTypes.number.isRequired,
+    number_of_ratings: PropTypes.number.isRequired,
   }).isRequired,
 };
 
