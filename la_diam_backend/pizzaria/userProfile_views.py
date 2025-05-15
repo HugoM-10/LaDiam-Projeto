@@ -57,9 +57,7 @@ def signup_view(request):
 
     user.save()
     Profile.objects.create(user=user)
-    user = authenticate(username=username, password=password)
-    if user:
-        login(request, user)
+    login(request, user)
     return Response({'message': 'User ' + username + ' created successfully'}, status=status.HTTP_201_CREATED)
 
 
@@ -92,6 +90,7 @@ def user_view(request):
         if password:
             user.set_password(password)
         user.save()
+        login(request, user)
         return Response({'username': user.username, 'email': user.email})   
 
 @api_view(['GET', 'PUT'])
