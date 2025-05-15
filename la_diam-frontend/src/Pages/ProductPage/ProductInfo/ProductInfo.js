@@ -3,6 +3,7 @@ import StarRating from "../../../Components/StarRating/StarRating";
 
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { getImageDjango } from '../../../Utils/Utils';
 import {
   Card,
   CardBody,
@@ -43,7 +44,7 @@ const ProductInfo = ({ product, addToCart }) => {
       </CardBody>
 
       <img
-        src={product.image_link}
+        src={getImageDjango(product.image)}
         alt={product.name}
         className="img-fluid"
         onClick={handleImageClick}
@@ -53,7 +54,7 @@ const ProductInfo = ({ product, addToCart }) => {
       <Modal isOpen={zoomOpen} toggle={handleZoomClose} centered size="lg">
         <ModalBody className="text-center">
           <img
-            src={product.image_link}
+            src={getImageDjango(product.image)}
             alt={product.name}
             style={{ maxWidth: "100%", maxHeight: "80vh" }}
           />
@@ -116,7 +117,7 @@ ProductInfo.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     default_price: PropTypes.string.isRequired,
-    image_link: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
     promotion: PropTypes.string,
     number_of_ratings: PropTypes.number,
   }),

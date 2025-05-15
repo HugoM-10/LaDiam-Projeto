@@ -5,55 +5,39 @@ from .userProfile_views import (
     user_view,
     signup_view,
     user_profile_view,
-    edit_user_view,
 )
-from .products_views import get_products_view, create_product_view, edit_product_view
-from .order_views import (
-    create_order_view,
-    get_order_view,
-    get_orders_view,
-    edit_order_view,
-    delete_order_view,
-    update_order_status_view
-)
+from .products_views import products_view
+from .order_views import my_orders_view, orders_view, order_detail, update_order_status_view
 from .comments_views import (
-    get_comments_view,
-    create_comment_view,
+    comments_view,
     get_my_comments_view,
 )
 from .ratings_views import get_product_ratings_view, create_rating_view
 
 urlpatterns = [
     # User authentication views
-    path("auth/login/", login_view),
-    path("auth/logout/", logout_view),
-    path("auth/signup/", signup_view),
-    path("auth/user/", user_view),
-    path("auth/edit_user/", edit_user_view),
+    path("auth/login/", login_view),  # POST
+    path("auth/logout/", logout_view),  # POST
+    path("auth/signup/", signup_view),  # POST
+    path("auth/user/", user_view),  # GET, PUT
     
     # User profile views
-    path("profile/", user_profile_view),
+    path("profile/", user_profile_view),  # GET, PUT
     
     # Products views
-    path("products/", get_products_view),
-    path("products/add/", create_product_view),
-    path("products/edit/", edit_product_view),
-   
+    path("products/", products_view),  # GET, POST, PUT
+    
     # Orders views
-    path("orders/create/", create_order_view),
-    path("orders/<int:order_id>/", get_order_view),
-    path("orders/", get_orders_view),
-    path("orders/edit/<int:order_id>/", edit_order_view),
-    path("orders/delete/<int:order_id>/", delete_order_view),
-    path("orders/<int:order_id>/status/", update_order_status_view),
-
+    path("orders/", orders_view),  # GET,
+    path("orders/my/", my_orders_view),  # GET, POST
+    path("orders/<int:order_id>/", order_detail),  # GET, PUT, DELETE
+    path("orders/<int:order_id>/status/", update_order_status_view),  # PUT
+    
     # Comments views
-    path("comments/", get_comments_view),
-    path("comments/my/", get_my_comments_view),
-    path("comments/product/<int:product_id>/", get_comments_view),
-    path("comments/create/", create_comment_view),
-
+    path("comments/product/<int:product_id>/", comments_view),  # GET, POST
+    path("comments/my/", get_my_comments_view),  # GET
+    
     # Ratings views
-    path("ratings/<int:product_id>/", get_product_ratings_view, name="get_product_ratings"),
+    path("ratings/<int:product_id>/", get_product_ratings_view),
     path("ratings/", create_rating_view, name="create_rating"),
 ]

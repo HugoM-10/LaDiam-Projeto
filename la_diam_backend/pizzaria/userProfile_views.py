@@ -57,48 +57,41 @@ def signup_view(request):
 
     user.save()
     Profile.objects.create(user=user)
-    user = authenticate(username=username, password=password)
-    if user:
-        login(request, user)
+    login(request, user)
     return Response({'message': 'User ' + username + ' created successfully'}, status=status.HTTP_201_CREATED)
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def edit_user_view(request):
-    user = request.user  
-
-    username = request.data.get('username')
-    email = request.data.get('email')
-    password = request.data.get('password')
-    old_password = request.data.get('old_password')
-
-    if not old_password: 
-        return Response({'error': 'Old password is required'}, status=status.HTTP_400_BAD_REQUEST)
-    if not user.check_password(old_password):
-        return Response({'error': 'Old password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
-    if username:
-        if User.objects.filter(username=username).exists() and username != user.username:
-            return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
-        user.username = username
-    if email:
-        user.email = email
-    if password:
-        user.set_password(password)  # important: hash the password properly
-
-    user.save()
-    return Response({'username': user.username, 'email': user.email})
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
 def user_view(request):
-    print(f"User authenticated: {request.user.is_authenticated}")
-    print(f"User: {request.user.username}")
+    user = request.user
 
-    # Group returns his group
-    group = request.user.groups.all().values_list()[0][1] if request.user.groups.exists() else None
-    print(f"User group: {group}")
-    return Response({'username': request.user.username, 'email': request.user.email, 'group': group})
+    if request.method == 'GET':
+        group = user.groups.all().values_list()[0][1] if user.groups.exists() else None
+        return Response({'username': user.username, 'email': user.email, 'group': group})
+
+    elif request.method == 'PUT':
+        username = request.data.get('username')
+        email = request.data.get('email')
+        password = request.data.get('password')
+        old_password = request.data.get('old_password')
+
+        if not old_password: 
+            return Response({'error': 'Old password is required'}, status=status.HTTP_400_BAD_REQUEST)
+        if not user.check_password(old_password):
+            return Response({'error': 'Old password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+        if username:
+            if User.objects.filter(username=username).exists() and username != user.username:
+                return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            user.username = username
+        if email:
+            user.email = email
+        if password:
+            user.set_password(password)
+        user.save()
+        login(request, user)
+        return Response({'username': user.username, 'email': user.email})   
 
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])

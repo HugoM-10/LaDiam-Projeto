@@ -86,22 +86,14 @@ const updateProfile = async (profileData) => {
   return response.data;
 };
 
-const updateUser = async (userData) => {
-  const csrftoken = getCookie("csrftoken");
-  const response = await api.post("auth/edit_user/", userData, {
-    headers: {
-      "X-CSRFToken": csrftoken,
-    },
-  });
-  return response.data;
-};
+
 
 const createComment = async (productId, texto) => {
   try {
     const csrftoken = getCookie("csrftoken");
     const response = await api.post(
-      "comments/create/",
-      { product_id: productId, texto },
+      `comments/product/${productId}/`,
+      { texto },
       {
         headers: {
           "X-CSRFToken": csrftoken,
@@ -130,6 +122,21 @@ const submitProductRating = async (productId, rating) => {
     return response.data;
   } catch (error) {
     console.error("Error submitting rating:", error);
+    throw error;
+  }
+};
+
+const addNewProduct = async (productData) => {
+  const csrftoken = getCookie("csrftoken");
+  try {
+    const response = await api.post("products/add/", productData, {
+      headers: {
+        "X-CSRFToken": csrftoken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding new product:", error);
     throw error;
   }
 };
@@ -164,8 +171,8 @@ export {
   logoutUser,
   signupUser,
   updateProfile,
-  updateUser,
   createComment,
   submitProductRating,
+  addNewProduct,
   createOrder
 };

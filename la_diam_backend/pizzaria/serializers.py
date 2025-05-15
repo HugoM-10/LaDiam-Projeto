@@ -35,7 +35,18 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = [
+            "id",
+            "name",
+            "description",
+            "default_price",
+            "promotion",
+            "discount_price",
+            "is_available",
+            "image",
+            "type",
+            "nr_of_orders",
+        ]
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -100,8 +111,9 @@ class CommentSerializer(serializers.ModelSerializer):
             "data_publicacao",
         ]
         read_only_fields = ['user', 'data_publicacao']
+    
     def get_product_name(self, obj):
-        return obj.product.name
+        return obj.product.name if obj.product else None
 
 class RatingSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
@@ -113,4 +125,4 @@ class RatingSerializer(serializers.ModelSerializer):
         read_only_fields = ['user']
 
     def get_product_name(self, obj):
-        return obj.product.name
+        return obj.product.name if obj.product else None

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from decimal import Decimal, ROUND_HALF_UP
 from django.db.models import Avg
+from .uploadPaths import product_image_upload_path
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
@@ -12,7 +13,7 @@ class Profile(models.Model):
         blank=True
         )
     dateOfBirth = models.DateField(null=True, blank=True)
-    #avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')
     phone_number = models.CharField(max_length=15, blank=True)
     address = models.TextField(blank=True)
     subscribed_to_newsletter = models.BooleanField(default=True)
@@ -25,7 +26,7 @@ class Product(models.Model):
     description = models.TextField()
     default_price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     promotion = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    image_link = models.URLField(max_length=200, blank=True, null=True)
+    image = models.ImageField(upload_to=product_image_upload_path, blank=True, null=True)
     is_available = models.BooleanField(default=True, null=False)
     type = models.CharField(
         choices=[
