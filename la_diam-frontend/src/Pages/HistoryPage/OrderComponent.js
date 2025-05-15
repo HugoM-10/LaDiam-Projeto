@@ -45,7 +45,7 @@ const OrderComponent = ({ order }) => {
                       href={`/ProductPage/${item.product}`}
                       className="text-dark text-decoration-none fw-bold"
                     >
-                      {item.product_name}
+                      {item.order_product_name}
                     </a>
                     <br />
                     Price for {item.quantity} items: ${item.price}
@@ -77,7 +77,7 @@ OrderComponent.propTypes = {
     items: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
-        product_name: PropTypes.string.isRequired,
+        order_product_name: PropTypes.string.isRequired,
         quantity: PropTypes.number.isRequired,
         price: PropTypes.number.isRequired,
         product: PropTypes.number.isRequired,
