@@ -37,14 +37,16 @@ def products_view(request):
             description = request.data.get("description")
             default_price = request.data.get("default_price")
             promotion = request.data.get("promotion")
-            image_link = request.data.get("image_link")
+            image = request.data.get("image")
             is_available = request.data.get("is_available")
+            type = request.data.get("type")
 
             new_product = Product.objects.create(
                 name=name,
+                type=type,
                 description=description,
                 default_price=default_price,
-                image_link=image_link,
+                image=image,
                 promotion=promotion,
                 is_available=is_available,
             )
@@ -70,7 +72,7 @@ def products_view(request):
             name = request.data.get("name")
             description = request.data.get("description")
             default_price = request.data.get("default_price")
-            image_link = request.data.get("image_link")
+            image = request.data.get("image")
             promotion = request.data.get("promotion")
             is_available = request.data.get("is_available")
 
@@ -80,8 +82,8 @@ def products_view(request):
                 product.description = description
             if default_price:
                 product.default_price = default_price
-            if image_link:
-                product.image_link = image_link
+            if image:
+                product.image = image
             if promotion:
                 product.promotion = promotion
             if is_available is not None:

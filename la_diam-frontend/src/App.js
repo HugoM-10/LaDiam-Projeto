@@ -19,7 +19,7 @@ import Pedidos from "./Pages/Pedidos/Pedidos";
 import Signup from "./Pages/LoginManager/Signup";
 import Profile from "./Pages/Profile/Profile";
 import Menu from "./Pages/Menu/Menu";
-import ProductManager from "./Pages/ProductManagement/ProductManagement";
+import ProductManager from "./Pages/ProductManagement/ProductManager";
 import FinalizarPedido from "./Pages/FinalizarPedido/FinalizarPedido";
 
 function App() {
