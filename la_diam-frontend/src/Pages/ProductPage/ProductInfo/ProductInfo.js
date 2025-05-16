@@ -39,7 +39,7 @@ const ProductInfo = ({ product, addToCart }) => {
     <Card className="h-100">
       <CardBody>
         <CardTitle tag="h3">
-          <h1>{product.name}</h1>
+          {product.name}
         </CardTitle>
       </CardBody>
 
