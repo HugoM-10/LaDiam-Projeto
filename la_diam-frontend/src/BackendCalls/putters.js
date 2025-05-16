@@ -20,6 +20,16 @@ function getCookie(name) {
   return cookieValue;
 }
 
+const updateProfile = async (profileData) => {
+  const csrftoken = getCookie("csrftoken");
+  const response = await api.put("profile/", profileData, {
+    headers: {
+      "X-CSRFToken": csrftoken,
+    },
+  });
+  return response.data;
+};
+
 const updateUser = async (userData) => {
   const csrftoken = getCookie("csrftoken");
   const response = await api.put("auth/user/", userData, {
@@ -49,4 +59,4 @@ const updateOrderStatus = async (orderId, newStatus) => {
   }
 };
 
-export { updateOrderStatus, updateUser };
+export { updateOrderStatus, updateUser, updateProfile};

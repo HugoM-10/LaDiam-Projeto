@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { Cart } from "../Components/Cart/Cart";
+import { Inbox } from "../Components/Inbox";
 
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
@@ -99,7 +100,9 @@ function Header() {
                 <NavItem>
                   <Cart />
                 </NavItem>
-
+                <NavItem>
+                  <Inbox />
+                </NavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     <FaRegUserCircle className="icon" />

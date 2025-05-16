@@ -1,20 +1,54 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Row, Col } from "reactstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ProductInfo from "./ProductInfo/ProductInfo";
 import CommentsSection from "./CommentsSection/CommentsSection";
 import Ratings from "./Ratings/Ratings";
 import { CartContext } from "../../CartContext";
-
+import { fetchProducts } from "../../BackendCalls/getters";
 
 const ProductPage = () => {
   const location = useLocation();
-  const { product } = location.state || {};
+  const params = useParams();
   const { addToCart, cart } = useContext(CartContext);
 
-  if (!product) {
-    return <div>Produto não encontrado.</div>;
-  }
+  // Estado para o produto
+  const [product, setProduct] = useState(location.state?.product || null);
+  const [loading, setLoading] = useState(!location.state?.product);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Se já temos o produto via location, não faz fetch
+    if (product) return;
+
+    // Se não temos, faz fetch pelo id da URL
+    const fetchProduct = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const allProducts = await fetchProducts();
+        const found = allProducts.find(
+          (p) => String(p.id) === String(params.id)
+        );
+        if (found) {
+          setProduct(found);
+        } else {
+          setError("Produto não encontrado.");
+        }
+      } catch (err) {
+        setError("Erro ao carregar produto.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+    // eslint-disable-next-line
+  }, [params.id]);
+
+  if (loading) return <div>A carregar produto...</div>;
+  if (error) return <div>{error}</div>;
+  if (!product) return <div>Produto não encontrado.</div>;
 
   return (
     <div style={{ padding: "32px", minHeight: "80vh" }}>
@@ -24,7 +58,6 @@ const ProductPage = () => {
         </Col>
         <Col md={4} className="d-flex flex-column h-100">
           <div className="d-flex flex-column h-100">
-
             <CommentsSection />
             <Ratings />
           </div>

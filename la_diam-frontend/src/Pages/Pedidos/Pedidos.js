@@ -68,11 +68,11 @@ const Pedidos = () => {
   };
 
   const statuses = {
-    Pending: "Pendente",
-    Accepted: "Aceite",
-    Rejected: "Rejeitado",
-    Completed: "Concluído",
-    Cancelled: "Cancelado",
+    PENDING: "Pendente",
+    IN_PROGRESS: "Aceite",
+    CANCELED: "Rejeitado",
+    COMPLETED: "Concluído",
+    
   };
 
   const getStatusBadgeColor = (status) => {

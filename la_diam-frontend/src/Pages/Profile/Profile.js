@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchProfile } from "../../BackendCalls/getters";
-import { updateProfile } from "../../BackendCalls/posters";
+import { updateProfile } from "../../BackendCalls/putters";
 import { UserContext } from "../../UserContext";
 import "./Profile.css";
 import ProfileFieldsForm from "./ProfileForm";

@@ -1,6 +1,6 @@
 import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateProfile } from "../../BackendCalls/posters";
+import { updateProfile } from "../../BackendCalls/putters";
 import { FormGroup } from "reactstrap";
 import ProfileFieldsForm from "../Profile/ProfileForm";
 import { UserContext } from "../../UserContext";

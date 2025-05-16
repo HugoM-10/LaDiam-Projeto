@@ -76,15 +76,7 @@ const signupUser = async (username, password, email) => {
   }
 };
 
-const updateProfile = async (profileData) => {
-  const csrftoken = getCookie("csrftoken");
-  const response = await api.put("profile/", profileData, {
-    headers: {
-      "X-CSRFToken": csrftoken,
-    },
-  });
-  return response.data;
-};
+
 
 
 
@@ -145,7 +137,7 @@ const createOrder = async (cartItems) => {
   try {
     const csrftoken = getCookie("csrftoken");
     const response = await api.post(
-      "orders/create/",
+      "orders/my/",
       {
         items: cartItems.map(item => ({
           product: item.product.id,
@@ -170,7 +162,6 @@ export {
   loginUser,
   logoutUser,
   signupUser,
-  updateProfile,
   createComment,
   submitProductRating,
   addNewProduct,

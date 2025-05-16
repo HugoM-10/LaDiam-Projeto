@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import './AboutUs.css';
+
 
 export default function SobreNos() {
   return (
