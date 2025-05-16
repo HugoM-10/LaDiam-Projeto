@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from .models import Message
 from .serializers import MessageSerializer
 
-class UserMessagesView(generics.ListCreateAPIView):  # <--- Corrige aqui!
+class UserMessagesView(generics.ListCreateAPIView):
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
 

@@ -43,6 +43,22 @@ const fetchProducts = async () => {
   }
 };
 
+const fetchProductsPaginated = async (page = 1, type = "") => {
+  try {
+    let url = `products/?page=${page}&ordering=id`;
+    if (type) url += `&type=${type}`;
+    const response = await api.get(url);
+    // DRF pagination: response.data.results, response.data.count
+    return {
+      products: response.data.results || response.data,
+      total: response.data.count || response.data.length,
+    };
+  } catch (error) {
+    console.error("Error fetching paginated products:", error);
+    throw error;
+  }
+};
+
 // Fetch all comments for a specific product
 const fetchProductComments = async (productId) => {
   try {
@@ -116,5 +132,6 @@ export {
   fetchProductRatings,
   fetchUserOrders,
   fetchOrders,
-  fetchMessages
+  fetchMessages,
+  fetchProductsPaginated,
 };

@@ -8,7 +8,7 @@ import {
   Row,
   Col,
   Card,
-  LoginPage,
+  Modal,
 } from "react-bootstrap";
 
 function Login() {
@@ -17,28 +17,40 @@ function Login() {
   const navigate = useNavigate();
   const { login, user } = useContext(UserContext);
 
+  // Modal state
+  const [modalShow, setModalShow] = useState(false);
+  const [modalMsg, setModalMsg] = useState("");
+  const [modalTitle, setModalTitle] = useState("Aviso");
+
   // Redirect to main page if user already exists
   useEffect(() => {
     if (user) {
       navigate("/");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
       const result = await login(username, password);
       if (result.success) {
-        alert("Login successful!");
-        navigate("/");
+        setModalTitle("Sucesso");
+        setModalMsg("Login efetuado com sucesso!");
+        setModalShow(true);
+        setTimeout(() => {
+          setModalShow(false);
+          navigate("/");
+        }, 1200);
       } else {
-        alert("Login failed: " + result.message);
+        setModalTitle("Erro");
+        setModalMsg("Login falhou: " + result.message);
+        setModalShow(true);
       }
     }
   };
 
   const handleSignupRedirect = () => {
-    navigate("/signup"); // Adjust the path if your signup route differs
+    navigate("/signup");
   };
 
   return (
@@ -89,6 +101,19 @@ function Login() {
           </Card>
         </Col>
       </Row>
+
+      {/* Modal para mensagens */}
+      <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{modalTitle}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalMsg}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setModalShow(false)}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

@@ -19,16 +19,16 @@ def products_view(request):
         product_type = request.GET.get("type", None)
 
         if product_type:
-            products = Product.objects.filter(type=product_type).order_by(ordering)
+            products = Product.objects.filter(type=product_type.capitalize()).order_by(ordering)
         else:
             products = Product.objects.all().order_by(ordering)
 
         paginator = PageNumberPagination()
-        paginator.page_size = 12
+        paginator.page_size = 8
 
         result_page = paginator.paginate_queryset(products, request)
         serializer = ProductSerializer(result_page, many=True)
-        return Response(serializer.data)
+        return paginator.get_paginated_response(serializer.data)
 
     elif request.method == "POST":
 
