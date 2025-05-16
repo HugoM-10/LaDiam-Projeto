@@ -9,7 +9,8 @@ class UserMessagesView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Message.objects.filter(user=self.request.user).order_by('-created_at')
+        # Retorna apenas mensagens novas (new=True)
+        return Message.objects.filter(user=self.request.user, new=True).order_by('-created_at')
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -18,5 +19,6 @@ class ClearMessagesView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        Message.objects.filter(user=request.user).delete()
-        return Response({"detail": "Mensagens apagadas com sucesso."})
+        # Marca todas as mensagens do utilizador como não novas (new=False)
+        Message.objects.filter(user=request.user, new=True).update(new=False)
+        return Response({"detail": "Mensagens marcadas como lidas com sucesso."})

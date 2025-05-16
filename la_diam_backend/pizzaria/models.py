@@ -141,6 +141,7 @@ class Message(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
+    new = models.BooleanField(default=True)  # <-- Adicione esta linha
 
     def __str__(self):
         return f"Message to {self.user.username}: {self.title}"

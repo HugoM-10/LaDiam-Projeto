@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import { FaBell } from "react-icons/fa";
 import "./Cart/Cart.css";
 import { fetchMessages } from "../BackendCalls/getters";
+import { clearMessages } from "../BackendCalls/putters";
 
 export const Inbox = () => {
   const [messages, setMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Buscar mensagens reais do backend
   useEffect(() => {
     if (isOpen) {
       fetchMessages()
-        .then((msgs) => setMessages(msgs))
+        .then((msgs) => setMessages(msgs.filter((msg) => msg.new))) // Só novas
         .catch(() => setMessages([]));
     }
   }, [isOpen]);
 
-  const handleClearMessages = (e) => {
+  const handleClearMessages = async (e) => {
     e.stopPropagation();
+    await clearMessages();
     setMessages([]);
-    // Aqui podes adicionar chamada ao backend para limpar mensagens se quiseres
   };
 
   const renderMessages = () => {

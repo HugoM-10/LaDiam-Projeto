@@ -143,5 +143,6 @@ class MessageSerializer(serializers.ModelSerializer):
             "content",
             "created_at",
             "read",
+            "new",
         ]
         read_only_fields = ["user", "created_at"]

@@ -59,4 +59,18 @@ const updateOrderStatus = async (orderId, newStatus) => {
   }
 };
 
-export { updateOrderStatus, updateUser, updateProfile};
+// Função para limpar mensagens
+const clearMessages = async () => {
+  const csrftoken = getCookie("csrftoken");
+  await api.post(
+    "messages/clear/",
+    {},
+    {
+      headers: {
+        "X-CSRFToken": csrftoken,
+      },
+    }
+  );
+};
+
+export { updateOrderStatus, updateUser, updateProfile, clearMessages };
