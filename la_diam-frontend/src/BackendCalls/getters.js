@@ -97,8 +97,16 @@ const fetchProductRatings = async (productId) => {
   }
 };
 
+const fetchMessages = async () => {
+  try {
+    const response = await api.get('messages/');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    throw error;
+  }
+};
 
-// Export all getters
 export {
   fetchUser,
   fetchProfile,
@@ -107,5 +115,6 @@ export {
   fetchUserComments,
   fetchProductRatings,
   fetchUserOrders,
-  fetchOrders
+  fetchOrders,
+  fetchMessages
 };

@@ -157,6 +157,25 @@ const createOrder = async (cartItems) => {
   }
 };
 
+const createMessage = async (title, content) => {
+  try {
+    const csrftoken = getCookie("csrftoken");
+    const response = await api.post(
+      "messages/",
+      { title, content },
+      {
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error creating message:", error.response?.data || error);
+    throw error;
+  }
+};
+
 // Export all posters
 export {
   loginUser,
@@ -165,5 +184,6 @@ export {
   createComment,
   submitProductRating,
   addNewProduct,
-  createOrder
+  createOrder,
+  createMessage
 };

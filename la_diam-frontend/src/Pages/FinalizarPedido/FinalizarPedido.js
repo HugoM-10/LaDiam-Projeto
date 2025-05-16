@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Button } from "reactstrap";
-import { createOrder } from "../../BackendCalls/posters";
+import { createOrder, createMessage } from "../../BackendCalls/posters"; // importa createMessage
 import { CartContext } from "../../CartContext";
 
 // Função para agrupar produtos por tipo
@@ -41,6 +41,11 @@ const FinalizarPedido = () => {
     setError(null);
     try {
       await createOrder(cart);
+      // Cria mensagem para o utilizador
+      await createMessage(
+        "Pedido recebido",
+        "O seu pedido chegou à loja, por favor aguarde a nossa confirmação. Bom apetite!"
+      );
       setSuccessMsg(
         "O seu pedido chegou à loja, por favor aguarde a nossa confirmação. Bom apetite!"
       );

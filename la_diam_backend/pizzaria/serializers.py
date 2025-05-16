@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile, Product, Order, OrderItem, Comment, Rating
+from .models import Profile, Product, Order, OrderItem, Comment, Rating, Message
 
 
 class FlexibleDateField(serializers.DateField):
@@ -46,6 +46,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "image",
             "type",
             "nr_of_orders",
+            "average_rating",
+            "number_of_ratings",
         ]
 
 
@@ -115,6 +117,7 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_product_name(self, obj):
         return obj.product.name if obj.product else None
 
+
 class RatingSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     product = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -126,3 +129,19 @@ class RatingSerializer(serializers.ModelSerializer):
 
     def get_product_name(self, obj):
         return obj.product.name if obj.product else None
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Message
+        fields = [
+            "id",
+            "user",
+            "title",
+            "content",
+            "created_at",
+            "read",
+        ]
+        read_only_fields = ["user", "created_at"]

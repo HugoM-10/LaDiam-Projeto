@@ -1,31 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBell } from "react-icons/fa";
-import "./Cart/Cart.css"; // Reutiliza o estilo do carrinho
+import "./Cart/Cart.css";
+import { fetchMessages } from "../BackendCalls/getters";
 
 export const Inbox = () => {
-  // Mensagens hardcoded para demonstração
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      title: "Pedido confirmado",
-      content: "O seu pedido #123 foi confirmado e está a ser preparado.",
-      date: "16/05/2025 19:30"
-    },
-    {
-      id: 2,
-      title: "Promoção especial",
-      content: "Hoje todas as pizzas têm 10% de desconto!",
-      date: "16/05/2025 18:00"
-    }
-  ]);
+  const [messages, setMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  // Buscar mensagens reais do backend
+  useEffect(() => {
+    if (isOpen) {
+      fetchMessages()
+        .then((msgs) => setMessages(msgs))
+        .catch(() => setMessages([]));
+    }
+  }, [isOpen]);
 
   const handleClearMessages = (e) => {
     e.stopPropagation();
     setMessages([]);
+    // Aqui podes adicionar chamada ao backend para limpar mensagens se quiseres
   };
 
-  // Renderiza as mensagens
   const renderMessages = () => {
     if (messages.length === 0) {
       return <p className="empty-cart">Sem mensagens</p>;
@@ -34,7 +30,9 @@ export const Inbox = () => {
       <div key={msg.id} className="cart-item">
         <div className="cart-item-details">
           <p className="product-name mb-1">{msg.title}</p>
-          <div className="text-muted" style={{ fontSize: "0.9em" }}>{msg.date}</div>
+          <div className="text-muted" style={{ fontSize: "0.9em" }}>
+            {new Date(msg.created_at).toLocaleString()}
+          </div>
           <div style={{ fontSize: "0.95em" }}>{msg.content}</div>
         </div>
       </div>
@@ -43,7 +41,6 @@ export const Inbox = () => {
 
   return (
     <div className="cart-container" onClick={() => setIsOpen(!isOpen)}>
-      {/* Ícone do sino */}
       <button aria-label="Mensagens">
         <FaBell className="icon" />
         {messages.length > 0 && (
@@ -55,8 +52,6 @@ export const Inbox = () => {
           </span>
         )}
       </button>
-
-      {/* Conteúdo do inbox visível apenas quando aberto */}
       {isOpen && (
         <div className="cart-menu">
           {renderMessages()}
