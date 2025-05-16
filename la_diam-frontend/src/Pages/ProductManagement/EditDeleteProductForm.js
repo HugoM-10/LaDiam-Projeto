@@ -1,40 +1,46 @@
-import React from 'react';
+import { useState } from 'react';
+import { Button, Form, FormGroup, Label, Input } from 'bootstrap'; 
 
-const EditDeleteProductForm = () => {
+const EditDeleteProductForm = ({ product }) => {
+    const [formData, setFormData] = useState({
+        name: product.name,
+        default_price: product.default_price,
+        description: product.description,
+    });
+
+    const handleChange = (e) => {
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
     const handleEdit = (e) => {
         e.preventDefault();
-        // Logic for editing the product
-        console.log('Edit product');
+        console.log('Edit product', formData);
+        // Submit logic here
     };
 
     const handleDelete = () => {
-        // Logic for deleting the product
-        console.log('Delete product');
+        console.log('Delete product with ID:', product.id);
+        // Delete logic here
     };
 
     return (
-        <div>
-            <h2>Edit/Delete Product STILL TODO</h2>
-            <form onSubmit={handleEdit}>
-                <div>
-                    <label htmlFor="productName">Product Name:</label>
-                    <input type="text" id="productName" name="productName" required />
-                </div>
-                <div>
-                    <label htmlFor="productPrice">Product Price:</label>
-                    <input type="number" id="productPrice" name="productPrice" required />
-                </div>
-                <div>
-                    <label htmlFor="productDescription">Product Description:</label>
-                    <textarea id="productDescription" name="productDescription" required />
-                </div>
-                <button type="submit">Edit Product</button>
-                <button type="button" onClick={handleDelete}>
-                    Delete Product
-                </button>
-            </form>
-        </div>
+        <form onSubmit={handleEdit}>
+            <h3>Editing: {product.name}</h3>
+            <div>
+                <label>Name:</label>
+                <input name="name" value={formData.name} onChange={handleChange} required />
+            </div>
+            <div>
+                <label>Price:</label>
+                <input name="default_price" type="number" value={formData.default_price} onChange={handleChange} required />
+            </div>
+            <div>
+                <label>Description:</label>
+                <textarea name="description" value={formData.description} onChange={handleChange} required />
+            </div>
+            <button type="submit">Edit</button>
+            <button type="button" onClick={handleDelete}>Delete</button>
+        </form>
     );
 };
-
 export default EditDeleteProductForm;
