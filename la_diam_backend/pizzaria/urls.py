@@ -26,7 +26,7 @@ urlpatterns = [
     path("profile/", user_profile_view),  # GET, PUT
     
     # Products views
-    path("products/", products_view),  # GET, POST, PUT
+    path("products/", products_view),  # GET, POST, PUT, DELETE
     path("products/<int:product_id>/", product_view),  # GET
     
     # Orders views

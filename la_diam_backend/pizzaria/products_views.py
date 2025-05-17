@@ -103,6 +103,11 @@ def products_view(request):
             if promotion:
                 product.promotion = promotion
             if is_available is not None:
+                is_available_str = request.data.get("is_available")
+                if is_available_str in ["true", "True", True]:
+                    is_available = True
+                else:
+                    is_available = False
                 product.is_available = is_available
 
             product.save()
