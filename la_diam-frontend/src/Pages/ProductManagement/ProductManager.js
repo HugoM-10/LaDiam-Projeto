@@ -24,20 +24,20 @@ const ProductManager = () => {
 
     return (
         <Container className="my-4">
-            <h1 className="mb-4">Product Management</h1>
+            <h1 className="mb-4">Gestão de Produtos</h1>
 
             <ButtonGroup className="mb-4">
                 <Button
                     variant={selectedOption === "add" ? "primary" : "secondary"}
                     onClick={() => handleOptionChange("add")}
                 >
-                    Add Product
+                    Adicionar Produto
                 </Button>
                 <Button
                     variant={selectedOption === "editDelete" ? "primary" : "secondary"}
                     onClick={() => handleOptionChange("editDelete")}
                 >
-                    Edit/Delete Product
+                    Editar/Apagar Produto
                 </Button>
             </ButtonGroup>
 

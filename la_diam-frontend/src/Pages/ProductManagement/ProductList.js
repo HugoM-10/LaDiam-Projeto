@@ -45,7 +45,7 @@ const ProductList = ({ onEditSelect }) => {
     } else if (products.length === 0) {
         productContent = (
             <Col>
-                <div className="text-center text-muted">No products found.</div>
+                <div className="text-center text-muted">Não existe produtos.</div>
             </Col>
         );
     } else {
@@ -57,16 +57,16 @@ const ProductList = ({ onEditSelect }) => {
                         <Card.Title>{product.name}</Card.Title>
                         <Card.Text>{product.description}</Card.Text>
                         <Card.Text>
-                            <strong>Price:</strong> ${product.default_price}
+                            <strong>Preço:</strong> {product.default_price}€
                             {product.discount_price && (
                                 <>
                                     <br />
-                                    <strong>Discount:</strong> ${product.discount_price}
+                                    <strong>Desconto:</strong> {product.discount_price}€
                                 </>
                             )}
                         </Card.Text>
                         <Button variant="primary" onClick={() => onEditSelect(product)}>
-                            Edit This Product
+                            Edita este produto
                         </Button>
                     </Card.Body>
                 </Card>
