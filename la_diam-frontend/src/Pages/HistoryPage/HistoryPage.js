@@ -37,13 +37,13 @@ const HistoryPage = () => {
           color={view === "orders" ? "primary" : "secondary"}
           onClick={() => setView("orders")}
         >
-          Orders
+          Pedidos
         </Button>
         <Button
           color={view === "comments" ? "primary" : "secondary"}
           onClick={() => setView("comments")}
         >
-          Comments
+          Comentários
         </Button>
       </ButtonGroup>
 
