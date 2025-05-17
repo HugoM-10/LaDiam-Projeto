@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchProfile } from "../../BackendCalls/getters";
 import { updateProfile } from "../../BackendCalls/putters";
 import { UserContext } from "../../UserContext";
-import "./Profile.css";
 import ProfileFieldsForm from "./ProfileForm";
 import UserForm from "./UserForm";
-import { Modal, Button } from "react-bootstrap";
+import CustomModal from "../../Components/Modal";
+import { Container, Card, Button, Form } from 'react-bootstrap';
 
 const ProfileForm = () => {
   const navigate = useNavigate();
@@ -116,36 +116,40 @@ const ProfileForm = () => {
     setIsEditing(false);
   };
 
-  return (
-    <div className="profile-form-container">
-      <UserForm
-        initialData={accountDetails}
-        onSubmit={handleAccountSubmit}
-        editMode={isEditing}
-        setEditMode={setIsEditing}
-        onCancel={handleCancelEdit}
-      />
-      <form onSubmit={handleProfileSubmit}>
-        <ProfileFieldsForm
-          profile={profile}
-          onChange={handleProfileChange}
+return (
+  <Container className="my-4 d-flex justify-content-center">
+    <Card style={{ width: '100%', maxWidth: '800px' }} className="p-4 shadow-sm">
+      <Card.Body>
+        <UserForm
+          initialData={accountDetails}
+          onSubmit={handleAccountSubmit}
+          editMode={isEditing}
+          setEditMode={setIsEditing}
+          onCancel={handleCancelEdit}
         />
-        <button type="submit">Update Profile Info</button>
-      </form>
-      {/* Modal para mensagens */}
-      <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{modalTitle}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{modalMsg}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setModalShow(false)}>
-            Fechar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  );
+
+        <Form onSubmit={handleProfileSubmit} className="mt-4">
+          <ProfileFieldsForm
+            profile={profile}
+            onChange={handleProfileChange}
+          />
+          <div className="mt-3">
+            <Button variant="primary" type="submit">
+              Atualizar Informações do Perfil
+            </Button>
+          </div>
+        </Form>
+      </Card.Body>
+    </Card>
+
+    <CustomModal
+      show={modalShow}
+      onHide={() => setModalShow(false)}
+      modalTitle={modalTitle}
+      modalMsg={modalMsg}
+    />
+  </Container>
+);
 };
 
 export default ProfileForm;

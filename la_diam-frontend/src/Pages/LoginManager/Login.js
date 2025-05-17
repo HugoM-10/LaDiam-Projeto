@@ -8,8 +8,8 @@ import {
   Row,
   Col,
   Card,
-  Modal,
 } from "react-bootstrap";
+import CustomModal from "../../Components/Modal";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -101,19 +101,12 @@ function Login() {
           </Card>
         </Col>
       </Row>
-
-      {/* Modal para mensagens */}
-      <Modal show={modalShow} onHide={() => setModalShow(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{modalTitle}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{modalMsg}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setModalShow(false)}>
-            Fechar
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <CustomModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        modalTitle={modalTitle}
+        modalMsg={modalMsg}
+      />
     </Container>
   );
 }

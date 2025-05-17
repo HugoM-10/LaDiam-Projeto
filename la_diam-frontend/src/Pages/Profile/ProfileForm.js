@@ -1,40 +1,44 @@
-import { FormGroup } from "reactstrap";
+import { Form, FormGroup, FormLabel, FormControl, FormSelect, FormCheck } from 'react-bootstrap';
 
 const ProfileFieldsForm = ({ profile, onChange }) => {
-  return (
-    < div className="profile-fields-form">
-      <h4>Profile Information</h4>
+return (
+  <div className="profile-fields-form">
+    <h4>Informação do Perfil</h4>
 
-      <FormGroup>
-        <label>Full Name:</label>
-        <input
+    <Form>
+      <FormGroup className="mb-3">
+        <FormLabel>Nome completo:</FormLabel>
+        <FormControl
+          type="text"
           name="full_name"
           value={profile.full_name || ""}
           onChange={onChange}
         />
       </FormGroup>
 
-      <FormGroup>
-        <label>Phone Number:</label>
-        <input
+      <FormGroup className="mb-3">
+        <FormLabel>Numero de telefone:</FormLabel>
+        <FormControl
+          type="text"
           name="phone_number"
           value={profile.phone_number || ""}
           onChange={onChange}
         />
       </FormGroup>
 
-      <FormGroup>
-        <label>Address:</label>
-        <textarea
+      <FormGroup className="mb-3">
+        <FormLabel>Morada:</FormLabel>
+        <FormControl
+          as="textarea"
           name="address"
           value={profile.address || ""}
           onChange={onChange}
         />
       </FormGroup>
 
-      <FormGroup>
-        <label>Gender:</label>
-        <select
+      <FormGroup className="mb-3">
+        <FormLabel>Género:</FormLabel>
+        <FormSelect
           name="gender"
           value={profile.gender || ""}
           onChange={onChange}
@@ -43,12 +47,12 @@ const ProfileFieldsForm = ({ profile, onChange }) => {
           <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Other">Other</option>
-        </select>
+        </FormSelect>
       </FormGroup>
 
-      <FormGroup>
-        <label>Date of Birth:</label>
-        <input
+      <FormGroup className="mb-3">
+        <FormLabel>Data de nascimento:</FormLabel>
+        <FormControl
           type="date"
           name="dateOfBirth"
           value={profile.dateOfBirth || ""}
@@ -56,23 +60,19 @@ const ProfileFieldsForm = ({ profile, onChange }) => {
         />
       </FormGroup>
 
-      <FormGroup className="switch-group">
-        <label htmlFor="subscribed_to_newsletter">
-          Subscribed to Newsletter:
-        </label>
-        <label className="switch">
-          <input
-            type="checkbox"
-            id="subscribed_to_newsletter"
-            name="subscribed_to_newsletter"
-            checked={profile.subscribed_to_newsletter || false}
-            onChange={onChange}
-          />
-          <span className="slider round"></span>
-        </label>
+      <FormGroup className="mb-3">
+        <FormCheck
+          type="switch"
+          id="subscribed_to_newsletter"
+          name="subscribed_to_newsletter"
+          label="Subscrição da Newsletter"
+          checked={profile.subscribed_to_newsletter || false}
+          onChange={onChange}
+        />
       </FormGroup>
-    </ div>
-  );
+    </Form>
+  </div>
+);
 };
 
 
