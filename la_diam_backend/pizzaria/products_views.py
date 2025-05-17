@@ -12,11 +12,29 @@ from .serializers import ProductSerializer
 from .permissions import is_vendedor_or_gestor, gestor_required
 
 
+@api_view(["GET"])
+def product_view(request, product_id):
+    try:
+        product = Product.objects.get(id=product_id)
+    except Product.DoesNotExist:
+        return Response(
+            {"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND
+        )
+
+    serializer = ProductSerializer(product)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(["GET", "POST", "PUT"])
 def products_view(request):
     if request.method == "GET":
         ordering = request.GET.get("ordering", "id")
         product_type = request.GET.get("type", None)
+
+        if is_vendedor_or_gestor(request.user):
+            products = Product.objects.filter(is_available=True).order_by(ordering)
+            serializer = ProductSerializer(products, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         if product_type:
             products = Product.objects.filter(type=product_type.capitalize()).order_by(ordering)
