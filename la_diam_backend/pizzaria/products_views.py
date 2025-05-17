@@ -25,7 +25,7 @@ def product_view(request, product_id):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(["GET", "POST", "PUT"])
+@api_view(["GET", "POST", "PUT", "DELETE"])
 def products_view(request):
     if request.method == "GET":
         ordering = request.GET.get("ordering", "id")
@@ -51,27 +51,25 @@ def products_view(request):
     elif request.method == "POST":
 
         if is_vendedor_or_gestor(request.user):
-            name = request.data.get("name")
-            description = request.data.get("description")
-            default_price = request.data.get("default_price")
-            promotion = request.data.get("promotion")
-            image = request.data.get("image")
-            is_available = request.data.get("is_available")
-            type = request.data.get("type")
+            is_available_str = request.data.get("is_available")
+            if is_available_str in ["true", "True", True]:
+                is_available = True
+            else:
+                is_available = False
 
             new_product = Product.objects.create(
-                name=name,
-                type=type,
-                description=description,
-                default_price=default_price,
-                image=image,
-                promotion=promotion,
-                is_available=is_available,
+            name=request.data.get("name"),
+            type=request.data.get("type"),
+            description=request.data.get("description"),
+            default_price=request.data.get("default_price"),
+            image=request.data.get("image"),
+            promotion=request.data.get("promotion"),
+            is_available=is_available,
             )
             return Response(
                 {"id": new_product.id, "name": new_product.name},
                 status=status.HTTP_201_CREATED,
-            )
+        )
         return Response(
             {"error": "Permission denied"}, status=status.HTTP_403_FORBIDDEN
         )
@@ -110,6 +108,23 @@ def products_view(request):
             product.save()
             return Response(
                 {"id": product.id, "name": product.name}, status=status.HTTP_200_OK
+            )
+        return Response(
+            {"error": "Permission denied"}, status=status.HTTP_403_FORBIDDEN
+        )
+    elif request.method == "DELETE":
+        if is_vendedor_or_gestor(request.user):
+            product_id = request.data.get("id")
+            product = Product.objects.get(id=product_id)
+
+            if not product:
+                return Response(
+                    {"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+
+            product.delete()
+            return Response(
+                {"message": "Product deleted successfully"}, status=status.HTTP_204_NO_CONTENT
             )
         return Response(
             {"error": "Permission denied"}, status=status.HTTP_403_FORBIDDEN
