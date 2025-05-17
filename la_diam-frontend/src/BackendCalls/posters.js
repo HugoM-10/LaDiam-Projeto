@@ -121,9 +121,10 @@ const submitProductRating = async (productId, rating) => {
 const addNewProduct = async (productData) => {
   const csrftoken = getCookie("csrftoken");
   try {
-    const response = await api.post("products/add/", productData, {
+    const response = await api.post("products/", productData, {
       headers: {
         "X-CSRFToken": csrftoken,
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
