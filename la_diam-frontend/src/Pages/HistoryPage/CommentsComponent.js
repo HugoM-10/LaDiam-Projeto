@@ -13,7 +13,7 @@ const CommentComponent = ({ comments }) => {
     <div className="mb-4">
       <Card>
         <CardBody>
-          <CardTitle tag="h4">User Comments</CardTitle>
+          <CardTitle tag="h4">Comentários do Usuário</CardTitle>
           <ListGroup flush>
             {comments.map((comment) => (
               <ListGroupItem key={comment.id}>
@@ -28,7 +28,13 @@ const CommentComponent = ({ comments }) => {
                   {comment.texto}
                   <br />
                   <small className="text-muted">
-                    {new Date(comment.data_publicacao).toLocaleString()}
+                    {new Date(comment.data_publicacao).toLocaleDateString("pt-PT", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit"
+                    })}
                   </small>
                 </CardText>
               </ListGroupItem>

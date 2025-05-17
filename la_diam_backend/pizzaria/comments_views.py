@@ -14,15 +14,17 @@ def comments_view(request, product_id=None):
 
     if request.method == "GET":
         ordering = request.GET.get("ordering", "-data_publicacao")
+        page_size = int(request.GET.get("page_size", 10))
 
         product = get_object_or_404(Product, id=product_id)
         comments = Comment.objects.filter(product=product).order_by(ordering)
 
         paginator = PageNumberPagination()
-        paginator.page_size = 10
+        paginator.page_size = page_size
         result_page = paginator.paginate_queryset(comments, request)
         serializer = CommentSerializer(result_page, many=True)
-        return Response(serializer.data)
+        # Retorna resposta paginada (com next, previous, count, results)
+        return paginator.get_paginated_response(serializer.data)
 
     if request.method == "POST":
         texto = request.data.get("texto")
@@ -44,11 +46,12 @@ def comments_view(request, product_id=None):
 @permission_classes([IsAuthenticated])
 def get_my_comments_view(request):
     ordering = request.GET.get("ordering", "-data_publicacao")
+    page_size = int(request.GET.get("page_size", 10))
     user = request.user
     comments = Comment.objects.filter(user=user).order_by(ordering)
 
     paginator = PageNumberPagination()
-    paginator.page_size = 10
+    paginator.page_size = page_size
     result_page = paginator.paginate_queryset(comments, request)
     serializer = CommentSerializer(result_page, many=True)
-    return Response(serializer.data)
+    return paginator.get_paginated_response(serializer.data)

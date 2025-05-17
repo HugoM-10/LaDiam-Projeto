@@ -31,7 +31,13 @@ export const Inbox = () => {
         <div className="cart-item-details">
           <p className="product-name mb-1">{msg.title}</p>
           <div className="text-muted" style={{ fontSize: "0.9em" }}>
-            {new Date(msg.created_at).toLocaleString()}
+            {new Date(msg.created_at).toLocaleDateString("pt-PT", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit"
+                    })}
           </div>
           <div style={{ fontSize: "0.95em" }}>{msg.content}</div>
         </div>
