@@ -1,24 +1,32 @@
-from rest_framework import generics, permissions
+# message_views.py
+from rest_framework import permissions
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from .models import Message
 from .serializers import MessageSerializer
 
-class UserMessagesView(generics.ListCreateAPIView):
-    serializer_class = MessageSerializer
-    permission_classes = [permissions.IsAuthenticated]
+@api_view(["GET", "POST"])
+@permission_classes([permissions.IsAuthenticated])
+def user_messages_view(request):
+    if request.method == "GET":
+        messages = Message.objects.filter(user=request.user, new=True).order_by("-created_at")
+        serializer = MessageSerializer(messages, many=True)
+        return Response(serializer.data)
+    elif request.method == "POST":
+        serializer = MessageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-    def get_queryset(self):
-        # Retorna apenas mensagens novas (new=True)
-        return Message.objects.filter(user=self.request.user, new=True).order_by('-created_at')
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated])
+def clear_messages_view(request):
+    Message.objects.filter(user=request.user, new=True).update(new=False)
+    return Response({"detail": "Mensagens marcadas como lidas com sucesso."})
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-class ClearMessagesView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request):
-        # Marca todas as mensagens do utilizador como não novas (new=False)
-        Message.objects.filter(user=request.user, new=True).update(new=False)
-        return Response({"detail": "Mensagens marcadas como lidas com sucesso."})
+@api_view(["GET"])
+@permission_classes([permissions.IsAuthenticated])
+def unread_message_count(request):
+    count = Message.objects.filter(user=request.user, new=True).count()
+    return Response({"unread_count": count})

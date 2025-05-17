@@ -13,7 +13,7 @@ from .comments_views import (
     get_my_comments_view,
 )
 from .ratings_views import get_product_ratings_view, create_rating_view
-from .message_views import UserMessagesView, ClearMessagesView
+from .message_views import user_messages_view, clear_messages_view, unread_message_count
 
 urlpatterns = [
     # User authentication views
@@ -44,6 +44,7 @@ urlpatterns = [
     path("ratings/", create_rating_view, name="create_rating"),
     
     # Messages views
-    path("messages/", UserMessagesView.as_view(), name="user-messages"),  # GET, POST
-    path("messages/clear/", ClearMessagesView.as_view(), name="clear-messages"),
+    path("messages/", user_messages_view),  # GET, POST
+    path("messages/clear/", clear_messages_view),
+    path("messages/unread_count/", unread_message_count),  # GET
 ]
