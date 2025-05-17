@@ -59,6 +59,22 @@ const updateOrderStatus = async (orderId, newStatus) => {
   }
 };
 
+const updateProduct = async (productData) => {
+  const csrftoken = getCookie("csrftoken");
+  try {
+    const response = await api.put("products/", productData, {
+      headers: {
+        "X-CSRFToken": csrftoken,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding new product:", error);
+    throw error;
+  }
+};
+
 // Função para limpar mensagens
 const clearMessages = async () => {
   const csrftoken = getCookie("csrftoken");
@@ -73,4 +89,4 @@ const clearMessages = async () => {
   );
 };
 
-export { updateOrderStatus, updateUser, updateProfile, clearMessages };
+export { updateOrderStatus, updateUser, updateProfile, clearMessages,updateProduct };
