@@ -74,7 +74,13 @@ const CommentsSection = () => {
             <ListGroupItem key={comment.id}>
               <strong>{comment.author}:</strong> {comment.text}
               <div className="text-muted" style={{ fontSize: "0.85em" }}>
-                {new Date(comment.date).toLocaleString()}
+                {new Date(comment.date).toLocaleDateString("pt-PT", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit"
+                    })}
               </div>
             </ListGroupItem>
           ))}

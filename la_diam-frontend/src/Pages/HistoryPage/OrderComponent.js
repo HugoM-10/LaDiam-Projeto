@@ -20,18 +20,24 @@ const OrderComponent = ({ order }) => {
     <div key={order.id} className="mb-4">
       <Row className="border-bottom pb-3 mb-3">
         <Col sm="12" md="4">
-          <h5>Order #{order.id}</h5>
+          <h5>Pedidos #{order.id}</h5>
           <CardText>
-            <strong>Date:</strong>{" "}
-            {new Date(order.order_date).toLocaleDateString()}
+            <strong>Data:</strong>{" "}
+            {new Date(order.order_date).toLocaleDateString("pt-PT", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit"
+                    })}
             <br />
-            <strong>Total:</strong> ${order.price}
+            <strong>Total:</strong> {order.price} €
             <br />
             <strong>Status:</strong> {order.status}
           </CardText>
         </Col>
         <Col sm="12" md="8">
-          <h6>Items:</h6>
+          <h6>Produtos:</h6>
           <ListGroup>
             {order.items
               .slice(0, isExpanded ? order.items.length : 3)
@@ -48,7 +54,7 @@ const OrderComponent = ({ order }) => {
                       {item.order_product_name}
                     </a>
                     <br />
-                    Price for {item.quantity} items: ${item.price}
+                    Preço para {item.quantity} produtos: {item.price} €
                   </div>
                 </ListGroupItem>
               ))}
