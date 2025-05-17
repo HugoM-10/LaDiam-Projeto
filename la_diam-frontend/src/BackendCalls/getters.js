@@ -32,16 +32,28 @@ const fetchProfile = async () => {
 
 // Fetch all products
 
+const fetchProduct = async (productId) => {
+  try {
+    const response = await api.get(`products/${productId}/`);
+    console.log("Product:", response.data); // Log the product data
+    return response.data; // Return product data
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    throw error;
+  }
+};
+
+
 const fetchProducts = async () => {
   try {
     const response = await api.get('products/');
     console.log("Products:", response.data); // Log the products data
-    return response.data; // Return product data
+    return response.data; // Return products data
   } catch (error) {
     console.error("Error fetching products:", error);
     throw error;
   }
-};
+}
 
 const fetchProductsPaginated = async (page = 1, type = "") => {
   try {
@@ -126,7 +138,7 @@ const fetchMessages = async () => {
 export {
   fetchUser,
   fetchProfile,
-  fetchProducts,
+  fetchProduct,
   fetchProductComments,
   fetchUserComments,
   fetchProductRatings,
@@ -134,4 +146,5 @@ export {
   fetchOrders,
   fetchMessages,
   fetchProductsPaginated,
+  fetchProducts,
 };
