@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useCallback } from "react";
 import { fetchUser } from "./BackendCalls/getters";
 import { logoutUser, loginUser, signupUser } from "./BackendCalls/posters";
 import { updateUser } from "./BackendCalls/putters";
+
 export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
@@ -21,7 +22,7 @@ export const UserProvider = ({ children }) => {
     fetchAndSetUser();
   }, [fetchAndSetUser]);
 
-  const login = async (username, password) => {
+  const login = useCallback(async (username, password) => {
     try {
       await loginUser(username, password);
       await fetchAndSetUser();
@@ -30,9 +31,9 @@ export const UserProvider = ({ children }) => {
       console.error("Login failed:", error);
       return { success: false, error };
     }
-  };
+  }, [fetchAndSetUser]);
 
-  const editUser = async (userData) => {
+  const editUser = useCallback(async (userData) => {
     try {
       const updated = await updateUser(userData);
       setUser(updated);
@@ -41,9 +42,9 @@ export const UserProvider = ({ children }) => {
       console.error("User update failed:", error);
       return { success: false, error };
     }
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await logoutUser();
     } catch (error) {
@@ -51,8 +52,9 @@ export const UserProvider = ({ children }) => {
     } finally {
       setUser(undefined);
     }
-  };
-  const signup = async (username, email, password) => {
+  }, []);
+
+  const signup = useCallback(async (username, email, password) => {
     try {
       const response = await signupUser(username, password, email);
       setUser(response.data);
@@ -61,10 +63,9 @@ export const UserProvider = ({ children }) => {
       console.error("Signup failed:", error);
       return { success: false, error };
     }
-  };
+  }, []);
 
   const isLoggedIn = user !== undefined && user !== null;
-  
   const userGroup = user ? user.group : null;
 
   const contextValue = React.useMemo(() => ({
