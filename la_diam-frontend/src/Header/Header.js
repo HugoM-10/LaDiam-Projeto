@@ -51,9 +51,9 @@ function Header() {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="">
+                  <NavLink href="/ComboMenu">
                     <Button color="danger" className="nav-button">
-                      Promoções
+                      Menus Sugeridos
                     </Button>
                   </NavLink>
                 </NavItem>

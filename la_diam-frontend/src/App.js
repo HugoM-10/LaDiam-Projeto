@@ -20,6 +20,7 @@ import Profile from "./Pages/Profile/Profile";
 import Menu from "./Pages/Menu/Menu";
 import ProductManager from "./Pages/ProductManagement/ProductManager";
 import FinalizarPedido from "./Pages/FinalizarPedido/FinalizarPedido";
+import ComboMenu from "./Pages/ComboMenu/ComboMenu";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function AppContent() {
         <Route path="/pedidos" element={<Pedidos />} />¨
         <Route path="/FinalizarPedido" element={<FinalizarPedido />} />
         <Route path="/gestaoProdutos" element={<ProductManager />} />
+        <Route path="/ComboMenu" element={<ComboMenu />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
