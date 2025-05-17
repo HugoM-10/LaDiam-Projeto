@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchOrders } from "../../BackendCalls/getters";
+import { createMessage } from "../../BackendCalls/posters";
 import { 
   Button, 
   Container, 
@@ -44,28 +45,39 @@ const Pedidos = () => {
   };
 
   const handleSave = async (id) => {
-    const updatedStatus = statusMap[id] || orders.find(o => o.id === id)?.status;
-    if (!updatedStatus) {
-      setFeedback({ show: true, message: "Nenhuma alteração de status para salvar.", color: "warning" });
-      setTimeout(() => setFeedback({ show: false }), 3000);
-      return;
-    }
+  const updatedStatus = statusMap[id] || orders.find(o => o.id === id)?.status;
+  const oldStatus = orders.find(o => o.id === id)?.status;
 
-    try {
-      await updateOrderStatus(id, updatedStatus);
-      setOrders(prevOrders => 
-        prevOrders.map(order => 
-          order.id === id ? { ...order, status: updatedStatus } : order
-        )
-      );
-      setFeedback({ show: true, message: `Status do Pedido #${id} atualizado com sucesso!`, color: "success" });
-    } catch (err) {
-      console.error("Erro ao atualizar o status do pedido:", err);
-      setFeedback({ show: true, message: `Erro ao atualizar o status do Pedido #${id}.`, color: "danger" });
-    } finally {
-      setTimeout(() => setFeedback({ show: false }), 3000);
-    }
-  };
+  if (!updatedStatus || updatedStatus === oldStatus) {
+    setFeedback({ show: true, message: "Nenhuma alteração de status para salvar.", color: "warning" });
+    setTimeout(() => setFeedback({ show: false }), 3000);
+    return;
+  }
+
+  try {
+    await updateOrderStatus(id, updatedStatus);
+    
+    // Atualiza localmente o estado
+    setOrders(prevOrders => 
+      prevOrders.map(order => 
+        order.id === id ? { ...order, status: updatedStatus } : order
+      )
+    );
+
+    // Cria mensagem após atualização
+    await createMessage(
+      "Pedido Atualizado",
+      `O seu pedido mudou do estado ${statuses[oldStatus]} para o ${statuses[updatedStatus]}.`
+    );
+
+    setFeedback({ show: true, message: `Status do Pedido #${id} atualizado com sucesso!`, color: "success" });
+  } catch (err) {
+    console.error("Erro ao atualizar o status do pedido:", err);
+    setFeedback({ show: true, message: `Erro ao atualizar o status do Pedido #${id}.`, color: "danger" });
+  } finally {
+    setTimeout(() => setFeedback({ show: false }), 3000);
+  }
+};
 
   const statuses = {
     PENDING: "Pendente",
