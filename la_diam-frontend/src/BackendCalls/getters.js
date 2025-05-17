@@ -71,11 +71,11 @@ const fetchProductsPaginated = async (page = 1, type = "") => {
   }
 };
 
-// Fetch all comments for a specific product
-const fetchProductComments = async (productId) => {
+// Fetch paginated comments for a specific product
+const fetchProductComments = async (productId, page = 1, pageSize = 10) => {
   try {
-    const response = await api.get(`comments/product/${productId}/`);
-    console.log("Product Comments:", response.data); // Log the product comments data
+    const response = await api.get(`comments/product/${productId}/?page=${page}&page_size=${pageSize}`);
+    // DRF pagination: { count, next, previous, results }
     return response.data;
   } catch (error) {
     console.error("Error fetching product comments:", error);
@@ -104,9 +104,9 @@ const fetchUserOrders = async () => {
   }
 };
 
-const fetchUserComments = async () => {
+const fetchUserComments = async (page = 1, pageSize = 10) => {
   try {
-    const response = await api.get('comments/my/');
+    const response = await api.get(`comments/my/?page=${page}&page_size=${pageSize}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user comments:", error);
