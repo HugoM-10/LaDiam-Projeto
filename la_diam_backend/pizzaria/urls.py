@@ -6,7 +6,7 @@ from .userProfile_views import (
     signup_view,
     user_profile_view,
 )
-from .products_views import products_view,product_view
+from .products_views import products_view
 from .order_views import my_orders_view, orders_view, order_detail, update_order_status_view
 from .comments_views import (
     comments_view,
@@ -27,7 +27,6 @@ urlpatterns = [
     
     # Products views
     path("products/", products_view),  # GET, POST, PUT
-    path("products/<int:product_id>/", product_view),  # GET
     
     # Orders views
     path("orders/", orders_view),  # GET,

@@ -5,7 +5,7 @@ import ProductInfo from "./ProductInfo/ProductInfo";
 import CommentsSection from "./CommentsSection/CommentsSection";
 import Ratings from "./Ratings/Ratings";
 import { CartContext } from "../../CartContext";
-import { fetchProduct } from "../../BackendCalls/getters";
+import { fetchProducts } from "../../BackendCalls/getters";
 
 const ProductPage = () => {
   const location = useLocation();
@@ -22,13 +22,16 @@ const ProductPage = () => {
     if (product) return;
 
     // Se não temos, faz fetch pelo id da URL
-    const fetchProductA = async () => {
+    const fetchProduct = async () => {
       setLoading(true);
       setError(null);
       try {
-        const product = await fetchProduct(params.id);
-        if (product) {
-          setProduct(product);
+        const allProducts = await fetchProducts();
+        const found = allProducts.find(
+          (p) => String(p.id) === String(params.id)
+        );
+        if (found) {
+          setProduct(found);
         } else {
           setError("Produto não encontrado.");
         }
@@ -39,7 +42,7 @@ const ProductPage = () => {
       }
     };
 
-    fetchProductA();
+    fetchProduct();
     // eslint-disable-next-line
   }, [params.id]);
 

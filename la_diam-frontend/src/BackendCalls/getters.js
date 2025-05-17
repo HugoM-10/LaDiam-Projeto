@@ -32,28 +32,16 @@ const fetchProfile = async () => {
 
 // Fetch all products
 
-const fetchProduct = async (productId) => {
-  try {
-    const response = await api.get(`products/${productId}/`);
-    console.log("Product:", response.data); // Log the product data
-    return response.data; // Return product data
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    throw error;
-  }
-};
-
-
 const fetchProducts = async () => {
   try {
     const response = await api.get('products/');
     console.log("Products:", response.data); // Log the products data
-    return response.data; // Return products data
+    return response.data; // Return product data
   } catch (error) {
     console.error("Error fetching products:", error);
     throw error;
   }
-}
+};
 
 const fetchProductsPaginated = async (page = 1, type = "") => {
   try {
@@ -71,11 +59,11 @@ const fetchProductsPaginated = async (page = 1, type = "") => {
   }
 };
 
-// Fetch paginated comments for a specific product
-const fetchProductComments = async (productId, page = 1, pageSize = 10) => {
+// Fetch all comments for a specific product
+const fetchProductComments = async (productId) => {
   try {
-    const response = await api.get(`comments/product/${productId}/?page=${page}&page_size=${pageSize}`);
-    // DRF pagination: { count, next, previous, results }
+    const response = await api.get(`comments/product/${productId}/`);
+    console.log("Product Comments:", response.data); // Log the product comments data
     return response.data;
   } catch (error) {
     console.error("Error fetching product comments:", error);
@@ -104,9 +92,9 @@ const fetchUserOrders = async () => {
   }
 };
 
-const fetchUserComments = async (page = 1, pageSize = 10) => {
+const fetchUserComments = async () => {
   try {
-    const response = await api.get(`comments/my/?page=${page}&page_size=${pageSize}`);
+    const response = await api.get('comments/my/');
     return response.data;
   } catch (error) {
     console.error("Error fetching user comments:", error);
@@ -138,7 +126,7 @@ const fetchMessages = async () => {
 export {
   fetchUser,
   fetchProfile,
-  fetchProduct,
+  fetchProducts,
   fetchProductComments,
   fetchUserComments,
   fetchProductRatings,
@@ -146,5 +134,4 @@ export {
   fetchOrders,
   fetchMessages,
   fetchProductsPaginated,
-  fetchProducts,
 };

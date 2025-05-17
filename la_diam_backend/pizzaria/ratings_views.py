@@ -5,11 +5,17 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 
 @api_view(['GET'])
 def get_product_ratings_view(request, product_id):
-    ratings_qs = Rating.objects.filter(product__id=product_id)
-    serializer = RatingSerializer(ratings_qs, many=True)
+    ordering = request.GET.get('ordering', '-data_publicacao')
+    ratings_qs = Rating.objects.filter(product__id=product_id).order_by(ordering)
+    
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    result_page = paginator.paginate_queryset(ratings_qs, request)
+    serializer = RatingSerializer(result_page, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
