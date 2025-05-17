@@ -54,7 +54,7 @@ const CommentsSection = () => {
         setHasMore(Boolean(data.next));
       })
       .finally(() => setLoading(false));
-  }, [productId, page]);
+  }, [productId, page, hasMore]);
 
   // Infinite scroll handler
   const handleScroll = (e) => {

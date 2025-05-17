@@ -11,7 +11,7 @@ const ProductManager = () => {
   const [selectedOption, setSelectedOption] = useState("add");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
-  const { userGroup ,user} = useContext(UserContext);
+  const { userGroup } = useContext(UserContext);
 
   // Modal state
   const [modalShow, setModalShow] = useState(false);
@@ -28,7 +28,7 @@ const ProductManager = () => {
         navigate("/");
       }, 1800);
     }
-  }, [user]);
+  }, [userGroup, navigate]);
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
