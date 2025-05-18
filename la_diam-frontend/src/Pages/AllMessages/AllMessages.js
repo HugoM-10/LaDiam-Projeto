@@ -23,8 +23,9 @@ const AllMessages = () => {
     loadMessages();
   }, []);
 
-  const handleClear = async () => {
+  const handleReadAll = async () => {
     await clearMessages();
+    window.location.href = window.location.href;
   };
 
   return (
@@ -76,7 +77,7 @@ const AllMessages = () => {
 
       {messages.length > 0 && (
         <div className="mt-3 text-end">
-          <Button color="danger" onClick={handleClear}>
+          <Button color="danger" onClick={handleReadAll}>
             Marcar todas como lidas
           </Button>
         </div>

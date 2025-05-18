@@ -30,8 +30,8 @@ const FinalizarPedido = () => {
   const total = cart.reduce(
     (sum, item) =>
       sum +
-      (Number(item.product.discount_price ?? item.product.default_price) *
-        item.quantity),
+      Number(item.product.discount_price ?? item.product.default_price) *
+        item.quantity,
     0
   );
 
@@ -39,14 +39,16 @@ const FinalizarPedido = () => {
   const handlePagar = async () => {
     setLoading(true);
     setError(null);
+    setSuccessMsg(null);
     try {
       await createOrder(cart);
-     
+
       setSuccessMsg(
         "O seu pedido chegou à loja, por favor aguarde a nossa confirmação. Bom apetite!"
       );
       clearCart();
     } catch (err) {
+      console.error("Order creation failed:", err);
       setError("Erro ao criar pedido. Tente novamente.");
     } finally {
       setLoading(false);
@@ -63,7 +65,10 @@ const FinalizarPedido = () => {
             {groupedCart[type].map((item) => (
               <li className="list-group-item" key={item.product.id}>
                 {item.product.name} — {item.quantity} x{" "}
-                {Number(item.product.discount_price ?? item.product.default_price).toFixed(2)}€
+                {Number(
+                  item.product.discount_price ?? item.product.default_price
+                ).toFixed(2)}
+                €
               </li>
             ))}
           </ul>
@@ -78,9 +83,7 @@ const FinalizarPedido = () => {
           <Button color="success" onClick={handlePagar} disabled={loading}>
             {loading ? "A processar..." : "Pagar"}
           </Button>
-          <span className="fw-bold fs-5">
-            Total: {total.toFixed(2)} €
-          </span>
+          <span className="fw-bold fs-5">Total: {total.toFixed(2)} €</span>
         </div>
       )}
     </div>
