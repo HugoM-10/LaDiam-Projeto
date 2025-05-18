@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchMessages } from "../../BackendCalls/getters";
 import { clearMessages } from "../../BackendCalls/putters";
 import { Container, Button, Spinner } from "reactstrap";
@@ -29,16 +29,21 @@ const AllMessages = () => {
   };
 
   return (
-    <Container className="p-4">
-      <h2 className="mb-4 text-primary">Todas as Mensagens</h2>
+  <Container className="p-4">
+    <h2 className="mb-4 text-primary">Todas as Mensagens</h2>
 
-      {loading ? (
-        <div className="text-center py-5">
-          <Spinner color="primary" />
-        </div>
-      ) : messages.length === 0 ? (
-        <p className="text-muted">Sem mensagens para mostrar.</p>
-      ) : (
+    {loading && (
+      <div className="text-center py-5">
+        <Spinner color="primary" />
+      </div>
+    )}
+
+    {!loading && messages.length === 0 && (
+      <p className="text-muted">Sem mensagens para mostrar.</p>
+    )}
+
+    {!loading && messages.length > 0 && (
+      <>
         <div
           style={{
             maxHeight: "70vh",
@@ -73,17 +78,15 @@ const AllMessages = () => {
             </div>
           ))}
         </div>
-      )}
-
-      {messages.length > 0 && (
         <div className="mt-3 text-end">
           <Button color="danger" onClick={handleReadAll}>
             Marcar todas como lidas
           </Button>
         </div>
-      )}
-    </Container>
-  );
+      </>
+    )}
+  </Container>
+);
 };
 
 export default AllMessages;

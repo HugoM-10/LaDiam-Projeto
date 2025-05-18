@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Container, Row, Col, Button } from "reactstrap";
+import React, { useEffect, useState, useContext, useCallback } from "react";
+import { Container, Row, Col, Button, Spinner } from "reactstrap";
 import Product from "../../Components/Product/Product";
 import { CartContext } from "../../CartContext";
 import { UserContext } from "../../UserContext";
@@ -10,43 +10,53 @@ const PRODUCT_TYPES = ["Pizza", "Drink", "Dessert", "Appetizer", "Other"];
 
 const ComboMenu = () => {
   const [comboProducts, setComboProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [missingTypes, setMissingTypes] = useState([]);
   const { addToCart } = useContext(CartContext);
   const { isLoggedIn } = useContext(UserContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const loadCombo = async () => {
+  const loadCombo = useCallback(async () => {
+    try {
       setLoading(true);
-      try {
-        const { products: allProducts } = await fetchProducts();
+      setError(null);
+      const { results: allProducts } = await fetchProducts();
 
+      const productsByType = {};
+      const unavailableTypes = [];
+      
+      PRODUCT_TYPES.forEach(type => {
+        productsByType[type] = allProducts.filter(p => p.type === type && p.is_available);
+        if (productsByType[type].length === 0) {
+          unavailableTypes.push(type);
+        }
+      });
 
-        // Agrupar produtos por tipo
-        const productsByType = {};
-        PRODUCT_TYPES.forEach(type => {
-          productsByType[type] = allProducts.filter(p => p.type === type && p.is_available);
-        });
+      setMissingTypes(unavailableTypes);
 
-        // Selecionar um produto aleatório de cada tipo
-        const combo = PRODUCT_TYPES.map(type => {
+      const combo = PRODUCT_TYPES
+        .map(type => {
           const products = productsByType[type];
           if (products.length === 0) return null;
           const randomIndex = Math.floor(Math.random() * products.length);
           return products[randomIndex];
-        }).filter(Boolean); // Remove nulls
+        })
+        .filter(Boolean);
 
-        setComboProducts(combo);
-      } catch (error) {
-        console.error("Erro ao carregar combo de produtos:", error);
-        setComboProducts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCombo();
+      setComboProducts(combo);
+    } catch (err) {
+      console.error("Erro ao carregar combo de produtos:", err);
+      setError("Failed to load combo products");
+      setComboProducts([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadCombo();
+  }, [loadCombo]);
 
   const handleAddAllToCart = () => {
     if (!isLoggedIn) {
@@ -54,32 +64,66 @@ const ComboMenu = () => {
       return;
     }
     comboProducts.forEach(product => addToCart(product));
+    // Optional: Show success notification
+  };
+
+  const handleRefreshCombo = () => {
+    loadCombo();
   };
 
   return (
     <Container className="my-5">
-      <h2 className="mb-4 text-center">Combo Menu</h2>
-      {loading ? (
-        <p className="text-center text-muted">A carregar produtos do combo...</p>
-      ) : comboProducts.length === 0 ? (
+  <h2 className="mb-4 text-center">Combo Menu</h2>
+  
+  {loading && (
+    <div className="text-center">
+      <Spinner color="danger" />
+      <p className="text-muted mt-2">A carregar produtos do combo...</p>
+    </div>
+  )}
+
+  {error && (
+    <div className="text-center text-danger">
+      <p>{error}</p>
+      <Button color="danger" onClick={loadCombo}>
+        Tentar novamente
+      </Button>
+    </div>
+  )}
+
+  {!loading && !error && (
+    <>
+      {missingTypes.length > 0 && (
+        <p className="text-center text-warning">
+          Nota: Não há produtos disponíveis para: {missingTypes.join(", ")}
+        </p>
+      )}
+
+      {comboProducts.length === 0 ? (
         <p className="text-center text-muted">Nenhum produto disponível para o combo.</p>
       ) : (
         <>
-          <Row>
+          <Row className="g-4">
             {comboProducts.map(product => (
-              <Col key={product.id} md={4} sm={6} xs={12} className="mb-4">
+              <Col key={product.id} xl={3} lg={4} md={6} className="mb-4">
                 <Product product={product} />
               </Col>
             ))}
           </Row>
-          <div className="d-flex justify-content-center mt-3">
-            <Button color="success" size="lg" onClick={handleAddAllToCart}>
+          
+          <div className="d-flex justify-content-center gap-3 mt-3">
+            <Button color="warning" size="lg" onClick={handleAddAllToCart}>
               Adicionar Combo ao Carrinho
+            </Button>
+            <Button color="danger" size="lg" outline onClick={handleRefreshCombo}>
+              Gerar Novo Combo
             </Button>
           </div>
         </>
       )}
-    </Container>
+    </>
+  )}
+</Container>
   );
 };
 
