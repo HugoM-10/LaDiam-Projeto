@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Cart } from "../Components/Cart/Cart";
 import { Inbox } from "../Components/Inbox";
 
@@ -22,7 +22,7 @@ import {
 } from "reactstrap";
 import { CartContext } from "../CartContext";
 import { UserContext } from "../UserContext";
-import { useNavigate } from "react-router-dom";
+
 
 function Header() {
   const { isLoggedIn, logout, userGroup } = useContext(UserContext);

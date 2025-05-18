@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBell } from "react-icons/fa";
 import "./Cart/Cart.css";
 import { fetchMessages } from "../BackendCalls/getters";
@@ -11,7 +11,7 @@ export const Inbox = () => {
   useEffect(() => {
     if (isOpen) {
       fetchMessages()
-        .then((msgs) => setMessages(msgs.filter((msg) => msg.new))) // Só novas
+        .then((msgs) => setMessages(msgs.filter((msg) => msg.new)))
         .catch(() => setMessages([]));
     }
   }, [isOpen]);
@@ -46,34 +46,44 @@ export const Inbox = () => {
   };
 
   return (
-    <div className="cart-container" onClick={() => setIsOpen(!isOpen)}>
-      <button aria-label="Mensagens">
-        <FaBell className="icon" />
-        {messages.length > 0 && (
-          <span
-            className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-            style={{ fontSize: "0.8rem" }}
-          >
-            {messages.length}
-          </span>
-        )}
-      </button>
-      {isOpen && (
-        <div className="cart-menu">
-          {renderMessages()}
-          {messages.length > 0 && (
-            <button
-              className="checkout-button"
-              onClick={handleClearMessages}
-              aria-label="Limpar mensagens"
-              style={{ background: "#888", marginTop: "10px" }}
-            >
-              Limpar mensagens
-            </button>
-          )}
-        </div>
+    <div className="cart-container">
+  <button 
+    aria-label="Mensagens"
+    onClick={() => setIsOpen(!isOpen)}
+    aria-expanded={isOpen}
+    aria-haspopup="true"
+  >
+    <FaBell className="icon" />
+    {messages.length > 0 && (
+      <span
+        className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        style={{ fontSize: "0.8rem" }}
+      >
+        {messages.length}
+      </span>
+    )}
+  </button>
+  {isOpen && (
+    <div 
+      className="cart-menu"
+      role="menu"
+      aria-labelledby="messages-button"
+    >
+      {renderMessages()}
+      {messages.length > 0 && (
+        <button
+          className="checkout-button"
+          onClick={handleClearMessages}
+          aria-label="Limpar mensagens"
+          style={{ background: "#888", marginTop: "10px" }}
+        >
+          Limpar mensagens
+        </button>
       )}
     </div>
+  )}
+</div>
+
   );
 };
 
