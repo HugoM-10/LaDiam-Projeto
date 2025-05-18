@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.pagination import PageNumberPagination
+from django.shortcuts import get_object_or_404
 
 from .models import Product
 from .serializers import ProductSerializer
@@ -75,43 +76,39 @@ def products_view(request):
         )
 
     elif request.method == "PUT":
-
+        id = request.data.get("id")
         if is_vendedor_or_gestor(request.user):
-            product_id = request.data.get("id")
-            product = Product.objects.get(id=product_id)
+            product = get_object_or_404(Product, id=id)
 
-            if not product:
-                return Response(
-                    {"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND
-                )
+            newName = request.data.get("name")
+            newDescription = request.data.get("description")
+            newDefaultPrice = request.data.get("default_price")
+            newImage = request.data.get("image")
+            newPromotion = request.data.get("promotion")
+            newIsAvailable = request.data.get("is_available")
+            newType = request.data.get("type")
 
-            name = request.data.get("name")
-            description = request.data.get("description")
-            default_price = request.data.get("default_price")
-            image = request.data.get("image")
-            promotion = request.data.get("promotion")
-            is_available = request.data.get("is_available")
-            type = request.data.get("type")
+            if newName:
+                product.name = newName
 
-            if name:
-                product.name = name
-            if description:
-                product.description = description
-            if default_price:
-                product.default_price = default_price
-            if image:
-                product.image = image
-            if type:
-                product.type = type
-            if promotion:
-                product.promotion = promotion
-            if is_available is not None:
-                is_available_str = request.data.get("is_available")
-                if is_available_str in ["true", "True", True]:
-                    is_available = True
-                else:
-                    is_available = False
-                product.is_available = is_available
+            if newDescription:
+                product.description = newDescription
+
+            if newDefaultPrice:
+                product.default_price = newDefaultPrice
+
+            if newImage:
+                product.image = newImage
+
+            if newType:
+                product.type = newType
+
+            if newPromotion:
+                product.promotion = newPromotion
+            
+            if newIsAvailable is not None:
+                is_available_str = newIsAvailable.capitalize()
+                product.is_available = is_available_str
 
             product.save()
             return Response(
