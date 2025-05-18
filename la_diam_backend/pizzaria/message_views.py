@@ -9,7 +9,7 @@ from .serializers import MessageSerializer
 @permission_classes([permissions.IsAuthenticated])
 def user_messages_view(request):
     if request.method == "GET":
-        messages = Message.objects.filter(user=request.user, new=True).order_by("-created_at")
+        messages = Message.objects.filter(user=request.user).order_by("-created_at")
         serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
     elif request.method == "POST":

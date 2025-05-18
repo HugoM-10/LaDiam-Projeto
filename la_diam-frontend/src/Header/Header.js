@@ -114,8 +114,8 @@ function Header() {
                     <DropdownItem tag="a" href="/history">
                       Histórico
                     </DropdownItem>
-                    <DropdownItem tag="a" href="/wallet">
-                      Carteira
+                    <DropdownItem tag="a" href="/AllMessages">
+                      Mensagens
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
