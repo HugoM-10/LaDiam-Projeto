@@ -27,7 +27,8 @@ const ProfileForm = () => {
   const [modalMsg, setModalMsg] = useState("");
   const [modalTitle, setModalTitle] = useState("Aviso");
 
-  useEffect(() => {
+ useEffect(() => {
+  const getProfileData = async () => {
     if (user === null) {
       setModalTitle("Atenção");
       setModalMsg("You need to be logged in to access the profile page.");
@@ -36,12 +37,24 @@ const ProfileForm = () => {
         setModalShow(false);
         navigate("/");
       }, 1800);
+      return; // early return
     }
+
     if (user) {
       try {
-        fetchProfile().then((data) => {
-          setProfile(data);
-        });
+        const data = await fetchProfile();
+        setProfile(data);
+
+        const details = {
+          username: user.username || "",
+          email: user.email || "",
+          password: "",
+          confirm_password: "",
+          old_password: "",
+        };
+
+        setAccountDetails(details);
+        setOriginalAccountDetails(details);
       } catch (error) {
         console.error("Error fetching profile:", error);
         setModalTitle("Erro");
@@ -52,19 +65,11 @@ const ProfileForm = () => {
           navigate("/");
         }, 1800);
       }
-
-      const details = {
-        username: user.username || "",
-        email: user.email || "",
-        password: "",
-        confirm_password: "",
-        old_password: "",
-      };
-
-      setAccountDetails(details);
-      setOriginalAccountDetails(details);
     }
-  }, [user, navigate]);
+  };
+
+  getProfileData();
+}, [user, navigate]);
 
   const handleProfileChange = (e) => {
     const { name, value, type, checked } = e.target;
