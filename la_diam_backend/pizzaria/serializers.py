@@ -69,12 +69,16 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     def get_product_name(self, obj):
         return obj.product.name if obj.product else ""
+
     def get_product_image(self, obj):
-        return obj.product.image if obj.product and obj.product.image else ""
+        if obj.product and obj.product.image:
+            return obj.product.image.url
+        return ""
 
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
+    user_email = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
@@ -99,6 +103,9 @@ class OrderSerializer(serializers.ModelSerializer):
 
         return order
 
+    def user_email(self, obj):
+        return obj.user.email if obj.user else None
+
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
@@ -114,8 +121,8 @@ class CommentSerializer(serializers.ModelSerializer):
             "texto",
             "data_publicacao",
         ]
-        read_only_fields = ['user', 'data_publicacao']
-    
+        read_only_fields = ["user", "data_publicacao"]
+
     def get_product_name(self, obj):
         return obj.product.name if obj.product else None
 
@@ -126,8 +133,8 @@ class RatingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rating
-        fields = '__all__'
-        read_only_fields = ['user']
+        fields = "__all__"
+        read_only_fields = ["user"]
 
     def get_product_name(self, obj):
         return obj.product.name if obj.product else None

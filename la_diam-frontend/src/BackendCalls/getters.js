@@ -89,8 +89,10 @@ const fetchOrders = async () => {
 };
 
 const fetchUserOrders = async () => {
+  console.log("antes")
   try {
     const response = await api.get('orders/my/');
+    console.log("depois")
     return response.data;
   } catch (error) {
     console.error("Error fetching user orders:", error);

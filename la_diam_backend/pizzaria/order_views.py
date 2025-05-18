@@ -55,21 +55,21 @@ def my_orders_view(request):
         return Response(serializer.data)
     elif request.method == "POST":
         serializer = OrderSerializer(data=request.data, context={"request": request})
-
+        current_user = request.user
         if serializer.is_valid():
             order = serializer.save()
+            # Cria a mensagem para o usuário
+            Message.objects.create(
+                user=current_user,
+                title="Novo Pedido Criado",
+                content=f"O seu pedido #{order.id} foi criado com status '{order.status}'."
+            )
+            return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
 
-        # Cria a mensagem para o usuário
-        Message.objects.create(
-            user=request.user,
-            title="Novo Pedido Criado",
-            content=f"O seu pedido #{order.id} foi criado com status '{order.status}'."
-        )
-
-        return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(
+        {"error": "Invalid request method"}, status=status.HTTP_400_BAD_REQUEST
+    )
 
 @api_view(["GET", "PUT", "DELETE"])
 @permission_classes([IsAuthenticated])
