@@ -12,7 +12,7 @@ export default function Home() {
             <p className="main-description">
               Pizzas artesanais feitas com ingredientes frescos e um toque especial. Venha descobrir o sabor da La Diam.
             </p>
-            <Button className="btn-main">Peça Agora!</Button>
+            <Button className="btn-main" href="/menu">Peça Agora!</Button>
           </Col>
           <Col md={6}>
             <img src="/pizzas_home_img/pizza-home-1.jpg" alt="Pizza deliciosa" className="img-fluid pizza-image" />
