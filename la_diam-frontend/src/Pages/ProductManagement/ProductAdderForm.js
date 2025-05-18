@@ -38,9 +38,19 @@ const CreateProductForm = ({ onProductChanged }) => {
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => data.append(key, value));
     if (imageFile) data.append("image", imageFile);
+    const novo_produto = {
+      name: formData.name,
+      description: formData.description,
+      default_price: Number(formData.default_price),
+      promotion: Number(formData.promotion), 
+      type: formData.type,
+      is_available: formData.is_available,
+      image: imageFile,
+    };
 
     try {
-      await addNewProduct(data);
+      console.log("Novo produto:", novo_produto);
+      await addNewProduct(novo_produto);
       setModalTitle("Sucesso");
       setModalMsg("Produto criado com sucesso!");
       setModalShow(true);
@@ -87,6 +97,7 @@ const CreateProductForm = ({ onProductChanged }) => {
           <Form.Label>Default Price</Form.Label>
           <Form.Control
             type="number"
+            step="0.01"
             name="default_price"
             placeholder="Default Price"
             onChange={handleChange}

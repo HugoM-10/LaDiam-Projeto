@@ -26,8 +26,19 @@ const EditDeleteProductForm = ({ product, onProductChanged }) => {
         Object.entries(formData).forEach(([key, value]) => data.append(key, value));
         if (imageFile) data.append("image", imageFile);
 
+        const alteredProduct = {
+            id : product.id,
+            name: formData.name,
+            description: formData.description,
+            default_price: Number(formData.default_price),
+            promotion: Number(formData.promotion) || 0,
+            type: formData.type,
+            is_available: formData.is_available,
+            image: imageFile,
+        };
+        console.log("novo produto:", alteredProduct);
         try {
-            await updateProduct(data);
+            await updateProduct(alteredProduct);
             setModalTitle("Sucesso");
             setModalMsg("Produto editado com sucesso!");
             setModalShow(true);
