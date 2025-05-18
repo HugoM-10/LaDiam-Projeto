@@ -6,7 +6,7 @@ import { UserContext } from "../../UserContext";
 import ProfileFieldsForm from "./ProfileForm";
 import UserForm from "./UserForm";
 import CustomModal from "../../Components/Modal";
-import { Container, Card, Button, Form } from 'react-bootstrap';
+import { Container, Card, Button, Form } from "react-bootstrap";
 
 const ProfileForm = () => {
   const navigate = useNavigate();
@@ -38,9 +38,20 @@ const ProfileForm = () => {
       }, 1800);
     }
     if (user) {
-      fetchProfile().then((data) => {
-        setProfile(data);
-      });
+      try {
+        fetchProfile().then((data) => {
+          setProfile(data);
+        });
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        setModalTitle("Erro");
+        setModalMsg("Failed to fetch profile data.");
+        setModalShow(true);
+        setTimeout(() => {
+          setModalShow(false);
+          navigate("/");
+        }, 1800);
+      }
 
       const details = {
         username: user.username || "",
@@ -80,10 +91,7 @@ const ProfileForm = () => {
   };
 
   const handleAccountSubmit = async (formData) => {
-    if (
-      formData.password &&
-      formData.password !== formData.confirm_password
-    ) {
+    if (formData.password && formData.password !== formData.confirm_password) {
       setModalTitle("Erro");
       setModalMsg("New passwords do not match.");
       setModalShow(true);
@@ -116,40 +124,43 @@ const ProfileForm = () => {
     setIsEditing(false);
   };
 
-return (
-  <Container className="my-4 d-flex justify-content-center">
-    <Card style={{ width: '100%', maxWidth: '800px' }} className="p-4 shadow-sm">
-      <Card.Body>
-        <UserForm
-          initialData={accountDetails}
-          onSubmit={handleAccountSubmit}
-          editMode={isEditing}
-          setEditMode={setIsEditing}
-          onCancel={handleCancelEdit}
-        />
-
-        <Form onSubmit={handleProfileSubmit} className="mt-4">
-          <ProfileFieldsForm
-            profile={profile}
-            onChange={handleProfileChange}
+  return (
+    <Container className="my-4 d-flex justify-content-center">
+      <Card
+        style={{ width: "100%", maxWidth: "800px" }}
+        className="p-4 shadow-sm"
+      >
+        <Card.Body>
+          <UserForm
+            initialData={accountDetails}
+            onSubmit={handleAccountSubmit}
+            editMode={isEditing}
+            setEditMode={setIsEditing}
+            onCancel={handleCancelEdit}
           />
-          <div className="mt-3">
-            <Button variant="primary" type="submit">
-              Atualizar Informações do Perfil
-            </Button>
-          </div>
-        </Form>
-      </Card.Body>
-    </Card>
 
-    <CustomModal
-      show={modalShow}
-      onHide={() => setModalShow(false)}
-      modalTitle={modalTitle}
-      modalMsg={modalMsg}
-    />
-  </Container>
-);
+          <Form onSubmit={handleProfileSubmit} className="mt-4">
+            <ProfileFieldsForm
+              profile={profile}
+              onChange={handleProfileChange}
+            />
+            <div className="mt-3">
+              <Button variant="primary" type="submit">
+                Atualizar Informações do Perfil
+              </Button>
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
+
+      <CustomModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        modalTitle={modalTitle}
+        modalMsg={modalMsg}
+      />
+    </Container>
+  );
 };
 
 export default ProfileForm;
