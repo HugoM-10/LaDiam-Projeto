@@ -91,6 +91,7 @@ def products_view(request):
             image = request.data.get("image")
             promotion = request.data.get("promotion")
             is_available = request.data.get("is_available")
+            type = request.data.get("type")
 
             if name:
                 product.name = name
@@ -100,6 +101,8 @@ def products_view(request):
                 product.default_price = default_price
             if image:
                 product.image = image
+            if type:
+                product.type = type
             if promotion:
                 product.promotion = promotion
             if is_available is not None:
