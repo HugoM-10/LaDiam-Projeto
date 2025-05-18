@@ -53,6 +53,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.SerializerMethodField()
+    product_image = serializers.SerializerMethodField()
 
     class Meta:
         model = OrderItem
@@ -61,14 +62,15 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "product",
             "quantity",
             "price",
-            "order_product_image_link",
-            "order_product_name",
             "product_name",
+            "product_image",
         ]
         read_only_fields = ["price"]
 
     def get_product_name(self, obj):
         return obj.product.name if obj.product else ""
+    def get_product_image(self, obj):
+        return obj.product.image if obj.product and obj.product.image else ""
 
 
 class OrderSerializer(serializers.ModelSerializer):
