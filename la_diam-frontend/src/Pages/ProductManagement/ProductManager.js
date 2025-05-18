@@ -11,7 +11,7 @@ const ProductManager = () => {
   const [selectedOption, setSelectedOption] = useState("add");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
-  const { userGroup } = useContext(UserContext);
+  const { user,userGroup } = useContext(UserContext);
 
   // Modal state
   const [modalShow, setModalShow] = useState(false);
@@ -19,7 +19,7 @@ const ProductManager = () => {
   const [modalTitle, setModalTitle] = useState("Aviso");
   useEffect(() => {
     console.log(userGroup);
-    if (userGroup !== "Gestor") {
+    if ( user !==undefined & userGroup !== "Gestor") {
       setModalTitle("Atenção");
       setModalMsg("É preciso ser gestor para aceder a esta página.");
       setModalShow(true);
@@ -28,7 +28,7 @@ const ProductManager = () => {
         navigate("/");
       }, 1800);
     }
-  }, [userGroup, navigate]);
+  }, [user,userGroup, navigate]);
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);

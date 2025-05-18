@@ -14,6 +14,7 @@ import {
   Alert 
 } from "reactstrap";
 import { updateOrderStatus } from "../../BackendCalls/putters";
+import { getImageDjango } from "../../Utils/Utils";
 
 const Pedidos = () => {
   const [orders, setOrders] = useState([]);
@@ -158,8 +159,8 @@ const Pedidos = () => {
                     {order.items.map((item) => (
                       <li key={item.id} className="d-flex align-items-center mb-2 pb-2 border-bottom border-gray-100 last:border-bottom-0">
                         <img
-                          src={item.order_product_image_link}
-                          alt={item.order_product_name}
+                          src={getImageDjango(item.product_image)}
+                          alt={item.product_name}
                           className="rounded me-2"
                           style={{
                             width: "40px",
@@ -168,7 +169,7 @@ const Pedidos = () => {
                           }}
                         />
                         <div className="text-sm">
-                          <span className="font-medium">{item.order_product_name}</span>
+                          <span className="font-medium">{item.product_name}</span>
                           <small className="d-block text-muted">Qtd: {item.quantity}</small>
                         </div>
                       </li>

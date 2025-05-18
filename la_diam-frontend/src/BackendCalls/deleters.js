@@ -1,9 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "http://localhost:8000/api/",
-  withCredentials: true,
-});
+import api from "./Api";
 
 function getCookie(name) {
   let cookieValue = null;
@@ -20,13 +15,11 @@ function getCookie(name) {
   return cookieValue;
 }
 
-// Fetch all products
-
 const deleteProduct = async (product) => {
   try {
     const csrftoken = getCookie("csrftoken");
     const response = await api.delete("products/", {
-      data: product, // pass the product data here
+      data: product,
       headers: {
         "X-CSRFToken": csrftoken,
       },

@@ -1,10 +1,4 @@
-import axios from 'axios';
-
-
-const api = axios.create({
-  baseURL: 'http://localhost:8000/api/',
-  withCredentials: true,
-});
+import api from './Api';
 
 // Fetch user details
 const fetchUser = async () => {
@@ -14,7 +8,7 @@ const fetchUser = async () => {
     return response.data; // Return user data
   } catch (error) {
     console.error("Error fetching user:", error);
-    //throw error;
+    throw error;
   }
 };
 
@@ -25,13 +19,12 @@ const fetchProfile = async () => {
     return response.data; // Return profile data
   } catch (error) {
     console.error("Error fetching profile:", error);
-    //throw error;
+    throw error;
   }
 };
 
 
-// Fetch all products
-
+// Fetch product by ID
 const fetchProduct = async (productId) => {
   try {
     const response = await api.get(`products/${productId}/`);
@@ -43,7 +36,7 @@ const fetchProduct = async (productId) => {
   }
 };
 
-
+// Fetch all products
 const fetchProducts = async () => {
   try {
     const response = await api.get('products/');
@@ -55,6 +48,7 @@ const fetchProducts = async () => {
   }
 }
 
+// Fetch paginated products
 const fetchProductsPaginated = async (page = 1, type = "") => {
   try {
     let url = `products/?page=${page}&ordering=id`;

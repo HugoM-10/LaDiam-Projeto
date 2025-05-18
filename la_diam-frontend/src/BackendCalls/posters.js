@@ -1,9 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "http://localhost:8000/api/",
-  withCredentials: true,
-});
+import api from "./Api";
 
 function getCookie(name) {
   let cookieValue = null;
