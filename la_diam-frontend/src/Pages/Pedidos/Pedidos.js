@@ -64,12 +64,6 @@ const Pedidos = () => {
       )
     );
 
-    // Cria mensagem após atualização
-    await createMessage(
-      "Pedido Atualizado",
-      `O seu pedido mudou do estado ${statuses[oldStatus]} para o ${statuses[updatedStatus]}.`
-    );
-
     setFeedback({ show: true, message: `Status do Pedido #${id} atualizado com sucesso!`, color: "success" });
   } catch (err) {
     console.error("Erro ao atualizar o status do pedido:", err);

@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.pagination import PageNumberPagination
 
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Message
 from .serializers import OrderSerializer, OrderItemSerializer
 
 from .permissions import (
@@ -58,9 +58,18 @@ def my_orders_view(request):
 
         if serializer.is_valid():
             order = serializer.save()
-            return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # Cria a mensagem para o usuário
+        Message.objects.create(
+            user=request.user,
+            title="Novo Pedido Criado",
+            content=f"O seu pedido #{order.id} foi criado com status '{order.status}'."
+        )
+
+        return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(["GET", "PUT", "DELETE"])
 @permission_classes([IsAuthenticated])
@@ -107,15 +116,28 @@ def update_order_status_view(request, order_id):
 
     statuses = ["PENDING", "IN_PROGRESS", "COMPLETED", "CANCELED"]
     new_status_order = request.data.get("status")
-    if new_status_order in statuses:
-        order.status = new_status_order
-    else:
+
+    if new_status_order not in statuses:
         return Response(
-            {"error": "Invalid status", "statuses": statuses}, status=status.HTTP_400_BAD_REQUEST
+            {
+                "error": "Invalid status",
+                "received": new_status_order,
+                "allowed_statuses": statuses,
+            },
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
-    order.save()
-    return Response(
-        {"id": order.id, "status": order.status}, status=status.HTTP_200_OK
-    )
-    
+    if order.status != new_status_order:
+        order.status = new_status_order
+        order.save()
+
+        Message.objects.create(
+            user=order.user,
+            title="Pedido Atualizado",
+            content=f"O status do seu pedido #{order.id} foi alterado para '{order.status}'."
+        )
+
+    return Response({"id": order.id, "status": order.status}, status=status.HTTP_200_OK)
+
+
+
