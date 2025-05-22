@@ -3,6 +3,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { CartContext } from "../../CartContext";
 import "./Cart.css";
 import { useNavigate } from "react-router-dom";
+import {getImageDjango} from "../../Utils/Utils";
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export const Cart = () => {
     return cart.map((item) => (
       <div key={item.product.id} className="cart-item">
         <img
-          src={item.product.image_link}
+          src={getImageDjango(item.product.image)}
           alt={item.product.name}
           className="image"
         />

@@ -4,7 +4,7 @@ import Product from "../../Components/Product/Product";
 import { CartContext } from "../../CartContext";
 import { UserContext } from "../../UserContext";
 import { useNavigate } from "react-router-dom";
-import { fetchProducts } from "../../BackendCalls/getters";
+import { fetchProductsPaginated } from "../../BackendCalls/getters";
 
 const PRODUCT_TYPES = ["Pizza", "Drink", "Dessert", "Appetizer", "Other"];
 
@@ -21,17 +21,16 @@ const ComboMenu = () => {
     try {
       setLoading(true);
       setError(null);
-      const { results: allProducts } = await fetchProducts();
-
       const productsByType = {};
       const unavailableTypes = [];
-      
-      PRODUCT_TYPES.forEach(type => {
-        productsByType[type] = allProducts.filter(p => p.type === type && p.is_available);
+      for (const type of PRODUCT_TYPES) {
+        const { products } = await fetchProductsPaginated(1, type);
+        const available = products.filter(p => p.is_available);
+        productsByType[type] = available;
         if (productsByType[type].length === 0) {
           unavailableTypes.push(type);
         }
-      });
+      }
 
       setMissingTypes(unavailableTypes);
 
